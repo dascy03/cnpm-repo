@@ -2,7 +2,7 @@
 
 0. get repo clone (git clone `repo-url`)
 
-`git fetch`, `git pull origin main` to be updated
+`git fetch`, `git pull origin main` to be updated with main project
  
 1. create branch (git branch branch-name)
 2. switch branch (git checkout branch-name)
