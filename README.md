@@ -2,7 +2,7 @@
 
 0. get repo clone (git clone `repo-url`)
 
-# `git fetch`, `git pull origin main` to be updated
+`git fetch`, `git pull origin main` to be updated
  
 1. create branch (git branch branch-name)
 2. switch branch (git checkout branch-name)
@@ -15,4 +15,4 @@
 
 7. merge request accepting...
 
-# `git fetch`, `git pull origin main` if needed (checkout main branch before pull)
+`git fetch`, `git pull origin main` if needed (checkout main branch before pull)
