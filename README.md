@@ -1,4 +1,4 @@
-# quick start
+# Git quick start
 
 0. get repo clone (`git clone repo-url`)
 
@@ -16,3 +16,6 @@
 7. merge request accepting...
 
 `git fetch`, `git pull origin main` if needed (checkout main branch before pull)
+
+# GG Drive
+https://drive.google.com/drive/folders/1ZP1B0E97vke3EVm85nY1EDkVLo5AY1wB?usp=sharing
