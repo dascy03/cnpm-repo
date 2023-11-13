@@ -1,3 +1,7 @@
+# Quickstart
+cd to backend
+npm install
+npm run dev
 # Git quick start
 
 0. get repo clone (`git clone repo-url`)
