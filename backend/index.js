@@ -10,7 +10,7 @@ const app = express();
 app.use(json());
 app.use(cors());
 
-app.use("/printer", printerRouter);
+app.use("/printers", printerRouter);
 
 app.listen(PORT, () => {
   console.log(`App is running in PORT ${PORT}`);
