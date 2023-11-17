@@ -59,17 +59,17 @@ const History = (props) => {
                         <div class="flex items-center px-16" id="navbar-solid-bg">
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
-                                    <button onClick={()=>navigate('/home')}>
+                                    <button onClick={()=>navigate('/homeUser')}>
                                     <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/home')}>
+                                    <button onClick={()=>navigate('/homeUser')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/home')}>
+                                    <button onClick={()=>navigate('/homeUser')}>
                                     <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>
@@ -168,7 +168,7 @@ const History = (props) => {
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                     />
-                    <button className="ml-40 mt-10 pt-0 text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/home')}>
+                    <button className="ml-40 mt-10 pt-0 text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeUser')}>
                         TRỞ VỀ
                     </button>
                 </section>
