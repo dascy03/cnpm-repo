@@ -26,11 +26,11 @@ const Home = () => {
         <>  
         {/* header */}
             <section className="App-header"> 
-                <nav class="border-blue-200 bg-blue-50 dark:bg-blue-800 dark:border-blue-700">
+                <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
                                 <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" />
-                                <span class="self-center text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
+                                <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
                         </div>
                         <div class="flex items-center px-16" id="navbar-solid-bg">
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
@@ -56,20 +56,20 @@ const Home = () => {
             </section>
         {/* Body */}
             <section className="flex place-content-evenly"> 
-                <div className="flex-initial w-4/5 ml-16 my-10 px-28 ">
-                    <div className="font-sans text-6xl font-bold ">Chào Student-0, <br/> chúc bạn học tốt!</div>
-                    <div className="bg-blue-200 font-sans text-2xl font-semibold rounded-3xl pt-6 px-10 my-14 w-full">
+                <div className="flex-initial w-4/5 ml-16 my-10 px-28  ">
+                    <div className="font-sans text-6xl font-bold text-[#2991C2] ">Chào Student-0, <br/> chúc bạn học tốt!</div>
+                    <div className="bg-[#DBF3FF] text-[#051319] font-sans text-2xl font-semibold rounded-3xl pt-6 px-10 my-14 w-full">
                         Số trang còn lại: 
-                        <div className="font-sans text-8xl font-bold text-center pt-1 pb-12 "> 100 </div>   
+                        <div className="font-sans text-[#014464] text-8xl font-bold text-center pt-1 pb-12 "> 375 </div>   
                     </div>
                     <div className="flex place-content-around w-auto text-center justify-center">
-                        <div className="rounded-3xl flex-1 bg-blue-500 w-full mr-5 p-3 py-10">
+                        <div className="rounded-3xl flex-1 bg-[#2991C2] w-full mr-5 p-3 py-10">
                             <a href="?">
                                 <img src="/print-solid.svg" className="h-20 mx-auto" alt="print" />
-                                <span className ="text-white text-2xl">In tài liệu</span>
+                                <span className ="text-white text-2xl ">In tài liệu</span>
                             </a>
                         </div>
-                        <div className="rounded-3xl flex-1 bg-blue-500 w-full ml-5 p-3 py-10">
+                        <div className="rounded-3xl flex-1 bg-[#2991C2] w-full ml-5 p-3 py-10">
                             <a href="?">    
                                 <img src="/cart-shopping-solid.svg" className="h-20 mx-auto" alt="shopping" />
                                 <span className="text-white text-2xl">Mua thêm trang</span> 
@@ -81,7 +81,7 @@ const Home = () => {
                 <div className="flex-initial w-full m-14">
                     <div className="w-full text-3xl font-semibold mb-5 mx-5"> Tài liệu đã in gần đây </div>
                     <table className="relative overflow-x-auto mx-auto text">
-                    <tr className="bg-blue-300 ">
+                    <tr className="bg-[#AADEF6] ">
                         <th className="px-10 py-2">Dự kiến lấy</th>
                         <th className="px-10 py-2">Tài liệu</th>
                         <th className="px-10 py-2">Máy in</th>
@@ -92,7 +92,7 @@ const Home = () => {
                         if (key > pageShow) return;
                         if (key % 2 == 0) {
                             return (
-                                <tr className="text-center text bg-blue-100" key={key} >
+                                <tr className="text-center text bg-[#E8F6FD]" key={key} >
                                     <td className="px-10 py-3">{val.date_take}</td>
                                     <td className="px-10 py-3">{val.doc}</td>
                                     <td className="px-10 py-3">{val.printer}</td>
@@ -114,7 +114,7 @@ const Home = () => {
                         }
                     })}
                 </table>
-                    <div className="text-right font-semibold my-5 mx-5 text-xl"> 
+                    <div className="text-right text-[#114A65] font-semibold my-5 mx-5 text-xl"> 
                         <button onClick={()=>navigate('/History')}> Xem tất cả </button>
                     </div>
                 </div>
