@@ -50,11 +50,11 @@ const History = (props) => {
     const showHeader = () => {
         return(
             <section className="App-header"> 
-                <nav class="border-blue-200 bg-blue-50 dark:bg-blue-800 dark:border-blue-700">
+                <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
                                 <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" />
-                                <span class="self-center text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
+                                <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
                         </div>
                         <div class="flex items-center px-16" id="navbar-solid-bg">
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
@@ -119,7 +119,7 @@ const History = (props) => {
         return (
             <section>
                 <table className="relative overflow-x-auto mx-auto text-2xl">
-                    <tr className="bg-blue-300 ">
+                    <tr className="bg-[#AADEF6]">
                         <th className="px-2 py-2">ID</th>
                         <th className="px-16 py-2">Ngày in</th>
                         <th className="px-16 py-2">Dự kiến lấy</th>
@@ -132,7 +132,7 @@ const History = (props) => {
                     {filterData.map((val, key) => {
                         if (key % 2 == 0) {
                             return (
-                                <tr className="text-center text-xl bg-blue-100" key={key} >
+                                <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
                                     <td className="px-2 py-3">{val.ID}</td>
                                     <td className="px-10 py-3">{val.date_print}</td>
                                     <td className="px-10 py-3">{val.date_take}</td>
@@ -168,7 +168,7 @@ const History = (props) => {
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                     />
-                    <button className="ml-40 mt-10 pt-0 bg-blue-300 text-center w-28 rounded-2xl h-10 text-xl text-white" onClick={()=>navigate('/home')}>
+                    <button className="ml-40 mt-10 pt-0 text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/home')}>
                         TRỞ VỀ
                     </button>
                 </section>
