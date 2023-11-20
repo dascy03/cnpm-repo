@@ -1,22 +1,28 @@
 import { db } from "../config/dbConfig.js";
 
 export class Printer {
-  constructor(printerID, model, type) {
-    this.printerID = printerID;
+  constructor(model, type, location, status) {
     this.model = model;
-    this.type = type;
+    if (type) this.type = type;
+    else this.type = "Normal";
+    if (location) this.location = location;
+    else this.location = "H1 lobby";
+    if (status) this.status = status;
+    else this.status = "active";
   }
   save = async () => {
     let sql = `
-        INSERT INTO Printer(
-            printerID,
+        INSERT INTO printer(
             model,
-            type
+            type,
+            location,
+            status
         )
         VALUES(
-            '${this.printerID}',
             '${this.model}',
-            '${this.type}'
+            '${this.type}',
+            '${this.location}',
+            '${this.status}'
         )`;
     const [newPrinter, _] = await db.execute(sql);
     return newPrinter;
