@@ -1,5 +1,5 @@
 export const PORT = 5000;
-export const DB_HOST = "sql12.freesqldatabase.com";
-export const DB_USER = "sql12661552";
-export const DB_NAME = "sql12661552";
-export const DB_PASSWORD = "e3nB4i4igt";
+export const DB_HOST = "localhost";
+export const DB_USER = "root";
+export const DB_NAME = "printingservice";
+export const DB_PASSWORD = ""; //enter your server password here
