@@ -1,141 +1,46 @@
-import React, {useState, useMemo, useEffect} from "react";
-import { useNavigate, Route, Routes } from "react-router-dom";
-import Pagination from "./Pagination";
-
-const data = [
-    {
-        "printerID": 1,
-        "model": "MAXIFY GX5070",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 2,
-        "model": "MAXIFY GX5071",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 3,
-        "model": "MAXIFY GX5073",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 4,
-        "model": "MAXIFY GX5074",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 5,
-        "model": "MAXIFY GX5075",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 6,
-        "model": "MAXIFY GX5076",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 7,
-        "model": "MAXIFY GX5077",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 8,
-        "model": "MAXIFY GX5077",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 9,
-        "model": "MAXIFY GX5079",
-        "imgLink": null,
-        "type": "High Volume Document Printing",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 11,
-        "model": "Only model",
-        "imgLink": null,
-        "type": "null",
-        "location": "null",
-        "status": "null"
-    },
-    {
-        "printerID": 12,
-        "model": "Only model",
-        "imgLink": null,
-        "type": "",
-        "location": "",
-        "status": ""
-    },
-    {
-        "printerID": 13,
-        "model": "MAXIFY GX5079",
-        "imgLink": null,
-        "type": "",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 14,
-        "model": "MAXIFY GX5079",
-        "imgLink": null,
-        "type": "",
-        "location": "H1 lobby",
-        "status": "active"
-    },
-    {
-        "printerID": 15,
-        "model": "MAXIFY GX5079",
-        "imgLink": null,
-        "type": "",
-        "location": "",
-        "status": "active"
-    },
-    {
-        "printerID": 16,
-        "model": "Only model",
-        "imgLink": null,
-        "type": "Normal",
-        "location": "H1 lobby",
-        "status": "active"
-    }
-]
+import React, {useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import Pagination from "./component/Pagination";
+import PrinterDataFetching from "./component/printerDataFetching";
 
 const PrinterMana = (props) => {
-    const PageSize = 9;
+    /* Fetching and Pagination */
+    const URL_API = "http://localhost:5000/printers"
+    const {data , loading} = PrinterDataFetching(URL_API);
+    /* Filter Search Bar */
+    const [searchQuery, setSearchQuery] = useState("")
+    const keys=["printerID", "model", "imgLink", "type", "location", "status"]
+    const filter1stData = data.filter((item) =>
+        // check if value is null, if null then pass, if not then filter
+        keys.some((key) => item[key] && item[key].toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+        )
+    );
+    /* PAGE SIZE */
+    const PageSize = 8;
+
     const [currentPage, setCurrentPage] = useState(1);
-    const currentTableData = useMemo(() => {
-      const firstPageIndex = (currentPage - 1) * PageSize;
-      const lastPageIndex = firstPageIndex + PageSize;
-      return data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage]);
+    // const currentTableData = useMemo(() => {
+    //   const firstPageIndex = (currentPage - 1) * PageSize;
+    //   const lastPageIndex = firstPageIndex + PageSize;
+    //   return data.slice(firstPageIndex, lastPageIndex);
+    // }, [currentPage]);
+    // the code below just show the data after clicking on the pagination bar, because the useMemo only works when the data is changed
+    // then we need to use useEffect to make it work
+    const [currentTableData, setCurrentTableData] = useState([]);
+    useEffect(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        setCurrentTableData(filter1stData.slice(firstPageIndex, lastPageIndex));
+    }, [currentPage, filter1stData]);
+    
+    /* Search Bar */
+    const filterData = currentTableData.filter((item) =>
+        // check if value is null, if null then pass, if not then filter
+        keys.some((key) => item[key] && item[key].toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+        )
+    );
 
     const navigate = useNavigate();
-
 
     const showHeader = () => {
         return(
@@ -171,13 +76,6 @@ const PrinterMana = (props) => {
         )
     };
 
-    const [searchQuery, setSearchQuery] = useState("")
-    const keys=["ID", "date_print", "date_take", "doc", "printer", "method", "pages", "status"]
-    const filterData = currentTableData.filter((item) =>
-        // check if value is null, if null then pass, if not then filter
-        keys.some((key) => item[key] && item[key].toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
-        )
-    );
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -188,7 +86,11 @@ const PrinterMana = (props) => {
         return (
             <section>
                 <div className="flex justify-between m-10 px-28"> 
-                    <div className="w-full"></div>
+                    <div className="w-full">
+                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
+                            TRỞ VỀ
+                        </button>
+                    </div>
                     <div className="w-full justify-self-center text-4xl font-bold">Lịch sử in</div>
                     <div className="" >
                     <form>   
@@ -250,23 +152,28 @@ const PrinterMana = (props) => {
                     <Pagination
                         className="pagination-bar"
                         currentPage={currentPage}
-                        totalCount={data.length}
+                        totalCount={filter1stData.length}
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                     />
-                    <button className="ml-40 mt-10 pt-0 text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
-                        TRỞ VỀ
-                    </button>
+                    
                 </section>
             </section>
         )
     };
     return (
-        <>
-            {showHeader()}
-            {searchBar()}
-            {table()}
-        </>
+        //  check if loading is true, if true then show loading, if not then show table
+        //  also check the currentTableData, if it is empty then show loading, if not then show table
+        <div>
+            {loading ? (
+                <div>Loading...</div>
+            ) : (
+                <div>
+                    {showHeader()}
+                    {searchBar()}
+                    {table()}    
+                </div>)}
+        </div>
     );
 }
 
