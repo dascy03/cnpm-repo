@@ -1,8 +1,6 @@
-import React, {useState, useMemo, useEffect} from "react";
-import { useNavigate, Route, Routes } from "react-router-dom";
-import { MDBDataTable } from 'mdbreact'
-import Pagination from "./Pagination";
-import { tab } from "@testing-library/user-event/dist/tab";
+import React, {useState, useMemo} from "react";
+import { useNavigate } from "react-router-dom";
+import Pagination from "./component/Pagination";
 
 const data = [
     {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micAro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
@@ -18,21 +16,21 @@ const data = [
     {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
     {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
     {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-        {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},         
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
+    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},         
 ]
 
 const History = (props) => {
@@ -96,7 +94,11 @@ const History = (props) => {
         return (
             <section>
                 <div className="flex justify-between m-10 px-28"> 
-                    <div className="w-full"></div>
+                    <div className="w-full">
+                        <button className="ml-40 mt-10 pt-0 text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeUser')}>
+                            TRỞ VỀ
+                        </button>
+                    </div>
                     <div className="w-full justify-self-center text-4xl font-bold">Lịch sử in</div>
                     <div className="" >
                     <form>   
@@ -168,9 +170,7 @@ const History = (props) => {
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                     />
-                    <button className="ml-40 mt-10 pt-0 text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeUser')}>
-                        TRỞ VỀ
-                    </button>
+                    
                 </section>
             </section>
         )
