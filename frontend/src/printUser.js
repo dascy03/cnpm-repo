@@ -60,7 +60,7 @@ const PrintUser = (props) => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={() => navigate('/home')}>
+                                    <button onClick={() => navigate('/logIn')}>
                                         <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>

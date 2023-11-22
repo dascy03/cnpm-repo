@@ -9,6 +9,9 @@ import PrintUser from "./printUser";
 import ProfileUser from "./profileUser";
 import PrintSPSO from "./printSPSO";
 import ProfileSPSO from "./profileSPSO";
+import Register from "./register";
+import LogIn from "./logIn"
+import ForgotPassword from "./forgotPassword"
 
 function App() {
 
@@ -24,7 +27,11 @@ function App() {
           <Route path="/profileUser" element={<ProfileUser />} />
           <Route path="/printSPSO" element={<PrintSPSO />} />
           <Route path="/profileSPSO" element={<ProfileSPSO />} />
-        </Routes>
+          <Route path="/logIn" element={<LogIn />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/register" element={<Register />} />
+          <Route index element={<LogIn />} />
+        </Routes> 
       </BrowserRouter>
     </div>
   );
