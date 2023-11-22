@@ -59,7 +59,7 @@ const PrinterMana = (props) => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/homeSPSO')}>
+                                    <button onClick={()=>navigate('/profileSPSO')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
