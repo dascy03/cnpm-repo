@@ -17,7 +17,9 @@ const PrintUser = () => {
     const [printcolor, setPrintcolor] = useState('Có');
 
     function DownloadFile(e) {
+        e.preventDefault();
         setFile(e.target.files[0]);
+        console.log(e.target.files[0]);
     }
 
     const handleSubmit = (e) => {
