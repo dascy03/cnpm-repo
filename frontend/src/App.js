@@ -5,6 +5,13 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import HomeSPSO from "./homeSPSO";
 import PrinterMana from "./printerManagement";
+import PrintUser from "./printUser";
+import ProfileUser from "./profileUser";
+import PrintSPSO from "./printSPSO";
+import ProfileSPSO from "./profileSPSO";
+import Register from "./register";
+import LogIn from "./logIn"
+import ForgotPassword from "./forgotPassword"
 
 function App() {
 
@@ -16,7 +23,15 @@ function App() {
           <Route path="/History" element={<History />} />
           <Route path="/HomeSPSO" element={<HomeSPSO />} />
           <Route path="/printerManagement" element={<PrinterMana />} />
-        </Routes>
+          <Route path="/printUser" element={<PrintUser />} />
+          <Route path="/profileUser" element={<ProfileUser />} />
+          <Route path="/printSPSO" element={<PrintSPSO />} />
+          <Route path="/profileSPSO" element={<ProfileSPSO />} />
+          <Route path="/logIn" element={<LogIn />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/register" element={<Register />} />
+          <Route index element={<LogIn />} />
+        </Routes> 
       </BrowserRouter>
     </div>
   );

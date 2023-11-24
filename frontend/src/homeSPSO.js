@@ -162,12 +162,12 @@ const HomeSPSO = () => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/homeSPSO')}>
+                                    <button onClick={()=>navigate('/profileSPSO')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/homeSPSO')}>
+                                    <button onClick={()=>navigate('/logIn')}>
                                     <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>
@@ -179,7 +179,7 @@ const HomeSPSO = () => {
         {/* Body */}
             <section className="flex place-content-evenly"> 
                 <div className="flex-initial w-4/5 ml-16 my-10 px-28  ">
-                    <div className="font-sans text-6xl font-bold text-[#2991C2] ">Chào Student-0, <br/> chúc bạn học tốt!</div>
+                    <div className="font-sans text-6xl font-bold text-[#2991C2] ">Chào SPSO-0, <br/> chúc bạn học tốt!</div>
                     <div className="bg-[#DBF3FF] text-[#051319] font-sans text-2xl font-semibold rounded-3xl pt-6 px-10 my-14 w-full">
                         Số trang còn lại: 
                         <div className="font-sans text-[#014464] text-8xl font-bold text-center pt-1 pb-12 "> 375 </div>   
@@ -187,10 +187,10 @@ const HomeSPSO = () => {
                     
                     <div className="grid grid-cols-2 place-content-around w-full text-center justify-center">
                         <div className="rounded-3xl bg-[#2991C2] mr-5 py-10 my-5 w-[275px] ">
-                            <a href="?">
+                            <button onClick={()=>navigate('/printSPSO')}>
                                 <img src="/print-solid.svg" className="h-20 mx-auto" alt="print" />
                                 <span className ="text-white text-2xl ">In tài liệu</span>
-                            </a>
+                            </button>
                         </div>
                         <div className="rounded-3xl bg-[#2991C2] ml-5 py-10 my-5 w-[275px]">
                             <a href="?">    

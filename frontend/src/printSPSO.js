@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const PrintUser = (props) => {
+const PrintSPSO = (props) => {
     const data = [
         { printdate: "10AM - 20/10/2023", printer: "P1-Lầu 6", pageselect: 33, printsize: "A4", pickupmethod: "10PM - 20/10/2023", papersize: "1-6, 8"},
     ]
@@ -50,12 +50,12 @@ const PrintUser = (props) => {
                         <div class="flex items-center px-16" id="navbar-solid-bg">
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
-                                    <button onClick={() => navigate('/homeUser')}>
+                                    <button onClick={() => navigate('/homeSPSO')}>
                                         <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={() => navigate('/profileUser')}>
+                                    <button onClick={() => navigate('/profileSPSO')}>
                                         <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
@@ -155,4 +155,4 @@ const PrintUser = (props) => {
     );
 }
 
-export default PrintUser;
+export default PrintSPSO;

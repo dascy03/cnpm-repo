@@ -35,17 +35,17 @@ const HomeUser = () => {
                         <div class="flex items-center px-16" id="navbar-solid-bg">
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
-                                    <button onClick={()=>navigate('/home')}>
+                                    <button onClick={()=>navigate('/homeUser')}>
                                     <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/home')}>
+                                    <button onClick={()=>navigate('/profileUser')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/home')}>
+                                    <button onClick={()=>navigate('/logIn')}>
                                     <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>
@@ -64,10 +64,10 @@ const HomeUser = () => {
                     </div>
                     <div className="flex place-content-around w-auto text-center justify-center">
                         <div className="rounded-3xl bg-[#2991C2] mr-5 py-10 my-5 w-[275px] ">
-                            <a href="?">
+                            <button onClick={()=>navigate('/printUser')}>
                                 <img src="/print-solid.svg" className="h-20 mx-auto" alt="print" />
                                 <span className ="text-white text-2xl ">In tài liệu</span>
-                            </a>
+                            </button>
                         </div>
                         <div className="rounded-3xl bg-[#2991C2] ml-5 py-10 my-5 w-[275px]">
                             <a href="?">    
