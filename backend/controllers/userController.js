@@ -111,6 +111,37 @@ class UserController {
         .json({ success: false, message: "Internal Server Error" });
     }
   }
+
+  async updateUserStatus(req, res) {
+    try {
+      const { userID } = req.body;
+      //let userID = 1;
+      let check = await userModel.checkStatus(userID);
+      //console.log(check);
+      let result;
+      if (check == "Active") {
+        result = await userModel.updateUserStatus(userID, "Inactive");
+      } else if (check == "Inactive") {
+        result = await userModel.updateUserStatus(userID, "Active");
+      }
+      //console.log(result);
+      if (result[0].affectedRows > 0) {
+        return res.status(200).json({
+          success: true,
+          message: "User status updated successfully.",
+        });
+      } else {
+        return res
+          .status(404)
+          .json({ success: false, message: "User not found." });
+      }
+    } catch (error) {
+      console.error(error.message);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal Server Error" });
+    }
+  }
 }
 
 export default UserController;

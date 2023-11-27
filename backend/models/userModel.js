@@ -80,6 +80,35 @@ class UserModel {
       throw new Error("Error updating user by ID");
     }
   }
+
+  async updateUserStatus(userId, newStatus) {
+    try {
+      const sql = `UPDATE users SET status = ? WHERE userID = ?`;
+      this.result = await db.execute(sql, [newStatus, userId]);
+      //console.log(this.result);
+      return this.result;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error updating user status");
+    }
+  }
+
+  async checkStatus(userID) {
+    try {
+      const sql = `SELECT status FROM users WHERE userID = ?;`;
+      this.result = await db.execute(sql, [userID]);
+      if (this.result.length > 0) {
+        //console.log(this.result[0].status);
+        // Nếu có kết quả, trả về trạng thái của user
+        return this.result[0][0].status;
+      } else {
+        return "Not found";
+      }
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error find user status");
+    }
+  }
 }
 
 export default UserModel;
