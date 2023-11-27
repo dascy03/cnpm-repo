@@ -3,9 +3,7 @@ import { db } from "../config/dbConfig.js";
 
 export const getAllPrinter = async (req, res) => {
   try {
-    let sql = `
-    SELECT *
-    FROM printer;`;
+    let sql = `SELECT * FROM printer;`;
     const data = await db.execute(sql);
     return res.json(data[0]);
   } catch (error) {
