@@ -4,6 +4,24 @@ create database cnpm;
 
 USE cnpm;
 
+DROP TABLE IF EXISTS printer;
+
+CREATE TABLE printer (
+  printerID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  model varchar(45) NOT NULL,
+  location varchar(45) DEFAULT 'H1 lobby',
+  status varchar(45) DEFAULT 'active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO printer (model, location, status)
+VALUES ('P1 - Lầu 6','CS2 - Lầu 6','Đang hoạt động'),
+		('P1 - Lầu 5','CS2 - Lầu 5','Đang hoạt động'),
+        ('P1 - Lầu 4','CS2 - Lầu 4','Đang hoạt động'),
+        ('P1 - Lầu 3','CS2 - Lầu 3','Đang hoạt động'),
+        ('P1 - Lầu 2','CS2 - Lầu 2','Ngưng hoạt động');
+        
+select * from printer;
+
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
