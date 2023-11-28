@@ -12,7 +12,7 @@ class UserModel {
     //console.log(this.result);
 
     if (this.result[0].length != 0) {
-      console.log("here");
+      //console.log("here");
       let sql2 = `SELECT * FROM spso WHERE spsoID=?;`;
       var spsoResult = await db.execute(sql2, [this.result[0][0].userID]);
     }

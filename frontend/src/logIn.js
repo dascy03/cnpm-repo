@@ -1,8 +1,43 @@
 import React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 
 const LogIn = () => {
   const navigate = useNavigate();
+  //const history = useHistory();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      // Thực hiện gửi request đăng nhập tới server
+      // Sử dụng fetch hoặc axios, tùy thuộc vào thư viện bạn đang sử dụng
+      const response = await fetch("http://localhost:5000/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.success === true) {
+        if (data.isSPSO === true) {
+          navigate("/homeSPSO");
+        } else navigate("/homeUser");
+      } else {
+        setError(data.message || "Đăng nhập không thành công.");
+      }
+    } catch (error) {
+      console.error("Đã xảy ra lỗi:", error);
+      setError("Đã xảy ra lỗi.");
+    }
+  };
+
   return (
     <>
       {/* header */}
@@ -26,8 +61,10 @@ const LogIn = () => {
             <p class="text-xs text-gray-500 font-bold">Tên đăng nhập</p>
             <div class="relative">
               <input
-                type="text"
                 class="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
+                type="email"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
           </div>
@@ -35,15 +72,17 @@ const LogIn = () => {
             <p class="text-xs text-gray-500 font-bold">Mật khẩu</p>
             <div class="relative">
               <input
-                type="text"
                 class="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
           <div class="mt-8 w-1/4">
             <button
               class="relative bg-[#2991C2] border hover:bg-[#247ea8] active:bg-[#1b5f7e] hover:shadow-md border-gray-500 h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2 font-bold text-white"
-              onClick={() => navigate("/homeUser")}
+              onClick={handleLogin}
             >
               Đăng nhập
             </button>
@@ -62,6 +101,7 @@ const LogIn = () => {
               Quên mật khẩu?
             </a>
           </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
       </section>
     </>
