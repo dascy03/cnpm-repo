@@ -12,6 +12,7 @@ import ProfileSPSO from "./profileSPSO";
 import Register from "./register";
 import LogIn from "./logIn"
 import ForgotPassword from "./forgotPassword"
+import BuyPage from "./buyPage"
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/buyPage" element={<BuyPage />} />
           <Route index element={<LogIn />} />
         </Routes> 
       </BrowserRouter>
