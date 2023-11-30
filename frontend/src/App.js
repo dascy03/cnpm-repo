@@ -11,7 +11,8 @@ import ProfileSPSO from "./profileSPSO";
 import Register from "./register";
 import LogIn from "./logIn"
 import ForgotPassword from "./forgotPassword"
-import UserMana from "./UserManagement";
+import UserMana from "./UserManagement"
+import BuyPage from "./buyPage"
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="/userManagement" element={<UserMana />} />
+          <Route path="/buyPage" element={<BuyPage />} />
           <Route index element={<LogIn />} />
         </Routes> 
       </BrowserRouter>

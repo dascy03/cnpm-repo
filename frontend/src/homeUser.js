@@ -63,18 +63,20 @@ const HomeUser = () => {
                         <div className="font-sans text-[#014464] text-8xl font-bold text-center pt-1 pb-12 "> 375 </div>   
                     </div>
                     <div className="flex place-content-around w-auto text-center justify-center">
+                    <button onClick={()=>navigate('/printUser')}>
                         <div className="rounded-3xl bg-[#2991C2] mr-5 py-10 my-5 w-[275px] ">
-                            <button onClick={()=>navigate('/printUser')}>
                                 <img src="/print-solid.svg" className="h-20 mx-auto" alt="print" />
                                 <span className ="text-white text-2xl ">In tài liệu</span>
-                            </button>
                         </div>
+                    </button >
+                    <button onClick={()=>navigate('/buyPage')}>
                         <div className="rounded-3xl bg-[#2991C2] ml-5 py-10 my-5 w-[275px]">
                             <a href="?">    
                                 <img src="/cart-shopping-solid.svg" className="h-20 mx-auto" alt="shopping" />
                                 <span className="text-white text-2xl">Mua thêm trang</span> 
                             </a>
                         </div>
+                    </button>
                     </div>
                 </div>
 
