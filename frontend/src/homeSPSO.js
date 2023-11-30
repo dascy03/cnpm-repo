@@ -205,10 +205,10 @@ const HomeSPSO = () => {
                             </button>
                         </div>
                         <div className="rounded-3xl bg-[#2991C2] ml-5 py-10 my-5 w-[275px]">
-                            <a href="?">    
+                            <button onClick={()=>navigate('/userManagement')}>    
                                 <img src="/user-solid.svg" className="h-20 mx-auto" alt="shopping" />
                                 <span className="text-white text-2xl">Quản lý người dùng</span> 
-                            </a>
+                            </button>
                         </div>
                         <div className="rounded-3xl bg-[#2991C2] mr-5 py-10 my-5 w-[275px] ">
                             <a href="?">
