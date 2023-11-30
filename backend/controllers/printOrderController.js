@@ -2,6 +2,27 @@ import { PrintOrder } from "../models/printOrderModel.js";
 import { db } from "../config/dbConfig.js";
 import { Printer } from "../models/Printer.js";
 
+export const getAllQueue = async (req, res) => {
+  try {
+    const queue = await PrintOrder.getAllQueue();
+    return res.send(queue);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const getOneQueue = async (req, res) => {
+  try {
+    const { printerID } = req.params;
+    const queue = await PrintOrder.getQueue(printerID);
+    return res.send(queue);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const getAllPrintOrder = async (req, res) => {
   try {
     let sql = `SELECT * FROM print_order;`;
@@ -55,10 +76,28 @@ export const insertPrintOrder = async (req, res) => {
     const totalPageUsed =
       Math.ceil(pageSelected * sizeWeight * colorWeight * sideWeight) *
       printCopy;
-    if (Printer.getPageBalance(printerID) < totalPageUsed)
+
+    const [current_printer, _] = await Printer.getByID(printerID);
+    // check status
+    if (current_printer["status"] === "Ngưng hoạt động")
+      return res
+        .status(400)
+        .send({ message: "The current printer is not active!" });
+    // check page balance
+    if (current_printer["pageBalance"] < totalPageUsed)
       return res
         .status(400)
         .send({ message: "The current printer do not have enough paper!" });
+    // check print time
+    const current_queue = await Printer.getQueue(printerID);
+    const isPresent = current_queue.some(
+      (item) => item.printTime === printTime
+    );
+    if (isPresent)
+      return res.status(400).send({
+        message: "The current printer has another order at your chosen time!",
+      });
+    // save
     const print_order = await PrintOrder.save(
       pickupTime,
       printTime,

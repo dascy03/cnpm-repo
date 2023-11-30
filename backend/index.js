@@ -14,7 +14,7 @@ app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/printers", printerRouter);
-app.use("/printOrders", printOrderRouter);
+app.use("/print", printOrderRouter);
 
 app.listen(PORT, () => {
   console.log(`App is running in PORT ${PORT}`);
