@@ -1,43 +1,10 @@
-import { Printer } from "../models/Printer.js";
+import { PrintOrder } from "../models/printOrderModel.js";
 import { db } from "../config/dbConfig.js";
+import { Printer } from "../models/Printer.js";
 
-export const getPageBalance = async (req, res) => {
+export const getAllPrintOrder = async (req, res) => {
   try {
-    const { printerID } = req.params;
-    const pageBalance = await Printer.getPageBalance(printerID);
-    return res.send(pageBalance[0]);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send({ message: error.message });
-  }
-};
-
-export const getPrinterStatus = async (req, res) => {
-  try {
-    const { printerID } = req.params;
-    const status = await Printer.getPrinterStatus(printerID);
-    console.log(status);
-    return res.send(status[0]);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send({ message: error.message });
-  }
-};
-
-export const getPrinter = async (req, res) => {
-  try {
-    const { printerID } = req.params;
-    const printer = await Printer.getByID(printerID);
-    return res.send(printer[0]);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send({ message: error.message });
-  }
-};
-
-export const getAllPrinter = async (req, res) => {
-  try {
-    let sql = `SELECT * FROM printer;`;
+    let sql = `SELECT * FROM print_order;`;
     const data = await db.execute(sql);
     return res.json(data[0]);
   } catch (error) {
@@ -45,16 +12,65 @@ export const getAllPrinter = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
-export const addPrinter = async (req, res) => {
+export const insertPrintOrder = async (req, res) => {
   try {
-    const { model, location, status } = req.body;
-    if (!model) {
-      return res.status(400).send({ message: "Please send Printer model!" });
+    const {
+      pickupTime,
+      printTime,
+      fileName,
+      printerID,
+      printCopy,
+      pageSize,
+      pickupMethod,
+      pageSide,
+      pageSelected,
+      pageColor,
+      userID,
+    } = req.body;
+
+    const status = "Chờ in";
+    let sizeWeight;
+    switch (pageSize) {
+      case "A4":
+        sizeWeight = 1;
+        break;
+      case "A3":
+        sizeWeight = 2;
+        break;
+      case "A2":
+        sizeWeight = 3;
+        break;
+      case "A1":
+        sizeWeight = 4;
+        break;
+      default:
+        sizeWeight = 1;
     }
-    let printer = new Printer(model, location, status);
-    printer = await printer.save();
-    console.log("Add new printer");
-    return res.status(200).send(printer);
+    let colorWeight;
+    if (pageColor == "Có") colorWeight = 2;
+    else colorWeight = 1;
+    let sideWeight;
+    if (pageSide == "Hai mặt") sideWeight = 0.5;
+    else sideWeight = 1;
+    const totalPageUsed =
+      Math.ceil(pageSelected * sizeWeight * colorWeight * sideWeight) *
+      printCopy;
+    if (Printer.getPageBalance(printerID) < totalPageUsed)
+      return res
+        .status(400)
+        .send({ message: "The current printer do not have enough paper!" });
+    const print_order = await PrintOrder.save(
+      pickupTime,
+      printTime,
+      status,
+      fileName,
+      pickupMethod,
+      totalPageUsed,
+      printerID,
+      userID
+    );
+    console.log("Insert new print order");
+    return res.status(200).send(print_order);
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
@@ -79,6 +95,13 @@ export const deletePrinter = async (req, res) => {
     console.log(error.message);
     res.status(500).send({ message: error.message });
   }
+};
+
+const getStatus = async (printerID) => {
+  const [status, _] = await db.execute(
+    `SELECT status FROM printer WHERE printerID='${printerID}';`
+  );
+  return status[0]["status"];
 };
 
 export const updatePrinter = async (req, res) => {
