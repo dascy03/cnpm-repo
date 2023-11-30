@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "./component/Pagination";
-import PrinterDataFetching from "./component/printerDataFetching";
+import DataFetching from "./component/dataFetching";
 
 const PrinterMana = (props) => {
     /* Fetching and Pagination */
     const URL_API = "http://localhost:5000/printers"
-    const {data , loading} = PrinterDataFetching(URL_API);
+    const {data , loading} = DataFetching(URL_API);
     /* Filter Search Bar */
     const [searchQuery, setSearchQuery] = useState("")
-    const keys=["printerID", "model", "imgLink", "type", "location", "status"]
+    const keys=["printerID", "model", "location", "status", "pageBalance"]
     const filter1stData = data.filter((item) =>
         // check if value is null, if null then pass, if not then filter
         keys.some((key) => item[key] && item[key].toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
@@ -86,13 +86,14 @@ const PrinterMana = (props) => {
         return (
             <section>
                 <div className="flex justify-between m-10 px-28"> 
-                    <div className="w-full">
-                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
-                            TRỞ VỀ
+                    <div className=" text-center flex">
+                        <button className="bg-[#2991C2] rounded-2xl flex p-2">
+                            <img src="/circle-plus.svg" className="h-6 flex" alt="plus-solid" />    
+                            <div className="text-white flex pl-2 ">MÁY IN MỚI</div>
                         </button>
                     </div>
-                    <div className="w-full justify-self-center text-4xl font-bold">Lịch sử in</div>
-                    <div className="" >
+                    <div className=" justify-self-center text-4xl font-bold text-center flex">Lịch sử in</div>
+                    <div className="flex" >
                     <form>   
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -109,6 +110,19 @@ const PrinterMana = (props) => {
         )
     };
 
+    const showEye = (val) => {
+        if (val === "Đang hoạt động") {
+            return (
+                <img src="/eye-solid.svg" className="h-7" alt="eye-solid" />
+            )
+        }
+        else {
+            return (
+                <img src="/eye-slash-solid.svg" className="h-7" alt="eye-slash-solid" />
+            )
+        }
+    }
+
     const table = () => {
         return (
             <section>
@@ -116,10 +130,10 @@ const PrinterMana = (props) => {
                     <tr className="bg-[#AADEF6]">
                         <th className="px-2 py-2">Mã máy in</th>
                         <th className="px-10 py-2">Mẫu</th>
-                        <th className="px-10 py-2">Link ảnh</th>
-                        <th className="px-6 py-3">Phân loại</th>
                         <th className="px-6 py-2">Địa điểm</th>
                         <th className="px-6 py-2">Trạng thái</th>
+                        <th className="px-10 py-2">Số trang có sẵn</th>
+                        <th className="px-10 py-2"></th>
                     </tr>
                     {filterData.map((val, key) => {
                         if (key % 2 == 0) {
@@ -127,10 +141,10 @@ const PrinterMana = (props) => {
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
                                     <th className="px-2 py-2">{val.printerID}</th>
                                     <th className="px-10 py-2">{val.model}</th>
-                                    <th className="px-10 py-2">{val.imgLink}</th>
-                                    <th className="px-6 py-3">{val.type}</th>
                                     <th className="px-6 py-2">{val.location}</th>
+                                    <th className="px-10 py-2">{val.pageBalance}</th>
                                     <th className="px-6 py-2">{val.status}</th>
+                                    <th className="px-10 py-2">{showEye(val.status)}</th>
                                 </tr>
                             )
                         }
@@ -139,10 +153,10 @@ const PrinterMana = (props) => {
                                 <tr className="text-center text-xl" key={key} >
                                     <th className="px-2 py-2">{val.printerID}</th>
                                     <th className="px-10 py-2">{val.model}</th>
-                                    <th className="px-10 py-2">{val.imgLink}</th>
-                                    <th className="px-6 py-3">{val.type}</th>
                                     <th className="px-6 py-2">{val.location}</th>
+                                    <th className="px-10 py-2">{val.pageBalance}</th>   
                                     <th className="px-6 py-2">{val.status}</th>
+                                    <th className="px-10 py-2">{showEye(val.status)}</th>
                                 </tr>
                             )
                         }
@@ -171,7 +185,12 @@ const PrinterMana = (props) => {
                 <div>
                     {showHeader()}
                     {searchBar()}
-                    {table()}    
+                    {table()}  
+                    <div className="w-full px-28 m-10">
+                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
+                            TRỞ VỀ
+                        </button>
+                    </div>
                 </div>)}
         </div>
     );
