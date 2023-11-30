@@ -1,6 +1,33 @@
 import { PrintOrder } from "../models/printOrderModel.js";
 import { db } from "../config/dbConfig.js";
 import { Printer } from "../models/Printer.js";
+import PDFParser from "pdf2json";
+
+const handleFile = async (req) => {
+  try {
+    const pdfPath = req.file.path;
+    let result = [req.file.originalname];
+    const parsePDF = (path) => {
+      return new Promise((resolve, reject) => {
+        const pdfParser = new PDFParser();
+        pdfParser.on("pdfParser_dataError", (errData) => {
+          reject(errData.parserError);
+        });
+        pdfParser.on("pdfParser_dataReady", (pdfData) => {
+          resolve(pdfData);
+        });
+        pdfParser.loadPDF(path);
+      });
+    };
+
+    // Wait for the Promise to resolve before returning the result
+    const pdfData = await parsePDF(pdfPath);
+    result.push(pdfData.Pages.length);
+    return result;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const getAllQueue = async (req, res) => {
   try {
@@ -38,17 +65,19 @@ export const insertPrintOrder = async (req, res) => {
     const {
       pickupTime,
       printTime,
-      fileName,
       printerID,
       printCopy,
       pageSize,
       pickupMethod,
       pageSide,
-      pageSelected,
       pageColor,
       userID,
     } = req.body;
-
+    const file_data = await handleFile(req);
+    if (!file_data)
+      return res.status(400).send({ message: "Please upload file to print!" });
+    const fileName = file_data[0];
+    const pageSelected = file_data[1];
     const status = "Chờ in";
     let sizeWeight;
     switch (pageSize) {
@@ -89,7 +118,7 @@ export const insertPrintOrder = async (req, res) => {
         .status(400)
         .send({ message: "The current printer do not have enough paper!" });
     // check print time
-    const current_queue = await Printer.getQueue(printerID);
+    const current_queue = await PrintOrder.getQueue(printerID);
     const isPresent = current_queue.some(
       (item) => item.printTime === printTime
     );
