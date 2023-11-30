@@ -32,4 +32,25 @@ export class Printer {
     const [newPrinter, _] = await db.execute(sql);
     return newPrinter;
   };
+  static getByID = async (printerID) => {
+    const [printer, _] = await db.execute(
+      `SELECT * FROM printer WHERE printerID=?`,
+      [printerID]
+    );
+    return printer;
+  };
+  static getPageBalance = async (printerID) => {
+    const [pageBalance, _] = await db.execute(
+      `SELECT pageBalance FROM printer WHERE printerID=?`,
+      [printerID]
+    );
+    return pageBalance;
+  };
+  static getPrinterStatus = async (printerID) => {
+    const [printerStatus, _] = await db.execute(
+      `SELECT status FROM printer WHERE printerID=?`,
+      [printerID]
+    );
+    return printerStatus;
+  };
 }
