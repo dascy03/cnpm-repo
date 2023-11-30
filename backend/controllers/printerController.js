@@ -1,6 +1,40 @@
 import { Printer } from "../models/Printer.js";
 import { db } from "../config/dbConfig.js";
 
+export const getPageBalance = async (req, res) => {
+  try {
+    const { printerID } = req.params;
+    const pageBalance = await Printer.getPageBalance(printerID);
+    return res.send(pageBalance[0]);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const getPrinterStatus = async (req, res) => {
+  try {
+    const { printerID } = req.params;
+    const status = await Printer.getPrinterStatus(printerID);
+    console.log(status);
+    return res.send(status[0]);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const getPrinter = async (req, res) => {
+  try {
+    const { printerID } = req.params;
+    const printer = await Printer.getByID(printerID);
+    return res.send(printer[0]);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const getAllPrinter = async (req, res) => {
   try {
     let sql = `SELECT * FROM printer;`;
@@ -45,13 +79,6 @@ export const deletePrinter = async (req, res) => {
     console.log(error.message);
     res.status(500).send({ message: error.message });
   }
-};
-
-const getStatus = async (printerID) => {
-  const [status, _] = await db.execute(
-    `SELECT status FROM printer WHERE printerID='${printerID}';`
-  );
-  return status[0]["status"];
 };
 
 export const updatePrinter = async (req, res) => {
