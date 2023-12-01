@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ReactLoading from "react-loading";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -8,8 +9,14 @@ const LogIn = () => {
     username: "",
     password: "",
   });
+  const [isloading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [token, setToken] = useState("");
+  const [isSPSO, setIsSPSO] = useState(false);
+
   const handleLogin = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+    // check if empty
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,17 +24,43 @@ const LogIn = () => {
       username: data.username,
       password: data.password,
     };
+
     axios
       .post("http://localhost:5000/user/login", userData)
-      .then((response) => {
-        console.log("login successfully");
+      .then((res) => {
+        setIsLoading(true);
+        setSuccess(res.data["success"]);
+        setToken(res.data["token"]);
+        setIsSPSO(res.data["isSPSO"]);
       })
-      .catch((error) => {
-        // print the error message
-        // check if error status is 400 console.log("login failed");
-        console.log(error.response.data.message);
+      .catch((err) => {
+        if (err.response.data["message"] == "Invalid credentials")
+          alert("Sai tên tài khoản hoặc mật khẩu");
+        else if (
+          err.response.data["message"] == "Username and password are required."
+        )
+          alert("Không được dể trống tên tài khoản/mật khẩu");
+        else if (err.response.data["message"] == "Internal Server Error")
+          alert("Lỗi máy chủ");
       });
   };
+  useEffect(() => {
+    if (isloading) {
+      if (success) {
+        if (isSPSO) {
+          navigate("/homeSPSO");
+        } else {
+          navigate("/homeUser");
+        }
+      } else {
+        alert("Đăng nhập thất bại");
+      }
+    } else {
+      // make loading screen
+      // still doooo
+    }
+  }, [isloading]);
+
   return (
     <>
       {/* header */}
