@@ -2,41 +2,83 @@
 import { useNavigate } from "react-router-dom";
 // import "./css/style.css";
 import { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Cookie from "universal-cookie";
+
 const PrintUser = (props) => {
-    const data = [
-        { printdate: "10AM - 20/10/2023", printer: "P1-Lầu 6", pageselect: 33, printsize: "A4", pickupmethod: "10PM - 20/10/2023", papersize: "1-6, 8"},
-    ]
-    const [file, setFile] = useState();
-    const [printdate, setPrintdate] = useState('10AM - 20/10/2023');
-    const [printer, setPrinter] = useState('P1-Lầu 6');
-    const [pageselect, setPageselect] = useState(33);
-    const [printsize, setPrintsize] = useState('A4');
-    const [pickupmethod, setPickupmethod] = useState('10PM - 20/10/2023');
-    const [papersize, setPapersize] = useState('Tất cả');
-    const [orientation, setOrientation] = useState('Hai mặt');
-    const [printcolor, setPrintcolor] = useState('Có');
+    const navigate = useNavigate();
 
-    const notify = () => toast.success("Success!", {position: toast.POSITION.TOP_CENTER});
+    // const [file, setFile] = useState();
+    // const [printdate, setPrintdate] = useState('10AM - 20/10/2023');
+    // const [printer, setPrinter] = useState('P1-Lầu 6');
+    // const [pageselect, setPageselect] = useState(33);
+    // const [printsize, setPrintsize] = useState('A4');
+    // const [pickupmethod, setPickupmethod] = useState('10PM - 20/10/2023');
+    // const [papersize, setPapersize] = useState('Tất cả');
+    // const [orientation, setOrientation] = useState('Hai mặt');
+    // const [printcolor, setPrintcolor] = useState('Có');
 
+    const [data, setData] = useState({
+        userID:1,
+        file:new FormData(),
+        pickupTime: new Date(),  
+        printTime: new Date(),
+        printerID:1,
+        printCopy:1,
+        pageSize:'A4',
+        pickupMethod: 'Hẹn',
+        pageSide: 'Hai mặt',
+        pageColor: 'Không',
+        
+      })
+    // const [token, setToken] = useState('')
+    // const [isloading, setIsLoading] = useState(false)
+    // const [success, setSuccess] = useState(false)
+    
+    
     function DownloadFile(e) {
         setFile(e.target.files[0]);
-        console.log(e.target.files[0]);
     }
 
+
+    const handleUpdate = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+    if(data.pickupMethod=="Tự đến lấy"){
+        data.pickupTime=data.printTime;
+    }
+    // check if empty
+    };
     const handleSubmit = (e) => {
-        e.preventDefault();
-        const blog = { printdate, printer, pageselect, printsize, pickupmethod, papersize, orientation, printcolor };
-        console.log(blog);
-
-        const formData = new FormData();
-        formData.append('file', file);
-        fetch(
-
-        )
+    e.preventDefault();
+    data.file.append('file',file)
+    const userData = {
+        userID:data.userID,
+        file: data.file,
+        pickupTime: data.pickupTime,   
+        printTime: data.printTime,
+        printerID: data.printerID,
+        printCopy: data.printCopy,
+        pageSize:data.pageSize,
+        pickupMethod: data.pickupMethod,
+        pageSide: data.pageSide,
+        pageColor: data.pageColor,
     }
-    const navigate = useNavigate();
+    
+    axios.post("http://localhost:5000/print/orders", userData)
+    
+    }
+    useEffect(() => {
+    if (isloading) {
+        if (success) {
+            navigate("/homeUser");
+        } else {
+        alert("Thất bại");
+        }
+    }
+    else {
+        // make loading screen
+        // still doooo
+    }
+    }, [isloading]);
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
@@ -88,56 +130,69 @@ const PrintUser = (props) => {
 
                 <label>Giờ in</label>
                 <input
-                    type="text"
+                    type="datetime-local"
                     required
-                    value={printdate}
-                    onChange={(e) => setPrintdate(e.target.value)}
+                    value={data.printTime}
+                    onChange={handleUpdate}
                 />
 
                 <label>Máy in</label>
-                <select
-                    value={printer}
-                    onChange={(e) => setPrinter(e.target.value)}
-                >
-                    <option value="P1-Lầu 6">P1-Lầu 6</option>
-                </select>
+                <input
+                    type="number"
+                    required
+                    value={data.printerID}
+                    onChange={handleUpdate}
+                />
 
                 <label>Số lượng in</label>
                 <input
                     type="number"
                     required
-                    value={pageselect}
-                    onChange={(e) => setPageselect(e.target.value)}
+                    value={data.printCopy}
+                    onChange={handleUpdate}
                 />
 
                 <label>Khổ giấy</label>
                 <select
-                    value={printsize}
-                    onChange={(e) => setPrintsize(e.target.value)}
+                    value={data.pageSize}
+                    onChange={handleUpdate}
                 >
+                    <option value="A5">A5</option>
                     <option value="A4">A4</option>
                     <option value="A3">A3</option>
+                    <option value="A2">A2</option>
+                    <option value="A1">A1</option>
                 </select>
 
-                <label>Hẹn</label>
+                <label>Phương thức nhận</label>
+                <select
+                    value={data.pickupMethod}
+                    onChange={handleUpdate}
+                >
+                    <option value="Tự đến lấy">Tự đến lấy</option>
+                    <option value="Hẹn">Hẹn</option>
+                </select>
+
+                <label>Dự kiến lấy</label>
                 <input
-                    type="text"
+                    type="datetime-local"
                     required
-                    value={pickupmethod}
-                    onChange={(e) => setPickupmethod(e.target.value)}
+                    value={data.pickupMethod}
+                    onChange={handleUpdate}
                 />
 
-                <label>In trang</label>
+                {/* <label>In trang</label>
                 <input
                     type="text"
                     required
                     value={papersize}
                     onChange={(e) => setPapersize(e.target.value)}
-                />
+                /> */}
+
                 <label>In mặt</label>
                 <select
-                    value={orientation}
-                    onChange={(e) => setOrientation(e.target.value)}
+                    value={data.pageSide}
+                    onChange={handleUpdate}
                 >
                     <option value="Hai mặt">Hai mặt</option>
                     <option value="Một mặt">Một mặt</option>
@@ -145,27 +200,19 @@ const PrintUser = (props) => {
 
                 <label>In màu</label>
                 <select
-                    value={printcolor}
-                    onChange={(e) => setPrintcolor(e.target.value)}
+                    value={data.pageColor}
+                    onChange={handleUpdate}
                 >
                     <option value="Có">Có</option>
                     <option value="Không">Không</option>
                 </select>
 
                 <div className="IN">
-                    <button onClick={notify}>IN</button>
-                    <ToastContainer />
+                    <button>IN</button>
                 </div>
             </form>
-            <div className="HỦY">
-                <button onClick={() => {
-                    if (sessionStorage.getItem("isSPSO") === "true") {
-                        navigate('/homeSPSO');
-                    } else {
-                        navigate('/homeUser');
-                    }
-                
-                }}>HỦY</button>
+            <div className="HUY">
+                <button onClick={() => navigate('/homeUser')}>HỦY</button>
             </div>
         </section>
         </>
