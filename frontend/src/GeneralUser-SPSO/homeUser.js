@@ -27,7 +27,7 @@ const HomeUser = () => {
             // clear token
             localStorage.clear();
             // remove session storage
-            sessionStorage.removeItem('token');
+            sessionStorage.clear();
             navigate('/');
         }
     }

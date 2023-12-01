@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState } from "react"; 
 import HomeUser from "./GeneralUser-SPSO/homeUser";
 import History from "./GeneralUser-SPSO/History";
 import PrintUser from "./GeneralUser-SPSO/printUser";
@@ -15,19 +16,34 @@ import UserMana from "./SPSO-Func/userManagement";
 import QueueMana from "./SPSO-Func/queueManagement";
 import InsertPrinter from "./SPSO-Func/insertPrinter";
 
+import Protected from "./utils-component/ProtectedRoute";
+import { useEffect } from "react";
+import Cookie from "universal-cookie";
+
 
 function App() {
+  const cookie = new Cookie();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    if (cookie.get("isLogged")) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/logIn" element={<LogIn />} />
           <Route index element={<LogIn />} />
           {/* General */}
           <Route path="/register" element={<Register />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/homeUser" element={<HomeUser />} />
+
+          <Route path="/homeUser" element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <HomeUser />
+            </Protected>
+          } />
           <Route path="/History" element={<History />} />
           <Route path="/printUser" element={<PrintUser />} />
           <Route path="/profileUser" element={<ProfileUser />} />
