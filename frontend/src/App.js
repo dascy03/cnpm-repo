@@ -1,18 +1,20 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomeUser from "./homeUser";
-import History from "./History";
+import HomeUser from "./GeneralUser-SPSO/homeUser";
+import History from "./GeneralUser-SPSO/History";
+import PrintUser from "./GeneralUser-SPSO/printUser";
+import ProfileUser from "./GeneralUser-SPSO/profileUser";
+import Register from "./GeneralUser-SPSO/register";
+import LogIn from "./GeneralUser-SPSO/logIn"
+import ForgotPassword from "./GeneralUser-SPSO/forgotPassword"
+import BuyPage from "./GeneralUser-SPSO/buyPage"
+
 import "./css/App.css";
-import HomeSPSO from "./homeSPSO";
-import PrinterMana from "./printerManagement";
-import PrintUser from "./printUser";
-import ProfileUser from "./profileUser";
-import PrintSPSO from "./printSPSO";
-import ProfileSPSO from "./profileSPSO";
-import Register from "./register";
-import LogIn from "./logIn"
-import ForgotPassword from "./forgotPassword"
-import UserMana from "./UserManagement"
-import BuyPage from "./buyPage"
+import HomeSPSO from "./SPSO-Func/homeSPSO";
+import PrinterMana from "./SPSO-Func/printerManagement";
+import PrintSPSO from "./SPSO-Func/printSPSO";
+import ProfileSPSO from "./SPSO-Func/profileSPSO";
+import UserMana from "./SPSO-Func/userManagement";
+import QueueMana from "./SPSO-Func/queueManagement";
 
 function App() {
 
@@ -20,19 +22,22 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          {/* General */}
+          <Route path="/logIn" element={<LogIn />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/homeUser" element={<HomeUser />} />
           <Route path="/History" element={<History />} />
           <Route path="/printUser" element={<PrintUser />} />
           <Route path="/profileUser" element={<ProfileUser />} />
+          <Route path="/buyPage" element={<BuyPage />} />
+          {/* SPSO Func */}
           <Route path="/HomeSPSO" element={<HomeSPSO />} />
           <Route path="/printerManagement" element={<PrinterMana />} />
           <Route path="/printSPSO" element={<PrintSPSO />} />
           <Route path="/profileSPSO" element={<ProfileSPSO />} />
-          <Route path="/logIn" element={<LogIn />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/userManagement" element={<UserMana />} />
-          <Route path="/buyPage" element={<BuyPage />} />
+          <Route path="/queueManagement" element={<QueueMana />} />
           <Route index element={<LogIn />} />
         </Routes> 
       </BrowserRouter>

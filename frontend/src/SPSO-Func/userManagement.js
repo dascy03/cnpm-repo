@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from "./component/Pagination";
-import DataFetching from "./component/dataFetching";
+import Pagination from "../utils-component/Pagination";
+import DataFetching from "../utils-component/dataFetching";
 
-const PrinterMana = (props) => {
+const UserMana = (props) => {
     /* Fetching and Pagination */
-    const URL_API = "http://localhost:5000/printers"
+    const URL_API = "http://localhost:5000/user/list"
     const {data , loading} = DataFetching(URL_API);
     /* Filter Search Bar */
     const [searchQuery, setSearchQuery] = useState("")
-    const keys=["printerID", "model", "location", "status", "pageBalance"]
+    const keys=["userID", "name", "DoB", "phone", "address","email","password","status","pageBalance","avtLink"]
     const filter1stData = data.filter((item) =>
         // check if value is null, if null then pass, if not then filter
         keys.some((key) => item[key] && item[key].toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
@@ -86,13 +86,8 @@ const PrinterMana = (props) => {
         return (
             <section>
                 <div className="flex justify-between m-10 px-28"> 
-                    <div className=" text-center flex">
-                        <button className="bg-[#2991C2] rounded-2xl flex p-2">
-                            <img src="/circle-plus.svg" className="h-6 flex" alt="plus-solid" />    
-                            <div className="text-white flex pl-2 ">MÁY IN MỚI</div>
-                        </button>
-                    </div>
-                    <div className=" justify-self-center text-4xl font-bold text-center flex">Lịch sử in</div>
+                    <div className=" text-center flex"></div>
+                    <div className=" justify-self-center text-4xl font-bold text-center flex">Quản lý người dùng</div>
                     <div className="flex" >
                     <form>   
                         <div class="relative">
@@ -111,7 +106,7 @@ const PrinterMana = (props) => {
     };
 
     const showEye = (val) => {
-        if (val === "Đang hoạt động") {
+        if (val === "Active") {
             return (
                 <img src="/eye-solid.svg" className="h-7" alt="eye-solid" />
             )
@@ -128,22 +123,28 @@ const PrinterMana = (props) => {
             <section>
                 <table className="relative overflow-x-auto mx-auto text-2xl">
                     <tr className="bg-[#AADEF6]">
-                        <th className="px-2 py-2">Mã máy in</th>
-                        <th className="px-10 py-2">Mẫu</th>
-                        <th className="px-6 py-2">Địa điểm</th>
-                        <th className="px-6 py-2">Trạng thái</th>
-                        <th className="px-10 py-2">Số trang có sẵn</th>
+                        <th className="px-2 py-2">ID</th>
+                        <th className="px-10 py-2">Tên người dùng</th>
+                        <th className="px-6 py-2">Số điện thoại</th>
+                        <th className="px-6 py-2">Địa chỉ</th>
+                        <th className="px-10 py-2">Email</th>
+                        <th className="px-10 py-2">Số trang còn lại</th>
+                        <th className="px-10 py-2">Trạng thái</th>
                         <th className="px-10 py-2"></th>
                     </tr>
                     {filterData.map((val, key) => {
                         if (key % 2 == 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <th className="px-2 py-2">{val.printerID}</th>
-                                    <th className="px-10 py-2">{val.model}</th>
-                                    <th className="px-6 py-2">{val.location}</th>
+                                    <th className="px-2 py-2">{val.userID}</th>
+                                    <th className="px-10 py-2">{val.name}</th>
+                                    <th className="px-6 py-2">{val.phone}</th>
+                                    <th className="px-6 py-2">{val.address}</th>
+                                    <th className="px-6 py-2">{val.email}</th>
                                     <th className="px-10 py-2">{val.pageBalance}</th>
-                                    <th className="px-6 py-2">{val.status}</th>
+                                    <th className="px-10 py-2">
+                                    {(val.status === "Active") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
+                                    </th>
                                     <th className="px-10 py-2">{showEye(val.status)}</th>
                                 </tr>
                             )
@@ -151,11 +152,15 @@ const PrinterMana = (props) => {
                         else {
                             return (
                                 <tr className="text-center text-xl" key={key} >
-                                    <th className="px-2 py-2">{val.printerID}</th>
-                                    <th className="px-10 py-2">{val.model}</th>
-                                    <th className="px-6 py-2">{val.location}</th>
-                                    <th className="px-10 py-2">{val.pageBalance}</th>   
-                                    <th className="px-6 py-2">{val.status}</th>
+                                    <th className="px-2 py-2">{val.userID}</th>
+                                    <th className="px-10 py-2">{val.name}</th>
+                                    <th className="px-6 py-2">{val.phone}</th>
+                                    <th className="px-6 py-2">{val.address}</th>
+                                    <th className="px-6 py-2">{val.email}</th>
+                                    <th className="px-10 py-2">{val.pageBalance}</th>
+                                    <th className="px-10 py-2">
+                                    {(val.status === "Active") ? <span className="text-[#12E500]">{val.status}</span> : <span className="text-[#FE1E00]">{val.status}</span>}
+                                    </th>
                                     <th className="px-10 py-2">{showEye(val.status)}</th>
                                 </tr>
                             )
@@ -196,4 +201,4 @@ const PrinterMana = (props) => {
     );
 }
 
-export default PrinterMana
+export default UserMana

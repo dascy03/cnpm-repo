@@ -1,6 +1,6 @@
 import React, {useState, useMemo} from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from "./component/Pagination";
+import Pagination from "../utils-component/Pagination";
 
 const data = [
     {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micAro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
@@ -94,13 +94,9 @@ const History = (props) => {
         return (
             <section>
                 <div className="flex justify-between m-10 px-28"> 
-                    <div className="w-full">
-                        <button className="ml-40 mt-10 pt-0 text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeUser')}>
-                            TRỞ VỀ
-                        </button>
-                    </div>
-                    <div className="w-full justify-self-center text-4xl font-bold">Lịch sử in</div>
-                    <div className="" >
+                    <div className="text-center flex"></div>
+                    <div className="justify-self-center text-4xl font-bold text-center flex">Lịch sử in</div>
+                    <div className="flex" >
                     <form>   
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -170,7 +166,6 @@ const History = (props) => {
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                     />
-                    
                 </section>
             </section>
         )
@@ -180,6 +175,11 @@ const History = (props) => {
             {showHeader()}
             {searchBar()}
             {table()}
+            <div className="w-full px-28 m-10">
+                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
+                            TRỞ VỀ
+                        </button>
+                    </div>
         </>
     );
 }
