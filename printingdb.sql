@@ -39,7 +39,7 @@ CREATE TABLE `print_order` (
   KEY `print_order_to_user_idx` (`userID`),
   CONSTRAINT `print_order_to_printer` FOREIGN KEY (`printerID`) REFERENCES `printer` (`printerID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `print_order_to_user` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ CREATE TABLE `print_order` (
 
 LOCK TABLES `print_order` WRITE;
 /*!40000 ALTER TABLE `print_order` DISABLE KEYS */;
-INSERT INTO `print_order` VALUES (1,'2023-04-23 23:04:59','2023-04-24 13:05:03','Chờ in','computer_networking.pdf','Tự đến lấy',135,1,1),(2,'2023-04-23 23:04:59','2023-04-24 13:05:03','Chờ in','computer_networking.pdf','Tự đến lấy',270,2,1),(3,'2023-04-23 23:04:59','2023-04-24 13:05:03','Chờ in','computer_networking.pdf','Tự đến lấy',540,3,1),(4,'2023-04-23 23:04:59','2023-04-24 13:05:03','Chờ in','computer_networking.pdf','Tự đến lấy',68,4,1),(9,'2023-04-23 13:05:59','2023-04-24 13:05:03','Chờ in','computer_networking.pdf','Tự đến lấy',270,4,1),(10,'2023-04-23 13:05:59','2023-04-24 23:50:03','Chờ in','computer_networking.pdf','Tự đến lấy',270,4,1),(11,'2023-04-23 13:05:59','2023-04-24 10:50:03','Chờ in','computer_networking.pdf','Tự đến lấy',270,4,1),(12,'2023-04-23 13:05:59','2023-04-24 10:50:03','Chờ in','computer_networking.pdf','Tự đến lấy',270,3,1),(13,'2023-04-23 13:05:59','2023-04-24 11:50:03','Chờ in','BTL_AP.pdf','Tự đến lấy',26,3,1),(14,'2023-04-23 13:05:59','2023-04-24 11:30:03','Chờ in','BTL_AP.pdf','Tự đến lấy',13,3,1);
+INSERT INTO `print_order` VALUES (1,'2023-04-23 23:04:59','2023-04-24 13:05:03','Đang in','computer_networking.pdf','Tự đến lấy',135,1,1),(2,'2023-04-23 23:04:59','2023-04-24 13:05:03','Đã huỷ','computer_networking.pdf','Tự đến lấy',270,2,1),(3,'2023-04-23 23:04:59','2023-04-24 13:05:03','Chờ in','computer_networking.pdf','Tự đến lấy',540,3,1),(4,'2023-04-23 23:04:59','2023-04-24 13:05:03','Hoàn tất in','computer_networking.pdf','Tự đến lấy',68,4,1),(9,'2023-04-23 13:05:59','2023-04-24 13:05:03','Chờ in','computer_networking.pdf','Tự đến lấy',270,4,1),(10,'2023-04-23 13:05:59','2023-04-24 23:50:03','Hoàn thành','computer_networking.pdf','Tự đến lấy',270,4,1),(11,'2023-04-23 13:05:59','2023-04-24 10:50:03','Đã huỷ','computer_networking.pdf','Tự đến lấy',270,4,1),(12,'2023-04-23 13:05:59','2023-04-24 10:50:03','Đang in','computer_networking.pdf','Tự đến lấy',270,3,1),(13,'2023-04-23 13:05:59','2023-04-24 11:50:03','Đã huỷ','BTL_AP.pdf','Tự đến lấy',26,3,1),(14,'2023-04-23 13:05:59','2023-04-24 11:30:03','Chờ in','BTL_AP.pdf','Tự đến lấy',13,3,1),(15,'2023-04-24 13:05:59','2023-04-23 16:30:03','Chờ in','BTL_AP.pdf','Hẹn',13,3,2),(16,'2023-04-24 13:05:59','2023-04-23 03:30:03','Đã huỷ','BTL_AP.pdf','Hẹn',13,3,2),(17,'2023-04-24 13:05:59','2023-04-23 03:30:03','Chờ in','BTL_AP.pdf','Hẹn',26,4,2),(18,'2023-04-24 13:05:59','2023-04-23 00:30:03','Chờ in','BTL_AP.pdf','Hẹn',13,4,2),(19,'2023-04-24 13:05:59','2023-04-23 15:30:00','Chờ in','BTL_AP.pdf','Hẹn',52,3,3),(20,'2023-04-24 23:04:00','2023-03-03 03:03:03','Chờ in','BTL_AP.pdf','Hẹn',78,3,3),(21,'2023-04-24 23:04:00','2023-11-27 00:00:00','Chờ in','BTL_AP.pdf','Hẹn',13,2,4),(22,'2023-04-24 23:04:00','2023-12-01 10:54:00','Chờ in','BTL_AP.pdf','Hẹn',39,4,4),(23,'2023-04-24 23:04:00','2023-12-01 10:54:00','Đã huỷ','BTL_AP.pdf','Hẹn',13,1,4),(24,'2023-04-24 23:04:00','2023-12-01 10:54:00','Chờ in','BTL_AP.pdf','Hẹn',13,3,4),(25,'2023-04-24 23:04:00','2023-11-11 10:54:00','Chờ in','BTL_AP.pdf','Hẹn',52,1,5),(26,'2023-04-24 23:04:00','2023-11-12 10:54:00','Chờ in','BTL_AP.pdf','Hẹn',52,1,5),(27,'2023-04-24 23:04:00','2023-11-13 10:54:00','Chờ in','BTL_AP.pdf','Hẹn',52,2,5),(28,'2023-04-24 23:04:00','2023-12-14 10:54:00','Chờ in','BTL_AP.pdf','Hẹn',52,2,6),(29,'2023-04-24 23:04:00','2023-12-29 10:54:00','Đã huỷ','BTL_AP.pdf','Hẹn',52,2,6),(30,'2023-04-24 23:04:00','2023-12-29 10:54:00','Chờ in','BTL_AP.pdf','Hẹn',52,1,7);
 /*!40000 ALTER TABLE `print_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,4 +171,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-30 22:44:51
+-- Dump completed on 2023-12-01 22:58:38
