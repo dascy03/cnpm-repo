@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 const BuyPage = () => {
     const navigate = useNavigate();
+    const handeLogout = () => {
+      if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          // clear token
+          localStorage.clear();
+          // remove session storage
+          sessionStorage.removeItem('token');
+          navigate('/');
+      }
+    }
     const showHeader = () => {
       return (
           <>  
@@ -17,17 +26,23 @@ const BuyPage = () => {
                           <div class="flex items-center px-16" id="navbar-solid-bg">
                               <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                   <li className="px-5">
-                                      <button onClick={()=>navigate('/homeSPSO')}>
+                                      <button onClick={()=>{
+                                        if (sessionStorage.getItem("isSPSO") === "true") {
+                                          navigate('/homeSPSO');
+                                      } else {
+                                          navigate('/homeUser');
+                                      }
+                                      }}>
                                       <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
                                       </button>
                                   </li>
                                   <li className="px-5 pt-3">
-                                      <button onClick={()=>navigate('/profileSPSO')}>
+                                      <button onClick={() => navigate("/")}>
                                       <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                       </button>
                                   </li>
                                   <li className="px-5 pt-3">
-                                      <button onClick={()=>navigate('/logIn')}>
+                                      <button onClick={handeLogout}>
                                       <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                       </button>
                                   </li>
@@ -46,7 +61,7 @@ const BuyPage = () => {
                         Mua trang in
               </div>
 
-              <div className="grid grid-cols-5 mt-24 gap-4 h-screen bg-white">
+              <div className="grid grid-cols-5 mt-24 gap-4 h-auto bg-white">
                 <div className="col-start-2 col-span-2 bg-white p-4">
                     <div class="w-full flex items-center ">
                       <p class="text-xl text-[#114A65] w-64 font-semibold">
@@ -96,11 +111,18 @@ const BuyPage = () => {
                   </div>
                   <div className="grid grid-cols-2 mt-16">
                     <button class="mr-3 justify-self-end col-span-1 relative bg-[#2991C2] border hover:bg-[#247ea8] active:bg-[#1b5f7e] hover:shadow-md border-gray-500 h-8 w-24 rounded-xl text-sm focus:outline-none font-semibold text-white"
-                    onClick={()=>navigate('/homeUser')}>
+                    
+                    >
                       OK
                     </button>
                     <button class="ml-3 justify-self-start col-span-1 relative bg-[#676767] border hover:bg-[#595959] active:bg-[#4d4d4d] hover:shadow-md border-gray-500 h-8 w-24 rounded-xl text-sm focus:outline-none font-semibold text-white"
-                    onClick={()=>navigate('/homeUser')}>
+                    onClick={()=>{
+                      if (sessionStorage.getItem("isSPSO") === "true") {
+                        navigate('/homeSPSO');
+                    } else {
+                        navigate('/homeUser');
+                    }
+                    }}>
                       HỦY 
                     </button>
                   </div> 

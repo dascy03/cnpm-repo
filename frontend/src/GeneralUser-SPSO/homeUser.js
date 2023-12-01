@@ -22,6 +22,15 @@ const HomeUser = () => {
     ]
     const navigate = useNavigate();
     const pageShow = 8
+    const handeLogout = () => {
+        if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            // clear token
+            localStorage.clear();
+            // remove session storage
+            sessionStorage.removeItem('token');
+            navigate('/');
+        }
+    }
     return (
         <>  
         {/* header */}
@@ -45,7 +54,7 @@ const HomeUser = () => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/logIn')}>
+                                    <button onClick={handeLogout}>
                                     <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>

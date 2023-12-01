@@ -176,7 +176,16 @@ const History = (props) => {
             {searchBar()}
             {table()}
             <div className="w-full px-28 m-10">
-                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
+                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={
+                            () => {
+                                if (sessionStorage.getItem("isSPSO") === "true") {
+                                    navigate('/homeSPSO')
+                                }
+                                else {
+                                    navigate('/homeUser')
+                                }
+                            }
+                        }>
                             TRỞ VỀ
                         </button>
                     </div>

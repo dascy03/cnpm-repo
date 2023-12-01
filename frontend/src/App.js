@@ -11,10 +11,10 @@ import BuyPage from "./GeneralUser-SPSO/buyPage"
 import "./css/App.css";
 import HomeSPSO from "./SPSO-Func/homeSPSO";
 import PrinterMana from "./SPSO-Func/printerManagement";
-import PrintSPSO from "./SPSO-Func/printSPSO";
-import ProfileSPSO from "./SPSO-Func/profileSPSO";
 import UserMana from "./SPSO-Func/userManagement";
 import QueueMana from "./SPSO-Func/queueManagement";
+import InsertPrinter from "./SPSO-Func/insertPrinter";
+
 
 function App() {
 
@@ -22,8 +22,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* General */}
           <Route path="/logIn" element={<LogIn />} />
+          <Route index element={<LogIn />} />
+          {/* General */}
           <Route path="/register" element={<Register />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/homeUser" element={<HomeUser />} />
@@ -34,11 +35,11 @@ function App() {
           {/* SPSO Func */}
           <Route path="/HomeSPSO" element={<HomeSPSO />} />
           <Route path="/printerManagement" element={<PrinterMana />} />
-          <Route path="/printSPSO" element={<PrintSPSO />} />
-          <Route path="/profileSPSO" element={<ProfileSPSO />} />
           <Route path="/userManagement" element={<UserMana />} />
           <Route path="/queueManagement" element={<QueueMana />} />
-          <Route index element={<LogIn />} />
+          <Route path="/insertPrinter" element={<InsertPrinter />} />
+          {/* handle error */}
+          <Route path="*" element={<h1>Page Not Found</h1>} />
         </Routes> 
       </BrowserRouter>
     </div>
