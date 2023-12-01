@@ -2,27 +2,81 @@
 import { useNavigate } from "react-router-dom";
 // import "./css/style.css";
 import { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Cookie from "universal-cookie";
-const ProfileUser = (props) => {
-    const data = [
-        { ID: 7737,name: "Nguyễn Văn T", DOB: "20/04/2023", phone: "0123456789", email: "nguyen.vanT@hcmut.edu.vn", address: "BKCS2, Dĩ An, Bình Dương" },
-    ]
-    const [name, setName] = useState('Nguyễn Văn T');
-    const [DOB, setDOB] = useState('20/04/2003');
-    const [phone, setPhone] = useState('0123456789');
-    const [email, setEmail] = useState('nguyen.vanT@hcmut.edu.vn');
-    const [address, setAddress] = useState('BKCS2, Dĩ An, Bình Dương');
 
-    const notify = () => toast.success("Success!", {position: toast.POSITION.TOP_CENTER});
+const ProfileUser = (props) => {
+    const navigate = useNavigate();
+
+    // const [name, setName] = useState('Nguyễn Văn T');
+    // const [DOB, setDOB] = useState('20/04/2003');
+    // const [phone, setPhone] = useState('0123456789');
+    // const [email, setEmail] = useState('nguyen.vanT@hcmut.edu.vn');
+    // const [address, setAddress] = useState('BKCS2, Dĩ An, Bình Dương');
+
+    // const URL_API = "http://localhost:5000/user/info"
+    // const {data , loading} = DataFetching(URL_API);
+    // const keys=["userID", "name", "DoB", "phone", "address","email","password","status","pageBalance","avtLink"]
+    
+    const cookie = new Cookie();
+    const Token123 = {
+        token:cookie.get("token"),
+    }
+
+    // const [token, setToken] = useState('')
+    const [isloading, setIsLoading] = useState(false)
+    const [success, setSuccess] = useState(false)
+    
+    axios.post("http://localhost:5000/user/info", Token123)
+    const [data, setData] = useState({
+        userID:res.userID,
+        name:res.name,
+        DoB:res.DoB,
+        phone:res.phone,   
+        address:res.address,
+        email:res.email,
+        //avtLink:res.avtLink,
+    })
+
+    const handleUpdate = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+        // check if empty
+    };
 
     const handleSubmit = (e) => {
-      e.preventDefault();
-      const blog = { name, DOB, phone, email, address };
-      console.log(blog);
+    e.preventDefault();
+    const userData = {
+        token: data.token,
+        name: data.name,
+        DoB: data.DoB,
+        phone: data.phone,
+        address: data.address,
     }
-    const navigate = useNavigate();
+    axios.post("http://localhost:5000/user/update", userData)
+    .then((res) => {
+        setIsLoading(true)
+        setSuccess(res.data["success"])
+        setIsSPSO(res.data["isSPSO"])
+      })
+      .catch((err) => {
+        if (err.response.data['message'] == "Internal Server Error")
+          alert("Lỗi máy chủ")
+        else 
+          alert("Không xác định được lỗi")
+      })
+    }
+    useEffect(() => {
+    if (isloading) {
+        if (success) {
+            navigate("/homeUser");
+        } else {
+        alert("Thất bại");
+        }
+    }
+    else {
+        // make loading screen
+        // still doooo
+    }
+    }, [isloading]);
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
@@ -82,53 +136,52 @@ const ProfileUser = (props) => {
           <h1>Thông tin cá nhân</h1>
               <div class="image12">
                   <img src="./ava-test.jpg" alt=""/>
-                  <h2>ID:2021</h2>
+                  <h2>value={data.userID}</h2>
               </div>
           <form onSubmit={handleSubmit}>
 
               <label>Họ tên</label>
               <input
-                  type="text"
+                  type="text" 
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={data.name}
+                  onChange={handleUpdate}
               />
 
               <label>Ngày sinh</label>
               <input
                   type="date"
                   required
-                  value={DOB}
-                  onChange={(e) => setDOB(e.target.value)}
+                  value={data.DoB}
+                  onChange={handleUpdate}
               />
 
               <label>Điện thoại</label>
               <input
                   type="text"
                   required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  value={data.phone}
+                  onChange={handleUpdate}
               />
 
               <label>Email</label>
               <input
                   type="text"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={data.email}
+                  readOnly={true}
               />
 
               <label>Địa chỉ</label>
               <input
                   type="text"
                   required
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={data.address}
+                  onChange={handleUpdate}
               />
 
               <div className="LUU">
-                  <button onClick={notify}>LƯU</button>
-                    <ToastContainer />
+                  <button>LƯU</button>
               </div>
 
           </form>
