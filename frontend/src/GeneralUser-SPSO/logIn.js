@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookie from "universal-cookie";
+import { useCookies } from "react-cookie";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -33,8 +35,11 @@ const LogIn = () => {
       setSuccess(res.data["success"])
       setToken(res.data["token"])
       setIsSPSO(res.data["isSPSO"])
-      sessionStorage.setItem('token', res.data["token"])
-      sessionStorage.setItem('isSPSO', res.data["isSPSO"])
+      // store token to cookies 
+      const cookie = new Cookie();
+      cookie.set("token", res.data["token"], { path: "/" });
+      cookie.set("isLogged", res.data["success"], { path: "/" });
+      sessionStorage.setItem("isSPSO", res.data["isSPSO"])
     })
     .catch((err) => {
       if (err.response.data['message'] == "Invalid credentials")
@@ -43,6 +48,8 @@ const LogIn = () => {
         alert("Không được dể trống tên tài khoản/mật khẩu")
       else if (err.response.data['message'] == "Internal Server Error")
         alert("Lỗi máy chủ")
+      else 
+        alert("Không xác định được lỗi")
     })
   }
   useEffect(() => {
@@ -67,11 +74,11 @@ const LogIn = () => {
     <>
       {/* header */}
       <section className="App-header">
-        <nav class="border-blue-200 text-lg bg-[#C4E4F3] bg-c4e4f3">
-          <div class="flex flex-wrap justify-between">
-            <div class="flex items-center space-x-0 rtl:space-x-reverse px-4">
-              <img src="/hcmut-logo.png" class="h-20" alt="HCMUT logo" />
-              <span class="self-center text-014464 text-l font-bold whitespace-nowrap">
+        <nav className="border-blue-200 text-lg bg-[#C4E4F3] bg-c4e4f3">
+          <div className="flex flex-wrap justify-between">
+            <div className="flex items-center space-x-0 rtl:space-x-reverse px-4">
+              <img src="/hcmut-logo.png" className="h-20" alt="HCMUT logo" />
+              <span className="self-center text-014464 text-l font-bold whitespace-nowrap">
                 SMART PRINTING SERVICE
               </span>
             </div>
@@ -80,37 +87,37 @@ const LogIn = () => {
       </section>
       {/* Body */}
       <section className="flex place-content-evenly justify-center h-screen">
-        <form class="w-screen flex flex-col items-center" onSubmit={handleSubmit}>
-          <h1 class="font-bold text-3xl mt-6 text-center">Đăng nhập</h1>
-          <div class="mt-12 w-1/4">
-            <p class="text-base text-gray-500 font-semibold">Tên đăng nhập</p>
-            <div class="relative">
+        <form className="w-screen flex flex-col items-center" onSubmit={handleSubmit}>
+          <h1 className="font-bold text-3xl mt-6 text-center">Đăng nhập</h1>
+          <div className="mt-12 w-1/4">
+            <p className="text-base text-gray-500 font-semibold">Tên đăng nhập</p>
+            <div className="relative">
               <input
                 type="email"
                 name = "username"
-                class="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
+                className="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
                 value={data.username}
                 onChange={handleLogin}
                 autoComplete="on"
               />
             </div>
           </div>
-          <div class="mt-8 w-1/4">
-            <p class="text-base text-gray-500 font-semibold">Mật khẩu</p>
-            <div class="relative">
+          <div className="mt-8 w-1/4">
+            <p className="text-base text-gray-500 font-semibold">Mật khẩu</p>
+            <div className="relative">
               <input
                 type="password"
                 name = "password"
-                class="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
+                className="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
                 value={data.password}
                 onChange={handleLogin}
                 autoComplete="on"
               />
             </div>
           </div>
-          <div class="mt-8 w-1/4">
+          <div className="mt-8 w-1/4">
             <button
-              class="relative bg-[#2991C2] border hover:bg-[#247ea8] active:bg-[#1b5f7e] hover:shadow-md border-gray-500 h-12 w-full px-4 pr-4 rounded-3xl text-base focus:outline-none mt-2 font-bold text-white"
+              className="relative bg-[#2991C2] border hover:bg-[#247ea8] active:bg-[#1b5f7e] hover:shadow-md border-gray-500 h-12 w-full px-4 pr-4 rounded-3xl text-base focus:outline-none mt-2 font-bold text-white"
               type="submit"
               onSubmit={handleSubmit}
             >
@@ -118,14 +125,14 @@ const LogIn = () => {
             </button>
           </div>
 
-          <div class="mt-6 w-1/4 flex justify-center">
-            <a href="" class="font-bold" onClick={() => navigate("/register")}>
+          <div className="mt-6 w-1/4 flex justify-center">
+            <a href="" className="font-bold" onClick={() => navigate("/register")}>
               Đăng ký
             </a>
-            <span class="mx-4">|</span>
+            <span className="mx-4">|</span>
             <a
               href=""
-              class="font-bold"
+              className="font-bold"
               onClick={() => navigate("/forgotPassword")}
             >
               Quên mật khẩu?

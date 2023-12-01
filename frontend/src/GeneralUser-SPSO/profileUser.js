@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookie from "universal-cookie";
 const ProfileUser = (props) => {
     const data = [
         { ID: 7737,name: "Nguyễn Văn T", DOB: "20/04/2023", phone: "0123456789", email: "nguyen.vanT@hcmut.edu.vn", address: "BKCS2, Dĩ An, Bình Dương" },
@@ -22,6 +23,16 @@ const ProfileUser = (props) => {
       console.log(blog);
     }
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            sessionStorage.clear();
+            localStorage.clear();
+            navigate('/');
+        }
+    }
+
+    
     return (
         <>
             {/* header */}
@@ -40,12 +51,12 @@ const ProfileUser = (props) => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={() => navigate('/profileUser')}>
+                                    <button onClick={() => navigate('/')}>
                                         <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={() => navigate('/logIn')}>
+                                    <button onClick={handleLogout}>
                                         <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>
