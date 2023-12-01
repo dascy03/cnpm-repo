@@ -42,6 +42,17 @@ const UserMana = (props) => {
 
     const navigate = useNavigate();
 
+    const handleLogout = () => {   
+        if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            // clear token
+            localStorage.clear();
+            // remove session storage
+            sessionStorage.removeItem('token');
+            navigate('/');
+        }
+    };
+
+
     const showHeader = () => {
         return(
             <section className="App-header"> 
@@ -59,12 +70,12 @@ const UserMana = (props) => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/profileSPSO')}>
+                                    <button onClick={()=>navigate('/')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/logIn')}>
+                                    <button onClick={handleLogout}>
                                     <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>

@@ -42,6 +42,16 @@ const PrinterMana = (props) => {
 
     const navigate = useNavigate();
 
+    const handeLogout = () => {
+        if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            // clear token
+            localStorage.clear();
+            // remove session storage
+            sessionStorage.removeItem('token');
+            navigate('/');
+        }
+    }
+
     const showHeader = () => {
         return(
             <section className="App-header"> 
@@ -59,12 +69,12 @@ const PrinterMana = (props) => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/profileSPSO')}>
+                                    <button onClick={()=>navigate('/')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/logIn')}>
+                                    <button onClick={handeLogout}>
                                     <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>
@@ -87,7 +97,7 @@ const PrinterMana = (props) => {
             <section>
                 <div className="flex justify-between m-10 px-28"> 
                     <div className=" text-center flex">
-                        <button className="bg-[#2991C2] rounded-2xl flex p-2">
+                        <button className="bg-[#2991C2] rounded-2xl flex p-2" onClick={()=>navigate('/insertPrinter')}>
                             <img src="/circle-plus.svg" className="h-6 flex" alt="plus-solid" />    
                             <div className="text-white flex pl-2 ">MÁY IN MỚI</div>
                         </button>

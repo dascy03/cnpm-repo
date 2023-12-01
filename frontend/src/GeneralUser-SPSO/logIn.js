@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import ReactLoading from 'react-loading';
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -18,6 +17,9 @@ const LogIn = () => {
     setData({ ...data, [e.target.name]: e.target.value });
     // check if empty
   };
+  
+
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = {
@@ -31,6 +33,8 @@ const LogIn = () => {
       setSuccess(res.data["success"])
       setToken(res.data["token"])
       setIsSPSO(res.data["isSPSO"])
+      sessionStorage.setItem('token', res.data["token"])
+      sessionStorage.setItem('isSPSO', res.data["isSPSO"])
     })
     .catch((err) => {
       if (err.response.data['message'] == "Invalid credentials")
@@ -87,6 +91,7 @@ const LogIn = () => {
                 class="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
                 value={data.username}
                 onChange={handleLogin}
+                autoComplete="on"
               />
             </div>
           </div>
@@ -99,6 +104,7 @@ const LogIn = () => {
                 class="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
                 value={data.password}
                 onChange={handleLogin}
+                autoComplete="on"
               />
             </div>
           </div>
