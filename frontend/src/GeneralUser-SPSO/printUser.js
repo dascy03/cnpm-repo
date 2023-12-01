@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookie from "universal-cookie";
 const PrintUser = (props) => {
     const data = [
         { printdate: "10AM - 20/10/2023", printer: "P1-Lầu 6", pageselect: 33, printsize: "A4", pickupmethod: "10PM - 20/10/2023", papersize: "1-6, 8"},
@@ -40,8 +41,11 @@ const PrintUser = (props) => {
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            const cookies = new Cookie();
             sessionStorage.clear();
             localStorage.clear();
+            cookies.remove("token");
+            cookies.remove("isLogged");
             navigate('/');
         }
     }
@@ -52,7 +56,16 @@ const PrintUser = (props) => {
                 <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
-                            <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" />
+                                <button onClick={
+                                    () => {
+                                        if (sessionStorage.getItem("isSPSO") === "true") {
+                                            navigate('/homeSPSO')
+                                        }
+                                        else {
+                                            navigate('/homeUser')
+                                        }
+                                    }
+                                }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
                             <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
                         </div>
                         <div class="flex items-center px-16" id="navbar-solid-bg">
