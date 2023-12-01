@@ -50,11 +50,21 @@ export const getOneQueue = async (req, res) => {
   }
 };
 
+export const getOneOrder = async (req, res) => {
+  try {
+    const { userID } = req.params;
+    const order = await PrintOrder.getOrderByUser(userID);
+    return res.send(order);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const getAllPrintOrder = async (req, res) => {
   try {
-    let sql = `SELECT * FROM print_order;`;
-    const data = await db.execute(sql);
-    return res.json(data[0]);
+    const orders = await PrintOrder.getAllOrder();
+    return res.json(orders);
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
