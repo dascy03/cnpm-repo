@@ -1,14 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 const InsertPrinter = () => {
     const navigate = useNavigate();
-    const handeLogout = () => {
+    const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            const cookies = new Cookies();
             // clear token
             localStorage.clear();
             // remove session storage
             sessionStorage.removeItem('token');
+            cookies.remove("token");
+            cookies.remove("isLogged");
             navigate('/');
         }
     }
@@ -21,7 +25,16 @@ const InsertPrinter = () => {
                   <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
                       <div class="flex flex-wrap justify-between p-2">
                           <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
-                                  <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" />
+                                <button onClick={
+                                    () => {
+                                        if (sessionStorage.getItem("isSPSO") === "true") {
+                                            navigate('/homeSPSO')
+                                        }
+                                        else {
+                                            navigate('/homeUser')
+                                        }
+                                    }
+                                }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
                                   <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
                           </div>
                           <div class="flex items-center px-16" id="navbar-solid-bg">
@@ -37,7 +50,7 @@ const InsertPrinter = () => {
                                       </button>
                                   </li>
                                   <li className="px-5 pt-3">
-                                      <button onClick={handeLogout}>
+                                      <button onClick={handleLogout}>
                                       <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                       </button>
                                   </li>
@@ -80,7 +93,7 @@ const InsertPrinter = () => {
         return (
             <div className="flex justify-center my-10">
                 <button className="bg-[#2991C2] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl">OK</button>
-                <button className="bg-[#676767] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl">Hủy</button>
+                <button onClick={()=>navigate("/printerManagement")} className="bg-[#676767] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl">Hủy</button>
             </div>
         );
     }
