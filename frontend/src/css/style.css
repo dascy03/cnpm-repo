@@ -3,23 +3,29 @@
   text-align: center;
 }
 .printUser h1 {
+  margin-top: 30px;
   font-size: 30px;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
 }
 .printUser label {
   float: left;
   display: block;
   color: rgb(0, 102, 255);
-  margin-left: 450px;
+  margin-top: 14px;
+  margin-left: 480px;
+  font-size: 20px;
 }
 .printUser input, .printUser textarea, .printUser select {
-  width: 30%;
+  font-size: 17px;
+  width: 25%;
   padding: 6px 10px;
   margin: 10px 0;
   border: 1px solid #ddd;
+  border-radius: 10px;
   box-sizing: border-box;
   display: block;
-  margin-left: 600px;
+  margin-top: 20px;
+  margin-left: 650px;
 }
 .IN button{
   background: rgb(0, 132, 255);
@@ -29,6 +35,7 @@
   border-radius: 8px;
   cursor: pointer;
   margin-right: 100px;
+  margin-top: 10px;
 }
 .HUY button{
   background: rgba(0, 0, 0, 0.384);
@@ -45,23 +52,35 @@
   text-align: center;
 }
 .profileUser h1 {
+  margin-top: 30px;
   font-size: 30px;
-  margin-bottom: 80px;
+  margin-bottom: 70px;
+}
+.profileUser h2 {
+  font-size: 25px;
+}
+.profileUser p {
+  font-size: 20px;
 }
 .profileUser label {
   float: left;
+  font-size: 20px;
   display: block;
   color: rgb(0, 102, 255);
+  margin-bottom: 30px;
   
 }
 .profileUser input, .profileUser textarea, .profileUser select {
-  width: 30%;
+  width: 25%;
+  font-size: 17px;
   padding: 6px 10px;
   margin: 10px 0;
   border: 1px solid #ddd;
+  border-radius: 10px;
   box-sizing: border-box;
   display: block;
-  margin-left: 800px;
+  margin-left: 920px;
+  margin-bottom: 20px;
 }
 
 .LUU button{
@@ -71,16 +90,17 @@
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
-  margin-right: 100px;
+  margin-top:20px;
+  margin-right: 300px;
 }
 
 .image12 {
   border-style: ridge;
   width: 400px;
-  height: 300px;
+  height: 400px;
   padding: 0 30px;
   float: left;
-  margin-left: 150px;
+  margin-left: 200px;
   margin-right: 100px;
 }
 

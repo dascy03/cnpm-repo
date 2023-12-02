@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from "./component/Pagination";
-import PrinterDataFetching from "./component/printerDataFetching";
+import Pagination from "../utils-component/Pagination";
+import DataFetching from "../utils-component/dataFetching";
+import Cookies from "universal-cookie";
 
-const PrinterMana = (props) => {
+const QueueMana = (props) => {
     /* Fetching and Pagination */
-    const URL_API = "http://localhost:5000/printers"
-    const {data , loading} = PrinterDataFetching(URL_API);
+    const URL_API = "http://localhost:5000/print/queues"
+    const {data , loading} = DataFetching(URL_API);
     /* Filter Search Bar */
     const [searchQuery, setSearchQuery] = useState("")
-    const keys=["printerID", "model", "imgLink", "type", "location", "status"]
+    const keys=["printorderID","model","printTime","email","status"]
     const filter1stData = data.filter((item) =>
         // check if value is null, if null then pass, if not then filter
         keys.some((key) => item[key] && item[key].toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
@@ -42,13 +43,36 @@ const PrinterMana = (props) => {
 
     const navigate = useNavigate();
 
+    const handleLogout = () => {
+        if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            const cookies = new Cookies();
+            // clear token
+            localStorage.clear();
+            // remove session storage
+            sessionStorage.removeItem('token');
+            cookies.remove("token");
+            cookies.remove("isLogged");
+            navigate('/');
+        }
+    }
+
+
     const showHeader = () => {
         return(
             <section className="App-header"> 
                 <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
-                                <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" />
+                                <button onClick={
+                                    () => {
+                                        if (sessionStorage.getItem("isSPSO") === "true") {
+                                            navigate('/homeSPSO')
+                                        }
+                                        else {
+                                            navigate('/homeUser')
+                                        }
+                                    }
+                                }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
                                 <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
                         </div>
                         <div class="flex items-center px-16" id="navbar-solid-bg">
@@ -59,12 +83,12 @@ const PrinterMana = (props) => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/homeSPSO')}>
+                                    <button onClick={()=>navigate('/')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/homeSPSO')}>
+                                    <button onClick={handleLogout}>
                                     <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>
@@ -86,13 +110,9 @@ const PrinterMana = (props) => {
         return (
             <section>
                 <div className="flex justify-between m-10 px-28"> 
-                    <div className="w-full">
-                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
-                            TRỞ VỀ
-                        </button>
-                    </div>
-                    <div className="w-full justify-self-center text-4xl font-bold">Lịch sử in</div>
-                    <div className="" >
+                    <div className=" text-center flex"></div>
+                    <div className=" justify-self-center text-4xl font-bold text-center flex">Quản lý hàng đợi</div>
+                    <div className="flex" >
                     <form>   
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -109,40 +129,67 @@ const PrinterMana = (props) => {
         )
     };
 
+    const showEye = (val) => {
+        if (val === "Active") {
+            return (
+                <img src="/eye-solid.svg" className="h-7" alt="eye-solid" />
+            )
+        }
+        else {
+            return (
+                <img src="/eye-slash-solid.svg" className="h-7" alt="eye-slash-solid" />
+            )
+        }
+    }
+
     const table = () => {
         return (
             <section>
                 <table className="relative overflow-x-auto mx-auto text-2xl">
                     <tr className="bg-[#AADEF6]">
-                        <th className="px-2 py-2">Mã máy in</th>
-                        <th className="px-10 py-2">Mẫu</th>
-                        <th className="px-10 py-2">Link ảnh</th>
-                        <th className="px-6 py-3">Phân loại</th>
-                        <th className="px-6 py-2">Địa điểm</th>
-                        <th className="px-6 py-2">Trạng thái</th>
+                        <th className="px-10 py-2">ID</th>
+                        <th className="px-10 py-2">Máy in</th>
+                        <th className="px-10 py-2">Thời gian bắt đầu in</th>
+                        <th className="px-10 py-2">Email</th>
+                        <th className="px-10 py-2">Trạng thái</th>
+                        <th className="px-10 py-2"></th>
                     </tr>
                     {filterData.map((val, key) => {
                         if (key % 2 == 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <th className="px-2 py-2">{val.printerID}</th>
+                                    <th className="px-2 py-2">{val.printorderID}</th>
                                     <th className="px-10 py-2">{val.model}</th>
-                                    <th className="px-10 py-2">{val.imgLink}</th>
-                                    <th className="px-6 py-3">{val.type}</th>
-                                    <th className="px-6 py-2">{val.location}</th>
-                                    <th className="px-6 py-2">{val.status}</th>
+                                    <th className="px-6 py-2">{val.printTime}</th>
+                                    <th className="px-6 py-2">{val.email}</th>
+                                    <th className="px-10 py-2">
+                                    {(val.status === "Đang in") ? <span className="text-[#ED9005]">{val.status}</span> : <span className="text-[#2991C2]">{val.status}</span>}
+                                    </th>
+                                    <th className="">
+                                        <div className="flex">
+                                            <img src="/bars-solid.svg" className="h-7 flex pl-40 pr-5" alt="bars-solid" />
+                                            <img src="/trash-solid.svg" className="h-7 flex pr-7" alt="bars-solid" />
+                                        </div>
+                                    </th>
                                 </tr>
                             )
                         }
                         else {
                             return (
                                 <tr className="text-center text-xl" key={key} >
-                                    <th className="px-2 py-2">{val.printerID}</th>
+                                    <th className="px-2 py-2">{val.printorderID}</th>
                                     <th className="px-10 py-2">{val.model}</th>
-                                    <th className="px-10 py-2">{val.imgLink}</th>
-                                    <th className="px-6 py-3">{val.type}</th>
-                                    <th className="px-6 py-2">{val.location}</th>
-                                    <th className="px-6 py-2">{val.status}</th>
+                                    <th className="px-6 py-2">{val.printTime}</th>
+                                    <th className="px-6 py-2">{val.email}</th>
+                                    <th className="px-10 py-2">
+                                    {(val.status === "Đang in") ? <span className="text-[#ED9005]">{val.status}</span> : <span className="text-[#2991C2]">{val.status}</span>}
+                                    </th>
+                                    <th className="">
+                                        <div className="flex">
+                                            <img src="/bars-solid.svg" className="h-7 flex pl-40 pr-5" alt="bars-solid" />
+                                            <img src="/trash-solid.svg" className="h-7 flex pr-7" alt="bars-solid" />
+                                        </div>
+                                    </th>
                                 </tr>
                             )
                         }
@@ -165,16 +212,21 @@ const PrinterMana = (props) => {
         //  check if loading is true, if true then show loading, if not then show table
         //  also check the currentTableData, if it is empty then show loading, if not then show table
         <div>
-            {loading ? (
+            {loading == false ? (
                 <div>Loading...</div>
             ) : (
                 <div>
                     {showHeader()}
                     {searchBar()}
-                    {table()}    
+                    {table()}  
+                    <div className="w-full px-28 m-10">
+                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
+                            TRỞ VỀ
+                        </button>
+                    </div>
                 </div>)}
         </div>
     );
 }
 
-export default PrinterMana
+export default QueueMana
