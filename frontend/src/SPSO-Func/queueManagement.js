@@ -8,9 +8,22 @@ import axios from "axios";
 
 const QueueMana = (props) => {
 
+    const [refresh, setRefresh] = useState(false);
+
     /* Fetching and Pagination */
     const URL_API = "http://localhost:5000/print/queues"
-    const {data , loading} = DataFetching(URL_API);
+    // const {data , loading} = DataFetching(URL_API);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+       ( async () => {
+              setLoading(true);
+              const res = await axios.get(URL_API);
+              setData(res.data);
+              setLoading(true);
+         }
+         )();
+    }, [refresh]);
      // Pagination
      const PageSize = 8;
      const [currentPage, setCurrentPage] = useState(1);
@@ -124,6 +137,7 @@ const QueueMana = (props) => {
     const handleDelete = (id) => {
         axios.put("http://localhost:5000/print/orders/admin/" + id).then((response) => {
             console.log(response);
+            setRefresh(!refresh);
         }
         ).catch((error) => {
             console.log(error);
