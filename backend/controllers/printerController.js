@@ -1,6 +1,24 @@
 import { Printer } from "../models/Printer.js";
 import { db } from "../config/dbConfig.js";
 
+export const setPrinterStatus = async (req, res) => {
+  try {
+    const { printerID } = req.params;
+    const order_status = await Printer.getOrderStatus(printerID);
+    const isPresent = order_status.some((item) => item.status === "Đang in");
+    if (isPresent)
+      return res.status(400).send({
+        message:
+          "The current printer is perfoming printing, cannot be blocked!",
+      });
+    await Printer.setPrinterStatus(printerID);
+    return res.send("success");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const getPageBalance = async (req, res) => {
   try {
     const { printerID } = req.params;
@@ -16,7 +34,6 @@ export const getPrinterStatus = async (req, res) => {
   try {
     const { printerID } = req.params;
     const status = await Printer.getPrinterStatus(printerID);
-    console.log(status);
     return res.send(status[0]);
   } catch (error) {
     console.log(error.message);
