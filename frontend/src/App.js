@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState } from "react"; 
 import HomeUser from "./GeneralUser-SPSO/homeUser";
 import History from "./GeneralUser-SPSO/History";
-import PrintUser from "./GeneralUser-SPSO/printUser";
+// import PrintUser from "./GeneralUser-SPSO/printUser";
 import ProfileUser from "./GeneralUser-SPSO/profileUser";
 import Register from "./GeneralUser-SPSO/register";
 import LogIn from "./GeneralUser-SPSO/logIn"
@@ -12,24 +12,17 @@ import BuyPage from "./GeneralUser-SPSO/buyPage"
 import "./css/App.css";
 import HomeSPSO from "./SPSO-Func/homeSPSO";
 import PrinterMana from "./SPSO-Func/printerManagement";
+import QueuePrinter from "./SPSO-Func/queuePrinter";
 import UserMana from "./SPSO-Func/userManagement";
 import QueueMana from "./SPSO-Func/queueManagement";
 import InsertPrinter from "./SPSO-Func/insertPrinter";
+import GenaralSetting from "./SPSO-Func/genaralSetting";
 
 import Protected from "./utils-component/ProtectedRoute";
-import { useEffect } from "react";
-import Cookie from "universal-cookie";
 
 
 function App() {
-  const cookie = new Cookie();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    if (cookie.get("isLogged")) {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
+  const isLoggedIn = false;
   return (
     <div className="App">
       <BrowserRouter>
@@ -40,20 +33,66 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPassword />} />
 
           <Route path="/homeUser" element={
-            <Protected isLoggedIn={isLoggedIn}>
+            <Protected isLoggedIn={isLoggedIn} isSPSO={false}>
               <HomeUser />
             </Protected>
           } />
-          <Route path="/History" element={<History />} />
-          <Route path="/printUser" element={<PrintUser />} />
-          <Route path="/profileUser" element={<ProfileUser />} />
-          <Route path="/buyPage" element={<BuyPage />} />
+          <Route path="/History" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={false}>
+              <History />
+            </Protected>
+          }/>
+          {/* <Route path="/printUser" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={false}>
+              <PrintUser />
+            </Protected>
+          } /> */}
+          <Route path="/profileUser" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={false}>
+              <ProfileUser />
+            </Protected>
+          } />
+          <Route path="/buyPage" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={false}>
+              <BuyPage />
+            </Protected>
+          } />
           {/* SPSO Func */}
-          <Route path="/HomeSPSO" element={<HomeSPSO />} />
-          <Route path="/printerManagement" element={<PrinterMana />} />
-          <Route path="/userManagement" element={<UserMana />} />
-          <Route path="/queueManagement" element={<QueueMana />} />
-          <Route path="/insertPrinter" element={<InsertPrinter />} />
+          <Route path="/HomeSPSO" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={true}>
+              <HomeSPSO />
+            </Protected>
+          } />
+          <Route path="/printerManagement" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={true}>
+              <PrinterMana />
+            </Protected>
+          } />
+          <Route path="/queuePrinter" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={true}>
+              <QueuePrinter />
+            </Protected>
+          } />
+          <Route path="/userManagement" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={true}>
+              <UserMana />
+            </Protected>
+          } />
+          <Route path="/queueManagement" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={true}>
+              <QueueMana />
+            </Protected>
+          } />
+          <Route path="/insertPrinter" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={true}>
+              <InsertPrinter />
+            </Protected>
+          } />
+          <Route path="/genaralSetting" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={true}>
+              <GenaralSetting />
+            </Protected>
+          } />
           {/* handle error */}
           <Route path="*" element={<h1>Page Not Found</h1>} />
         </Routes> 

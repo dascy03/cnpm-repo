@@ -1,8 +1,7 @@
 .pagination-container {
-    float: right;
     display: flex;
+    justify-content: center;
     list-style-type: none;
-    padding-right: 130px;
     padding-top: 40px
 }
 .pagination-container .pagination-item {

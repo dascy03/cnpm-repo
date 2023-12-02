@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+
+// this method need check click to fetch again
 const DataFetching = (props) => {
     const URL_API = props
     const [data, setData] = useState([]);
