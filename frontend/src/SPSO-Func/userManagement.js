@@ -10,6 +10,8 @@ const UserMana = (props) => {
 
     const [refresh, setRefresh] = useState(false); // this is for refreshing the table after updating the status
 
+    const [isActive, setIsActive] = useState(false);    
+
     const URL_API = "http://localhost:5000/user/list"
     // const {data , loading} = DataFetching(URL_API); this method need check click to fetch again
 
@@ -32,7 +34,8 @@ const UserMana = (props) => {
     const [searchQuery, setSearchQuery] = useState("")
     const [filterData, setFilterData] = useState([]);
     useEffect(() => {
-        setCurrentPage(1);
+        if (!isActive) setCurrentPage(1);
+        setIsActive(true);
         const keys=["userID", "name", "phone", "address", "email", "pageBalance", "status"];
         setFilterData(data.filter((item) =>
             keys.some((key) => item[key] && item[key].toString().toLowerCase().includes(searchQuery.toLowerCase())) === true
@@ -155,6 +158,7 @@ const UserMana = (props) => {
         .then((res) => {
             console.log(res.data);
             setRefresh(!refresh);
+            setIsActive(true);
         })
         .catch((err) => {
             console.log(err);

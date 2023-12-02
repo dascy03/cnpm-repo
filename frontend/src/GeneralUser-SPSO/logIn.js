@@ -32,6 +32,7 @@ const LogIn = () => {
 
     axios.post("http://localhost:5000/user/login", userData)
     .then((res) => {
+      console.log(res.data)
       setIsLoading(true)
       setSuccess(res.data["success"])
       setToken(res.data["token"])
