@@ -184,6 +184,25 @@ export const insertPrintOrder = async (req, res) => {
       userID
     );
     console.log("Insert new print order");
+
+    const print_orderID = print_order["insertId"];
+
+    // real-time printing
+    const currentTime = new Date();
+    const targetTime = new Date(printTime);
+    const timeDifference = targetTime - currentTime;
+    console.log(timeDifference);
+    if (timeDifference > 0) {
+      setTimeout(async () => {
+        await PrintOrder.setOrderStatus(print_orderID, "Đang in");
+
+        // Reschedule if needed
+        setTimeout(() => {
+          PrintOrder.setOrderStatus(print_orderID, "Hoàn tất in");
+        }, 10000);
+      }, timeDifference);
+    }
+
     return res.status(200).send(print_order);
   } catch (error) {
     console.log(error.message);
