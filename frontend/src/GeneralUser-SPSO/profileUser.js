@@ -23,6 +23,7 @@ const ProfileUser = (props) => {
         token:cookie.get("token"),
     }
     const [data, setData] = useState({
+        token:cookie.get("token")
         userID:1,
         name:'',
         DoB:new Date(),
