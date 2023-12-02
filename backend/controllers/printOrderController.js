@@ -46,6 +46,18 @@ export const handleOrder = async (req, res) => {
   }
 };
 
+export const cancelOrder = async (req, res) => {
+  try {
+    const { printorderID } = req.params;
+    const result = await PrintOrder.setOrderStatus(printorderID, "Đã huỷ");
+    if (!result) return res.status(400).send({ message: "Update order fail" });
+    return res.status(200).send({ message: "ok" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const getAllQueue = async (req, res) => {
   try {
     const queue = await PrintOrder.getAllQueue();

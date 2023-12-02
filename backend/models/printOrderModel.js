@@ -28,7 +28,8 @@ export class PrintOrder {
         userId,
       ]);
       await connection.execute(
-        `UPDATE users SET pageBalance = 800 WHERE userID = 1;`
+        `UPDATE users SET pageBalance = pageBalance - ? WHERE userID = ?;`,
+        [totalPageUsed, userId]
       );
 
       await connection.commit();
@@ -87,7 +88,7 @@ export class PrintOrder {
 
   static getQueue = async (printerID) => {
     const [printerQueue, _] = await db.execute(
-      `SELECT printorderID, model, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, email, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID JOIN users ON print_order.userID=users.userID WHERE printer.printerID=? ORDER BY printer.printerID, printTime;`,
+      `SELECT printorderID, model, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, email, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID JOIN users ON print_order.userID=users.userID WHERE printer.printerID=? AND print_order.status != 'Hoàn thành' ORDER BY printer.printerID, printTime;`,
       [printerID]
     );
     return printerQueue;
@@ -95,7 +96,7 @@ export class PrintOrder {
 
   static getAllQueue = async () => {
     const [printerQueue, _] = await db.execute(
-      `SELECT printorderID, model, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, email, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID JOIN users ON print_order.userID=users.userID ORDER BY printer.printerID, printTime;`
+      `SELECT printorderID, model, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, email, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID JOIN users ON print_order.userID=users.userID WHERE print_order.status != 'Hoàn thành' ORDER BY printer.printerID, printTime;`
     );
     return printerQueue;
   };
