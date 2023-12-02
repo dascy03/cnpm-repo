@@ -14,8 +14,8 @@ class UserController {
     try {
       const { username, password } = req.body;
 
-      console.log(username);
-      console.log(password);
+      //console.log(username);
+      //console.log(password);
 
       //var username = "john.doe@example.com";
       //var password = "hashedpassword1";
