@@ -1,8 +1,8 @@
-﻿import React from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import "./css/style.css";
-import { useState } from "react";
+import '../css/style.css';
 import Cookie from "universal-cookie";
+import axios from "axios";
 
 const ProfileUser = (props) => {
     const navigate = useNavigate();
@@ -17,25 +17,39 @@ const ProfileUser = (props) => {
     // const {data , loading} = DataFetching(URL_API);
     // const keys=["userID", "name", "DoB", "phone", "address","email","password","status","pageBalance","avtLink"]
     
+    const [success, setSuccess] = useState(false);
     const cookie = new Cookie();
     const Token123 = {
         token:cookie.get("token"),
     }
-
-    // const [token, setToken] = useState('')
-    const [isloading, setIsLoading] = useState(false)
-    const [success, setSuccess] = useState(false)
-    
-    axios.post("http://localhost:5000/user/info", Token123)
     const [data, setData] = useState({
-        userID:res.userID,
-        name:res.name,
-        DoB:res.DoB,
-        phone:res.phone,   
-        address:res.address,
-        email:res.email,
+        userID:1,
+        name:'',
+        DoB:new Date(),
+        phone:'',   
+        address:'',
+        email:'',
         //avtLink:res.avtLink,
     })
+
+    axios.post("http://localhost:5000/user/info", Token123)
+    .then((res) => {
+        setSuccess(res.data["success"])
+
+        data.userID=res.data.userID
+        data.name=res.data.name
+        data.DoB=res.data.DoB
+        data.phone=res.data.phone 
+        data.address=res.data.address
+        data.email=res.data.email
+        //data.avtLink=res.avtLink,
+    })
+    .catch((err) => {
+        if (err.response.data["message"] == "User not found")
+          alert("Không tìm được User");
+        else if (err.response.data["message"] == "Internal Server Error")
+          alert("Lỗi máy chủ");
+    });
 
     const handleUpdate = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
@@ -53,30 +67,30 @@ const ProfileUser = (props) => {
     }
     axios.post("http://localhost:5000/user/update", userData)
     .then((res) => {
-        setIsLoading(true)
         setSuccess(res.data["success"])
-        setIsSPSO(res.data["isSPSO"])
-      })
-      .catch((err) => {
-        if (err.response.data['message'] == "Internal Server Error")
-          alert("Lỗi máy chủ")
-        else 
-          alert("Không xác định được lỗi")
-      })
+    })
+    .catch((err) => {
+        if (err.response.data["message"] == "User updated successfully")
+          alert("Đã được cập nhật thành công");
+        else if (
+          err.response.data["message"] == "User not found"
+        )
+          alert("Không tìm được User");
+        else if (err.response.data["message"] == "Internal Server Error")
+          alert("Lỗi máy chủ");
+    });
+
     }
+    
     useEffect(() => {
-    if (isloading) {
-        if (success) {
-            navigate("/homeUser");
-        } else {
-        alert("Thất bại");
+        if (sessionStorage.getItem("isSPSO") === "true") {
+            navigate('/homeSPSO')
+        }
+        else {
+            navigate('/homeUser')
         }
     }
-    else {
-        // make loading screen
-        // still doooo
-    }
-    }, [isloading]);
+    );
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
@@ -136,7 +150,9 @@ const ProfileUser = (props) => {
           <h1>Thông tin cá nhân</h1>
               <div class="image12">
                   <img src="./ava-test.jpg" alt=""/>
-                  <h2>value={data.userID}</h2>
+                  <h2>{data.name}</h2>
+                  <p>{data.DoB}</p>
+                  <h2>ID: {data.userID}</h2>
               </div>
           <form onSubmit={handleSubmit}>
 
