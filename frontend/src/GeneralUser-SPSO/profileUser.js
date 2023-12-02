@@ -152,7 +152,7 @@ const ProfileUser = (props) => {
                   <img src="./ava-test.jpg" alt=""/>
                   <h2>{data.name}</h2>
                   <p>{data.DoB}</p>
-                  <h2>ID: {data.userID}</h2>
+                  <p>ID: {data.userID}</p>
               </div>
           <form onSubmit={handleSubmit}>
 
