@@ -1,48 +1,53 @@
-import React, {useState, useMemo} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../utils-component/Pagination";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
-const data = [
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micAro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micrAo-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micrBo-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micrBo-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},
-    {ID: 0, date_print:"10AM - 15/10/2023", date_take:"10PM - 15/10/2023", doc:"micro-economics.pdf", printer:"P1 - Lầu 6", method:"Tự tới lấy", pages:"56 trang", status:"Đang in"},         
-]
 
 const History = (props) => {
-    const PageSize = 9;
+    // Fetching
+    const cookies = new Cookies();
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        (async () => {
+            const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+            const tempData = await axios.get("http://localhost:5000/print/orders/"+res["data"]["data"]["userID"])
+            setData(tempData["data"])
+            setLoading(true)
+        })()
+    }, [])
+
+    // Start
+    const PageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
-    const currentTableData = useMemo(() => {
-      const firstPageIndex = (currentPage - 1) * PageSize;
-      const lastPageIndex = firstPageIndex + PageSize;
-      return data.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage]);
+    const [currentTableData, setCurrentTableData] = useState([]);
+    // const currentTableData = useMemo(() => {
+    //     console.log(data)
+    //     console.log("hello")
+    //     const firstPageIndex = (currentPage - 1) * PageSize;
+    //     const lastPageIndex = firstPageIndex + PageSize;
+    //     return data.slice(firstPageIndex, lastPageIndex);
+    // }, [currentPage]);
+    useEffect(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        setCurrentTableData(data.slice(firstPageIndex, lastPageIndex));
+    }, [currentPage, data]);
+
 
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            sessionStorage.clear();
+            localStorage.clear();
+            cookies.remove("token");
+            cookies.remove("isLogged");
+            navigate('/');
+        }
+    };
 
 
     const showHeader = () => {
@@ -51,7 +56,16 @@ const History = (props) => {
                 <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
-                                <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" />
+                                <button onClick={
+                                    () => {
+                                        if (sessionStorage.getItem("isSPSO") === "true") {
+                                            navigate('/homeSPSO')
+                                        }
+                                        else {
+                                            navigate('/homeUser')
+                                        }
+                                    }
+                                }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
                                 <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
                         </div>
                         <div class="flex items-center px-16" id="navbar-solid-bg">
@@ -62,12 +76,12 @@ const History = (props) => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/profileUser')}>
+                                    <button onClick={()=>navigate('/')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/logIn')}>
+                                    <button onClick={handleLogout}>
                                     <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>
@@ -80,7 +94,7 @@ const History = (props) => {
     };
 
     const [searchQuery, setSearchQuery] = useState("")
-    const keys=["ID", "date_print", "date_take", "doc", "printer", "method", "pages", "status"]
+    const keys=["printorderID", "printTime", "pickupTime", "fileName", "model", "pickupMethod", "totalPageUsed", "status"]
     const filterData = currentTableData.filter((item) =>
         keys.some((key) => item[key].toString().toLowerCase().includes(searchQuery.toLowerCase()))
     );
@@ -113,12 +127,65 @@ const History = (props) => {
         )
     };
 
+    const StatusAction = (status) => {
+        if (status === "Đã hủy") {
+            return (
+                <img src="/trash-solid.svg" alt = "xmark" className="h-10" />
+            )
+        }
+        else if (status === "Chờ in") {
+            return (
+                <button><img src="/xmark.svg" alt = "xmark" className="h-10" /></button>
+            )
+        }
+        else if (status === "Đang in") {
+            return (
+                <img src="/hour-glass.svg" alt = "spinner" className="h-10" />
+            )
+        }
+        else if (status === "Hoàn tất in") {
+            return (
+                <button><img src="/check.svg" alt = "check-circle" className="h-10" /></button>
+            )
+        }
+        else if (status === "Hoàn thành") {
+            return (
+                <img src="/circle-check.svg" alt = "check-circle" className="h-10" />
+            )
+        }
+    }
+    const StatusColor = (status) => {
+        if (status === "Đã hủy") {
+            return (
+                <div className="text-[#FE1E00]">{status}</div>
+            )
+        }
+        else if (status === "Chờ in") {
+            return (
+                <div className="text-neutral-600">{status}</div>
+            )
+        }
+        else if (status === "Đang in") {
+            return (
+                <div className="text-[#ED9005]">{status}</div>
+            )
+        }
+        else if (status === "Hoàn tất in") {
+            return (
+                <div className="text-[#12E500]">{status}</div>
+            )
+        }
+        else if (status === "Hoàn thành") {
+            return (
+                <div className="text-[#06abfe]">{status}</div>
+            )
+        }
+    }
     const table = () => {
         return (
             <section>
                 <table className="relative overflow-x-auto mx-auto text-2xl">
                     <tr className="bg-[#AADEF6]">
-                        <th className="px-2 py-2">ID</th>
                         <th className="px-16 py-2">Ngày in</th>
                         <th className="px-16 py-2">Dự kiến lấy</th>
                         <th className="px-16 py-2">Tài liệu</th>
@@ -126,33 +193,34 @@ const History = (props) => {
                         <th className="px-10 py-2">Phương thức nhận</th>
                         <th className="px-6 py-2">Số trang</th>
                         <th className="px-6 py-2">Trạng thái</th>
+                        <th className="py-2"></th>
                     </tr>
                     {filterData.map((val, key) => {
                         if (key % 2 == 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <td className="px-2 py-3">{val.ID}</td>
-                                    <td className="px-10 py-3">{val.date_print}</td>
-                                    <td className="px-10 py-3">{val.date_take}</td>
-                                    <td className="px-10 py-3">{val.doc}</td>
-                                    <td className="px-10 py-3">{val.printer}</td>
-                                    <td className="px-10 py-3">{val.method}</td>
-                                    <td className="px-6 py-3">{val.pages}</td>
-                                    <td className="px-6 py-3">{val.status}</td>
+                                    <td className="px-10 py-3">{val.printTime}</td>
+                                    <td className="px-10 py-3">{val.pickupTime}</td>
+                                    <td className="px-10 py-3">{val.fileName}</td>
+                                    <td className="px-10 py-3">{val.model}</td>
+                                    <td className="px-10 py-3">{val.pickupMethod}</td>
+                                    <td className="px-6 py-3">{val.totalPageUsed}</td>
+                                    <td className="px-6 py-3 font-semibold">{StatusColor(val.status)}</td> {/* Đã hủy, Chờ in ( có nút hủy), đang in, Hoàn tất in, Hoàn thành */}
+                                    <td className="pr-6 py-3">{StatusAction(val.status)}</td>
                                 </tr>
                             )
                         }
                         else {
                             return (
                                 <tr className="text-center text-xl" key={key} >
-                                    <td className="px-2 py-3">{val.ID}</td>
-                                    <td className="px-10 py-3">{val.date_print}</td>
-                                    <td className="px-10 py-3">{val.date_take}</td>
-                                    <td className="px-10 py-3">{val.doc}</td>
-                                    <td className="px-10 py-3">{val.printer}</td>
-                                    <td className="px-10 py-3">{val.method}</td>
-                                    <td className="px-6 py-3">{val.pages}</td>
-                                    <td className="px-6 py-3">{val.status}</td>
+                                    <td className="px-10 py-3">{val.printTime}</td>
+                                    <td className="px-10 py-3">{val.pickupTime}</td>
+                                    <td className="px-10 py-3">{val.fileName}</td>
+                                    <td className="px-10 py-3">{val.model}</td>
+                                    <td className="px-10 py-3">{val.pickupMethod}</td>
+                                    <td className="px-6 py-3">{val.totalPageUsed}</td>
+                                    <td className="px-6 py-3 font-semibold">{StatusColor(val.status)}</td>
+                                    <td className="pr-6 py-3">{StatusAction(val.status)}</td>
                                 </tr>
                             )
                         }
@@ -171,16 +239,30 @@ const History = (props) => {
         )
     };
     return (
+        <div>
+        { loading == false  ? (
+            <div>Loading...</div>
+        ) : (
         <>
             {showHeader()}
             {searchBar()}
             {table()}
             <div className="w-full px-28 m-10">
-                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
+                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={
+                            () => {
+                                if (sessionStorage.getItem("isSPSO") === "true") {
+                                    navigate('/homeSPSO')
+                                }
+                                else {
+                                    navigate('/homeUser')
+                                }
+                            }
+                        }>
                             TRỞ VỀ
                         </button>
                     </div>
-        </>
+        </>)}
+        </div>
     );
 }
 

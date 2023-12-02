@@ -7,10 +7,9 @@ const DataFetching = (props) => {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchUsers = async () => {
-            setLoading(true);
             const res = await axios.get(URL_API);
             setData(res.data);
-            setLoading(false);
+            setLoading(true);
         };
         fetchUsers();
     }, []);

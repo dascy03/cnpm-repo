@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState } from "react"; 
 import HomeUser from "./GeneralUser-SPSO/homeUser";
 import History from "./GeneralUser-SPSO/History";
 import PrintUser from "./GeneralUser-SPSO/printUser";
@@ -11,22 +12,38 @@ import BuyPage from "./GeneralUser-SPSO/buyPage"
 import "./css/App.css";
 import HomeSPSO from "./SPSO-Func/homeSPSO";
 import PrinterMana from "./SPSO-Func/printerManagement";
-import PrintSPSO from "./SPSO-Func/printSPSO";
-import ProfileSPSO from "./SPSO-Func/profileSPSO";
 import UserMana from "./SPSO-Func/userManagement";
 import QueueMana from "./SPSO-Func/queueManagement";
+import InsertPrinter from "./SPSO-Func/insertPrinter";
+
+import Protected from "./utils-component/ProtectedRoute";
+import { useEffect } from "react";
+import Cookie from "universal-cookie";
+
 
 function App() {
+  const cookie = new Cookie();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    if (cookie.get("isLogged")) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route index element={<LogIn />} />
           {/* General */}
-          <Route path="/logIn" element={<LogIn />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/homeUser" element={<HomeUser />} />
+
+          <Route path="/homeUser" element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <HomeUser />
+            </Protected>
+          } />
           <Route path="/History" element={<History />} />
           <Route path="/printUser" element={<PrintUser />} />
           <Route path="/profileUser" element={<ProfileUser />} />
@@ -34,11 +51,11 @@ function App() {
           {/* SPSO Func */}
           <Route path="/HomeSPSO" element={<HomeSPSO />} />
           <Route path="/printerManagement" element={<PrinterMana />} />
-          <Route path="/printSPSO" element={<PrintSPSO />} />
-          <Route path="/profileSPSO" element={<ProfileSPSO />} />
           <Route path="/userManagement" element={<UserMana />} />
           <Route path="/queueManagement" element={<QueueMana />} />
-          <Route index element={<LogIn />} />
+          <Route path="/insertPrinter" element={<InsertPrinter />} />
+          {/* handle error */}
+          <Route path="*" element={<h1>Page Not Found</h1>} />
         </Routes> 
       </BrowserRouter>
     </div>

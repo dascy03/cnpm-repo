@@ -29,6 +29,25 @@ const handleFile = async (req) => {
   }
 };
 
+export const handleOrder = async (req, res) => {
+  try {
+    const { printorderID } = req.params;
+    let [current_status, _] = await PrintOrder.getOrderStatus(printorderID);
+    current_status = current_status[0]["status"];
+    let result;
+    if (current_status === "Chờ in")
+      result = await PrintOrder.setOrderStatus(printorderID, "Đã huỷ");
+    else if (current_status === "Hoàn tất in")
+      result = await PrintOrder.setOrderStatus(printorderID, "Hoàn thành");
+    else return res.status(200).send({ message: "nothing change" });
+    if (!result) return res.status(400).send({ message: "Update order fail" });
+    return res.status(200).send({ message: "ok" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const getAllQueue = async (req, res) => {
   try {
     const queue = await PrintOrder.getAllQueue();
@@ -50,11 +69,21 @@ export const getOneQueue = async (req, res) => {
   }
 };
 
+export const getOneOrder = async (req, res) => {
+  try {
+    const { userID } = req.params;
+    const order = await PrintOrder.getOrderByUser(userID);
+    return res.send(order);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const getAllPrintOrder = async (req, res) => {
   try {
-    let sql = `SELECT * FROM print_order;`;
-    const data = await db.execute(sql);
-    return res.json(data[0]);
+    const orders = await PrintOrder.getAllOrder();
+    return res.json(orders);
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
@@ -139,26 +168,6 @@ export const insertPrintOrder = async (req, res) => {
     );
     console.log("Insert new print order");
     return res.status(200).send(print_order);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send({ message: error.message });
-  }
-};
-
-export const deletePrinter = async (req, res) => {
-  try {
-    const { printerID } = req.params;
-
-    if (!printerID) {
-      return res
-        .status(400)
-        .send({ message: "Please provide a valid Printer ID!" });
-    }
-
-    let sql = `DELETE FROM printer WHERE printerID = ${printerID};`;
-    await db.execute(sql);
-    console.log("Delete printer:", printerID);
-    return res.status(200).send({ message: "Delete printer successfully!" });
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
