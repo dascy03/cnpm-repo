@@ -16,7 +16,7 @@ export class PrintOrder {
       connection = await db.getConnection();
       await connection.beginTransaction();
       let sql = `INSERT INTO print_order(pickupTime, printTime, status, fileName, pickupMethod, totalPageUsed, printerID, userID)
-  VALUES (?,?,?,?,?,?,?,?)`;
+  VALUES (?,?,?,?,?,?,?,?);`;
       const [newPrintOrder, _] = await connection.execute(sql, [
         pickupTime,
         printTime,
@@ -27,8 +27,12 @@ export class PrintOrder {
         printerID,
         userId,
       ]);
-      await connection.commit();
+      await connection.execute(
+        `UPDATE users SET pageBalance = 800 WHERE userID = 1;`
+      );
 
+      await connection.commit();
+      console.log("insert thing");
       return newPrintOrder;
     } catch (error) {
       if (connection) {
@@ -41,7 +45,6 @@ export class PrintOrder {
       }
     }
   };
-
   update = async (printerID) => {
     let sql = `
         UPDATE printer
