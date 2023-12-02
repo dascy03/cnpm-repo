@@ -29,6 +29,7 @@ const LogIn = () => {
       username: data.username,
       password: data.password,
     };
+    console.log(userData)
 
     axios.post("http://localhost:5000/user/login", userData)
     .then((res) => {

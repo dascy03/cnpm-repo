@@ -7,10 +7,21 @@ import axios from "axios";
 
 const UserMana = (props) => {
     /* Fetching and Pagination */
+    const cookies = new Cookies();
 
     const [refresh, setRefresh] = useState(false); // this is for refreshing the table after updating the status
 
     const [isActive, setIsActive] = useState(false);    
+
+    const [id, setId] = useState("");
+
+    useEffect(() => {
+        (async () => {
+            const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+            setId(res.data["data"]["userID"])
+            // console.log(res.data["data"]["userID"])
+        })()
+    }, [])
 
     const URL_API = "http://localhost:5000/user/list"
     // const {data , loading} = DataFetching(URL_API); this method need check click to fetch again
@@ -154,6 +165,10 @@ const UserMana = (props) => {
 
 
     const handleStatus = (val) => {
+        if (val === id) {
+            alert("Không thể thay đổi trạng thái của chính mình");
+            return;
+        }
         axios.put("http://localhost:5000/user/update-status", { userID: val })
         .then((res) => {
             console.log(res.data);
