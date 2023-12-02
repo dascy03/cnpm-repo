@@ -8,38 +8,31 @@ const PrinterMana = (props) => {
     /* Fetching and Pagination */
     const URL_API = "http://localhost:5000/printers"
     const {data , loading} = DataFetching(URL_API);
+
+    //
+    const PageSize = 8;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentTableData, setCurrentTableData] = useState([]);
     /* Filter Search Bar */
     const [searchQuery, setSearchQuery] = useState("")
-    const keys=["printerID", "model", "location", "status", "pageBalance"]
-    const filter1stData = data.filter((item) =>
-        // check if value is null, if null then pass, if not then filter
-        keys.some((key) => item[key] && item[key].toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
-        )
-    );
-    /* PAGE SIZE */
-    const PageSize = 8;
+    const [filterData, setFilterData] = useState(data)
+    useEffect(() => {
+        setCurrentPage(1);
+        const keys=["printerID", "model", "location", "status", "pageBalance"]
+        setFilterData(data.filter((item) =>
+            keys.some((key) => item[key] && item[key].toString().toLowerCase().includes(searchQuery.toLowerCase())) === true
+        ))
+    }, [searchQuery, data]);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    // const currentTableData = useMemo(() => {
-    //   const firstPageIndex = (currentPage - 1) * PageSize;
-    //   const lastPageIndex = firstPageIndex + PageSize;
-    //   return data.slice(firstPageIndex, lastPageIndex);
-    // }, [currentPage]);
-    // the code below just show the data after clicking on the pagination bar, because the useMemo only works when the data is changed
-    // then we need to use useEffect to make it work
-    const [currentTableData, setCurrentTableData] = useState([]);
+    /* PAGE SIZE */
+    
     useEffect(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
-        setCurrentTableData(filter1stData.slice(firstPageIndex, lastPageIndex));
-    }, [currentPage, filter1stData]);
+        setCurrentTableData(filterData.slice(firstPageIndex, lastPageIndex));
+    }, [currentPage, filterData]);
     
     /* Search Bar */
-    const filterData = currentTableData.filter((item) =>
-        // check if value is null, if null then pass, if not then filter
-        keys.some((key) => item[key] && item[key].toString().toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
-        )
-    );
 
     const navigate = useNavigate();
 
@@ -59,7 +52,7 @@ const PrinterMana = (props) => {
     const showHeader = () => {
         return(
             <section className="App-header"> 
-                <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
+                <nav class="border-blue-200 text-lg bg-[#C4E4F3] ">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
                                 <button onClick={
@@ -109,14 +102,14 @@ const PrinterMana = (props) => {
         return (
             <section>
                 <div className="flex justify-between m-10 px-28"> 
-                    <div className=" text-center flex">
+                    <div className=" text-center flex w-full justify-center">
                         <button className="bg-[#2991C2] rounded-2xl flex p-2" onClick={()=>navigate('/insertPrinter')}>
                             <img src="/circle-plus.svg" className="h-6 flex" alt="plus-solid" />    
-                            <div className="text-white flex pl-2 ">MÁY IN MỚI</div>
+                            <div className="text-white flex ">MÁY IN MỚI</div>
                         </button>
                     </div>
-                    <div className=" justify-self-center text-4xl font-bold text-center flex">Quản lý máy in</div>
-                    <div className="flex" >
+                    <div className=" justify-self-center text-4xl font-bold text-center flex w-full justify-center">Quản lý máy in</div>
+                    <div className="flex w-full justify-center" >
                     <form>   
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -146,44 +139,53 @@ const PrinterMana = (props) => {
         }
     }
 
+    const handleQueueCLick = (printerID) => {
+        sessionStorage.setItem("printerID", printerID)
+        navigate('/queuePrinter')
+    }
+
+
     const table = () => {
         return (
             <section>
-                <table className="relative overflow-x-auto mx-auto text-2xl">
+                <table className="relative overflow-x-auto mx-auto text-2xl w-7/12">
                     <tr className="bg-[#AADEF6]">
-                        <th className="px-2 py-2">Mã máy in</th>
-                        <th className="px-10 py-2">Mẫu</th>
-                        <th className="px-6 py-2">Địa điểm</th>
-                        <th className="px-6 py-2">Trạng thái</th>
-                        <th className="px-10 py-2">Số trang có sẵn</th>
-                        <th className="px-10 py-2"></th>
+                        <th className="h-12">Mã máy in</th>
+                        <th className="">Mẫu</th>
+                        <th className="">Địa điểm</th>
+                        <th className="">Trạng thái</th>
+                        <th className="">Số trang có sẵn</th>
+                        <th className=""></th>
+                        <th className=""></th>
                     </tr>
-                    {filterData.map((val, key) => {
+                    {currentTableData.map((val, key) => {
                         if (key % 2 == 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <th className="px-2 py-2">{val.printerID}</th>
-                                    <th className="px-10 py-2">{val.model}</th>
-                                    <th className="px-6 py-2">{val.location}</th>
-                                    <th className="px-10 py-2">{val.pageBalance}</th>
-                                    <th className="px-6 py-2">
+                                    <th className="h-12">{val.printerID}</th>
+                                    <th className="">{val.model}</th>
+                                    <th className="">{val.location}</th>
+                                    <th className="">{val.pageBalance}</th>
+                                    <th className="">
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
-                                    <th className="px-10 py-2">{showEye(val.status)}</th>
+                                    <th className="">{showEye(val.status)}</th>
+                                    <th className=""><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
                                 </tr>
                             )
                         }
                         else {
                             return (
                                 <tr className="text-center text-xl" key={key} >
-                                    <th className="px-2 py-2">{val.printerID}</th>
-                                    <th className="px-10 py-2">{val.model}</th>
-                                    <th className="px-6 py-2">{val.location}</th>
-                                    <th className="px-10 py-2">{val.pageBalance}</th>   
-                                    <th className="px-6 py-2">
+                                    <th className="h-12">{val.printerID}</th>
+                                    <th className="">{val.model}</th>
+                                    <th className="">{val.location}</th>
+                                    <th className="">{val.pageBalance}</th>   
+                                    <th className="">
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
-                                    <th className="px-10 py-2">{showEye(val.status)}</th>
+                                    <th className="">{showEye(val.status)}</th>
+                                    <th className=""><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
                                 </tr>
                             )
                         }
@@ -193,7 +195,7 @@ const PrinterMana = (props) => {
                     <Pagination
                         className="pagination-bar"
                         currentPage={currentPage}
-                        totalCount={filter1stData.length}
+                        totalCount={filterData.length}
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                     />
@@ -213,7 +215,7 @@ const PrinterMana = (props) => {
                     {showHeader()}
                     {searchBar()}
                     {table()}  
-                    <div className="w-full px-28 m-10">
+                    <div className="w-full my-10 flex justify-center">
                         <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
                             TRỞ VỀ
                         </button>

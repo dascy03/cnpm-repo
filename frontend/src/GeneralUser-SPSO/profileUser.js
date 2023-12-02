@@ -109,7 +109,7 @@ const ProfileUser = (props) => {
         <>
             {/* header */}
             <section className="App-header">
-                <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
+                <nav class="border-blue-200 text-lg bg-[#C4E4F3] ">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
                             <button onClick={
