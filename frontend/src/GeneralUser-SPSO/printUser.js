@@ -1,11 +1,8 @@
-﻿import React from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import "./css/style.css";
-import { useState } from "react";
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import '../css/style.css';
 import Cookie from "universal-cookie";
+import axios from "axios";
 
 const PrintUser = (props) => {
     const navigate = useNavigate();
@@ -20,9 +17,10 @@ const PrintUser = (props) => {
     // const [orientation, setOrientation] = useState('Hai mặt');
     // const [printcolor, setPrintcolor] = useState('Có');
 
+    const [success, setSuccess] = useState(false);
     const [data, setData] = useState({
         userID:1,
-        file:new FormData(),
+        file:p,
         pickupTime: new Date(),  
         printTime: new Date(),
         printerID:1,
@@ -32,16 +30,11 @@ const PrintUser = (props) => {
         pageSide: 'Hai mặt',
         pageColor: 'Không',
         
-      })
-    // const [token, setToken] = useState('')
-    // const [isloading, setIsLoading] = useState(false)
-    // const [success, setSuccess] = useState(false)
-    
+    })
     
     function DownloadFile(e) {
         setFile(e.target.files[0]);
     }
-
 
     const handleUpdate = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -50,9 +43,9 @@ const PrintUser = (props) => {
     }
     // check if empty
     };
+
     const handleSubmit = (e) => {
     e.preventDefault();
-    data.file.append('file',file)
     const userData = {
         userID:data.userID,
         file: data.file,
@@ -67,21 +60,27 @@ const PrintUser = (props) => {
     }
     
     axios.post("http://localhost:5000/print/orders", userData)
-    
+    .then((res) => {
+        setSuccess(res.data["success"])
+    })
+    .catch((err) => {
+        if (err.response.data["message"] == "User updated successfully")
+          alert("Đã được cập nhật thành công");
+        else if (err.response.data["message"] == "Internal Server Error")
+          alert("Lỗi máy chủ");
+    });
+
     }
+
     useEffect(() => {
-    if (isloading) {
-        if (success) {
-            navigate("/homeUser");
-        } else {
-        alert("Thất bại");
+        if (sessionStorage.getItem("isSPSO") === "true") {
+            navigate('/homeSPSO')
+        }
+        else {
+            navigate('/homeUser')
         }
     }
-    else {
-        // make loading screen
-        // still doooo
-    }
-    }, [isloading]);
+    );
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
@@ -141,7 +140,7 @@ const PrintUser = (props) => {
             <h1>In tài liệu</h1>
             <form onSubmit={handleSubmit}>
                 <label>Tài liệu</label>
-                <input type="file" name="file" onChange={DownloadFile} />
+                <input type="file" name="file" required onChange={DownloadFile} />
 
                 <label>Giờ in</label>
                 <input
@@ -227,7 +226,16 @@ const PrintUser = (props) => {
                 </div>
             </form>
             <div className="HUY">
-                <button onClick={() => navigate('/homeUser')}>HỦY</button>
+            <button onClick={
+                () => {
+                    if (sessionStorage.getItem("isSPSO") === "true") {
+                        navigate('/homeSPSO')
+                    }
+                    else {
+                        navigate('/homeUser')
+                    }
+                }
+            }>HỦY</button>
             </div>
         </section>
         </>
