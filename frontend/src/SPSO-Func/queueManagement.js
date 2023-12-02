@@ -4,6 +4,7 @@ import Pagination from "../utils-component/Pagination";
 import DataFetching from "../utils-component/dataFetching";
 import Cookies from "universal-cookie";
 import { StatusColor } from "../utils-component/StatusColor";
+import axios from "axios";
 
 const QueueMana = (props) => {
 
@@ -120,6 +121,24 @@ const QueueMana = (props) => {
         )
     };
 
+    const handleDelete = (id) => {
+        axios.put("http://localhost:5000/print/orders/admin/" + id).then((response) => {
+            console.log(response);
+        }
+        ).catch((error) => {
+            console.log(error);
+            alert("Lỗi không xác định!");
+        })
+    }
+    const handleTrash = (val) => {
+        if (val.status === "Đã huỷ") {
+            return (
+                <button onClick={() => handleDelete(val.printorderID)}>
+                    <img src="/trash-solid.svg" className="flex h-7 px-2" alt="trash-solid" />
+                </button>
+            )
+        }
+    }
     const table = () => {
         return (
             <section>
@@ -148,7 +167,7 @@ const QueueMana = (props) => {
                                             <img src="/bars-solid.svg" className="flex h-7 " alt="bars-solid" />
                                     </th>
                                     <th className="">
-                                            <img src="/trash-solid.svg" className="flex h-7 " alt="bars-solid" />
+                                            {handleTrash(val)}
                                     </th>
                                 </tr>
                             )
@@ -167,7 +186,8 @@ const QueueMana = (props) => {
                                             <img src="/bars-solid.svg" className="flex h-7 " alt="bars-solid" />
                                     </th>
                                     <th className="">
-                                            <img src="/trash-solid.svg" className="flex h-7" alt="bars-solid" />
+                                            {/* <img src="/trash-solid.svg" className="flex h-7" alt="bars-solid" /> */}
+                                            {handleTrash(val)}
                                     </th>
                                 </tr>
                             )
