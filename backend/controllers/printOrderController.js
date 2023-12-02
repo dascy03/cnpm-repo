@@ -19,8 +19,6 @@ const handleFile = async (req) => {
         pdfParser.loadPDF(path);
       });
     };
-
-    // Wait for the Promise to resolve before returning the result
     const pdfData = await parsePDF(pdfPath);
     result.push(pdfData.Pages.length);
     return result;
@@ -40,6 +38,18 @@ export const handleOrder = async (req, res) => {
     else if (current_status === "Hoàn tất in")
       result = await PrintOrder.setOrderStatus(printorderID, "Hoàn thành");
     else return res.status(200).send({ message: "nothing change" });
+    if (!result) return res.status(400).send({ message: "Update order fail" });
+    return res.status(200).send({ message: "ok" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const cancelOrder = async (req, res) => {
+  try {
+    const { printorderID } = req.params;
+    const result = await PrintOrder.setOrderStatus(printorderID, "Đã huỷ");
     if (!result) return res.status(400).send({ message: "Update order fail" });
     return res.status(200).send({ message: "ok" });
   } catch (error) {
@@ -141,11 +151,18 @@ export const insertPrintOrder = async (req, res) => {
       return res
         .status(400)
         .send({ message: "The current printer is not active!" });
-    // check page balance
+    // check printer page balance
     if (current_printer["pageBalance"] < totalPageUsed)
       return res
         .status(400)
         .send({ message: "The current printer do not have enough paper!" });
+    // check user page balance
+    const [userPageBalance, __] = await db.execute(
+      `SELECT pageBalance FROM users WHERE userID=?;`,
+      [userID]
+    );
+    if (userPageBalance[0]["pageBalance"] < totalPageUsed)
+      return res.status(400).send({ message: "You do not have enough page!" });
     // check print time
     const current_queue = await PrintOrder.getQueue(printerID);
     const isPresent = current_queue.some(
