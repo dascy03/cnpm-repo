@@ -53,4 +53,29 @@ export class Printer {
     );
     return printerStatus;
   };
+  static setPrinterStatus = async (printerID) => {
+    const [current_status, __] = await this.getPrinterStatus(printerID);
+
+    if (current_status["status"] === "Đang hoạt động") {
+      const [printerStatus, _] = await db.execute(
+        `UPDATE printer SET status = 'Ngưng hoạt động' WHERE printerID=?`,
+        [printerID]
+      );
+      return printerStatus;
+    } else {
+      const [printerStatus, _] = await db.execute(
+        `UPDATE printer SET status = 'Đang hoạt động' WHERE printerID=?`,
+        [printerID]
+      );
+      return printerStatus;
+    }
+  };
+  static getOrderStatus = async (printerID) => {
+    const [orderStatus, _] = await db.execute(
+      `SELECT print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID WHERE printer.printerID = ?;`,
+      [printerID]
+    );
+
+    return orderStatus;
+  };
 }

@@ -7,6 +7,7 @@ import {
   getPrinter,
   getPrinterStatus,
   getPageBalance,
+  setPrinterStatus,
 } from "../controllers/printerController.js";
 // locahost:5000/printers/...
 const router = Router();
@@ -20,7 +21,7 @@ router
   .get(getPrinter) // truy xuat thong tin may in theo ID
   .delete(deletePrinter) // xoa may in theo ID
   .put(updatePrinter); // cap nhat may in theo ID
-router.route("/:printerID/status").get(getPrinterStatus); // truy xuat trang thai may in theo ID
+router.route("/:printerID/status").get(getPrinterStatus).put(setPrinterStatus); // truy xuat trang thai may in theo ID
 router.route("/:printerID/page-balance").get(getPageBalance); // truy xuat so luong trang hien co cua may in theo ID
 
 export const printerRouter = router;

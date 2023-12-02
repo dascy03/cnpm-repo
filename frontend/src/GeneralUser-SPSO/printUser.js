@@ -18,9 +18,12 @@ const PrintUser = (props) => {
     // const [printcolor, setPrintcolor] = useState('Có');
 
     const [success, setSuccess] = useState(false);
+    const [file, setFile] = useState(null);
     const [data, setData] = useState({
         userID:1,
+
         file:"asd",
+
         pickupTime: new Date(),  
         printTime: new Date(),
         printerID:1,
@@ -29,7 +32,7 @@ const PrintUser = (props) => {
         pickupMethod: 'Hẹn',
         pageSide: 'Hai mặt',
         pageColor: 'Không',
-        
+
     })
     
     function DownloadFile(e) {
@@ -46,9 +49,11 @@ const PrintUser = (props) => {
 
     const handleSubmit = (e) => {
     e.preventDefault();
+    // const fd = new FormData();
+    // fd.append('file',file);
     const userData = {
         userID:data.userID,
-        file: data.file,
+        file: file,
         pickupTime: data.pickupTime,   
         printTime: data.printTime,
         printerID: data.printerID,
