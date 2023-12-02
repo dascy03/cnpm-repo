@@ -1,8 +1,26 @@
-drop database if exists cnpm;
+drop database if exists printingservice;
+drop database cnpm;
+create database printingservice;
 
-create database cnpm;
+USE printingservice;
 
-USE cnpm;
+DROP TABLE IF EXISTS printer;
+
+CREATE TABLE printer (
+  printerID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  model varchar(45) NOT NULL,
+  location varchar(45) DEFAULT 'H1 lobby',
+  status varchar(45) DEFAULT 'active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO printer (model, location, status)
+VALUES ('P1 - Lầu 6','CS2 - Lầu 6','Đang hoạt động'),
+		('P1 - Lầu 5','CS2 - Lầu 5','Đang hoạt động'),
+        ('P1 - Lầu 4','CS2 - Lầu 4','Đang hoạt động'),
+        ('P1 - Lầu 3','CS2 - Lầu 3','Đang hoạt động'),
+        ('P1 - Lầu 2','CS2 - Lầu 2','Ngưng hoạt động');
+        
+
 
 DROP TABLE IF EXISTS users;
 
@@ -42,7 +60,6 @@ VALUES
   ('Grace Brown', '1986-05-18', '0906112789', '1616 Elm St', 'grace.brown@example.com', 'hashedpassword19', 'Inactive', 75, 'https://static.vecteezy.com/system/resources/previews/024/183/502/original/male-avatar-portrait-of-a-young-man-with-a-beard-illustration-of-male-character-in-modern-color-style-vector.jpg'),
   ('Benjamin Johnson', '1993-11-30', '0906112789', '1717 Oak St', 'benjamin.johnson@example.com', 'hashedpassword20', 'Active', 95, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5IXhKUjSU4XaJVQx6elmvvPNiexjJAP9Jmg&usqp=CAU');
 
-select * from users;
 
 CREATE TABLE spso (
     spsoID INT PRIMARY KEY
@@ -53,8 +70,25 @@ VALUES
 	(1),
     (2);
 
-select * from spso;
 
-SELECT * FROM users WHERE email='john.doe@example.com' AND password='hashedpassword2';
+DROP TABLE IF EXISTS printrequest;
+
+-- CREATE TABLE printrequest (
+--     printrequestID INT AUTO_INCREMENT PRIMARY KEY,
+--     name VARCHAR(255),
+--     DoB DATE,
+--     phone VARCHAR(15),
+--     address VARCHAR(255),
+--     email VARCHAR(255),
+--     password VARCHAR(255),
+--     status VARCHAR(50),
+--     pageBalance DECIMAL(10),
+--     avtLink VARCHAR(255)
+-- );
+
+
+select * from spso;
+select * from printer;
+select * from users;
 
 

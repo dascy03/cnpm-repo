@@ -1,19 +1,23 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+<<<<<<< HEAD
+import ReactLoading from "react-loading";
+=======
 import Cookie from "universal-cookie";
 import { useCookies } from "react-cookie";
+>>>>>>> 987d665c16c286d11c98a74ed721d378ca8e94d2
 
 const LogIn = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
-    username: '',
-    password: '',   
-  })
-  const [isloading, setIsLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [token, setToken] = useState('')
-  const [isSPSO, setIsSPSO] = useState(false)
+    username: "",
+    password: "",
+  });
+  const [isloading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [token, setToken] = useState("");
+  const [isSPSO, setIsSPSO] = useState(false);
 
   const handleLogin = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -27,8 +31,29 @@ const LogIn = () => {
     const userData = {
       username: data.username,
       password: data.password,
-    }
+    };
 
+<<<<<<< HEAD
+    axios
+      .post("http://localhost:5000/user/login", userData)
+      .then((res) => {
+        setIsLoading(true);
+        setSuccess(res.data["success"]);
+        setToken(res.data["token"]);
+        setIsSPSO(res.data["isSPSO"]);
+      })
+      .catch((err) => {
+        if (err.response.data["message"] == "Invalid credentials")
+          alert("Sai tên tài khoản hoặc mật khẩu");
+        else if (
+          err.response.data["message"] == "Username and password are required."
+        )
+          alert("Không được dể trống tên tài khoản/mật khẩu");
+        else if (err.response.data["message"] == "Internal Server Error")
+          alert("Lỗi máy chủ");
+      });
+  };
+=======
     axios.post("http://localhost:5000/user/login", userData)
     .then((res) => {
       setIsLoading(true)
@@ -52,6 +77,7 @@ const LogIn = () => {
         alert("Không xác định được lỗi")
     })
   }
+>>>>>>> 987d665c16c286d11c98a74ed721d378ca8e94d2
   useEffect(() => {
     if (isloading) {
       if (success) {
@@ -63,8 +89,7 @@ const LogIn = () => {
       } else {
         alert("Đăng nhập thất bại");
       }
-    }
-    else {
+    } else {
       // make loading screen
       // still doooo
     }
@@ -87,6 +112,20 @@ const LogIn = () => {
       </section>
       {/* Body */}
       <section className="flex place-content-evenly justify-center h-screen">
+<<<<<<< HEAD
+        <form
+          class="w-screen flex flex-col items-center"
+          onSubmit={handleSubmit}
+        >
+          <h1 class="font-bold text-3xl mt-6 text-center">Đăng nhập</h1>
+          <div class="mt-12 w-1/4">
+            <p class="text-base text-gray-500 font-semibold">Tên đăng nhập</p>
+            <div class="relative">
+              <input
+                type="email"
+                name="username"
+                class="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
+=======
         <form className="w-screen flex flex-col items-center" onSubmit={handleSubmit}>
           <h1 className="font-bold text-3xl mt-6 text-center">Đăng nhập</h1>
           <div className="mt-12 w-1/4">
@@ -96,6 +135,7 @@ const LogIn = () => {
                 type="email"
                 name = "username"
                 className="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
+>>>>>>> 987d665c16c286d11c98a74ed721d378ca8e94d2
                 value={data.username}
                 onChange={handleLogin}
                 autoComplete="on"
@@ -107,8 +147,13 @@ const LogIn = () => {
             <div className="relative">
               <input
                 type="password"
+<<<<<<< HEAD
+                name="password"
+                class="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
+=======
                 name = "password"
                 className="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
+>>>>>>> 987d665c16c286d11c98a74ed721d378ca8e94d2
                 value={data.password}
                 onChange={handleLogin}
                 autoComplete="on"

@@ -14,6 +14,9 @@ class UserController {
     try {
       const { username, password } = req.body;
 
+      //console.log(username);
+      //console.log(password);
+
       //var username = "john.doe@example.com";
       //var password = "hashedpassword1";
 
@@ -26,7 +29,7 @@ class UserController {
 
       const result = await userModel.login(username, password);
 
-      console.log(result);
+      //console.log(result);
 
       if (result.userID !== null) {
         let key = "cnpm231";
