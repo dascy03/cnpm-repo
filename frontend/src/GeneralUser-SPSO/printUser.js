@@ -4,7 +4,7 @@ import '../css/style.css';
 import Cookie from "universal-cookie";
 import axios from "axios";
 import '../css/radio-button.css';
-import { Cookies } from "react-cookie";
+import Pagination from "../utils-component/Pagination";
 
 const PrintUser = (props) => {
     const navigate = useNavigate();
@@ -19,9 +19,9 @@ const PrintUser = (props) => {
                 setOldData(res.data["data"]);
             })
             .catch((err) => {
-                if (err.response.data["message"] == "User not found")
+                if (err.response.data["message"] === "User not found")
                     alert("Không tìm được User");
-                else if (err.response.data["message"] == "Internal Server Error")
+                else if (err.response.data["message"] === "Internal Server Error")
                     alert("Lỗi máy chủ");
             });
         })()
@@ -94,7 +94,8 @@ const PrintUser = (props) => {
             else {
                 alert("Lỗi máy chủ");
             }
-            console.log(err.response.data["message"]);
+            console.log(err.response.data["message"]); // not handle no ID exist yet
+
         })
     }
 
@@ -108,6 +109,112 @@ const PrintUser = (props) => {
             navigate('/');
         }
     }
+
+    const URL_API = "http://localhost:5000/printers"
+    const [printerData, setPrinterData] = useState([]);
+    useEffect(() => {
+        (async () => {
+            const res = await axios.get(URL_API);
+            setPrinterData(res.data);
+            console.log(res.data);
+        }
+        )();
+    }
+    , []);
+
+    const PageSize = 7;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentTableData, setCurrentTableData] = useState([]);
+    /* Filter Search Bar */
+    const [searchQuery, setSearchQuery] = useState("")
+    const [filterData, setFilterData] = useState(printerData)
+    useEffect(() => {
+        setCurrentPage(1);
+        const keys=["printerID", "model", "location", "status", "pageBalance"]
+        setFilterData(printerData.filter((item) =>
+            keys.some((key) => item[key] && item[key].toString().toLowerCase().includes(searchQuery.toLowerCase())) === true
+        ))
+    }, [searchQuery, printerData]);
+
+    useEffect(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        setCurrentTableData(filterData.slice(firstPageIndex, lastPageIndex));
+    }, [currentPage, filterData]);
+
+    const handleEnter = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+        }
+    };
+    const tablePrinter = () => {
+        return (
+            <>
+            <section className="justify-center flex">
+            <form>   
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="search" id="default-search" class="italic block p-2 ps-10  text-smt text-black border border-black rounded-full" placeholder="Tìm kiếm..." onKeyDown={handleEnter} value={searchQuery} onChange={(e)=> setSearchQuery(e.target.value)} />
+                    </div> 
+                </form>
+            </section>
+            <section className="pt-10">
+                <table className="relative overflow-x-auto mx-auto text-2xl w-9/12">
+                    <tr className="bg-[#AADEF6]">
+                        <th className="h-12">ID</th>
+                        <th className="">Mẫu</th>
+                        <th className="">Địa điểm</th>
+                        <th className="">Số trang có sẵn</th>
+                        <th className="">Trạng thái</th>
+                        <th className=""></th>
+                    </tr>
+                    {currentTableData.map((val, key) => {
+                        if (key % 2 === 0) {
+                            return (
+                                <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
+                                    <th className="h-12">{val.printerID}</th>
+                                    <th className="">{val.model}</th>
+                                    <th className="">{val.location}</th>
+                                    <th className="">{val.pageBalance}</th>
+                                    <th className="">
+                                    {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
+                                    </th>
+                                </tr>
+                            )
+                        }
+                        else {
+                            return (
+                                <tr className="text-center text-xl" key={key} >
+                                    <th className="h-12">{val.printerID}</th>
+                                    <th className="">{val.model}</th>
+                                    <th className="">{val.location}</th>
+                                    <th className="">{val.pageBalance}</th>   
+                                    <th className="">
+                                    {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
+                                    </th>
+                                </tr>
+                            )
+                        }
+                    })}
+                </table>
+                <section>
+                    <Pagination
+                        className="pagination-bar"
+                        currentPage={currentPage}
+                        totalCount={filterData.length}
+                        pageSize={PageSize}
+                        onPageChange={page => setCurrentPage(page)}
+                    />
+                    
+                </section>
+            </section>
+        </>
+        )
+    };
     return (
         <>
             {/* header */}
@@ -378,8 +485,8 @@ const PrintUser = (props) => {
                     </div>
                 </div>
             </form>
-            <div className="flex justify-center">
-                asdsadasdsadsadsad
+            <div>
+                {tablePrinter()}
             </div>
         </section>
         <div className="justify-center flex my-5">
