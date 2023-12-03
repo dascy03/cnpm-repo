@@ -45,10 +45,10 @@ const HomeSPSO = () => {
     return (
         <>  
         {/* header */}
-            <section className="App-header"> 
-                <nav className="border-blue-200 text-lg bg-[#C4E4F3]">
-                    <div className="flex flex-wrap justify-between p-2">
-                        <div className="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
+        <section className="App-header"> 
+                <nav class="border-blue-200 text-lg bg-[#C4E4F3]  ">
+                    <div class="flex flex-wrap justify-between p-2 lg:max-xl:p-1 md:max-lg:p-">
+                        <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4 lg:max-xl:mx-3 md:max-lg:mx-3 lg:max-xl:px-2 md:max-lg:px-2">
                                 <button onClick={
                                     () => {
                                         if (sessionStorage.getItem("isSPSO") === "true") {
@@ -58,24 +58,25 @@ const HomeSPSO = () => {
                                             navigate('/homeUser')
                                         }
                                     }
-                                }><img src="/hcmut-logo.png" className="h-24" alt="HCMUT logo" /></button>
-                                <span className="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap ">SMART PRINTING SERVICE</span>
+                                }>
+                                    <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
+                                <span class="self-center text-[#014464] text-1xl lg:max-xl:text-lg md:max-lg:text-lg font-semibold whitespace-nowrap">SMART PRINTING SERVICE</span>
                         </div>
-                        <div className="flex items-center px-16" id="navbar-solid-bg">
-                            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+                        <div class="flex items-center px-16" id="navbar-solid-bg">
+                            <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
                                     <button onClick={()=>navigate('/profileUser')}>
-                                    <img className="rounded-full h-16 " src={oldData.avtLink} alt="my-ava" />
+                                    <img className="rounded-full h-16 lg:max-xl:h-14 md:max-lg:h-14" src="/ava-test.jpg" alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
                                     <button onClick={()=>navigate('/SettingUser')}>
-                                    <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
+                                    <img src="/gear-solid.svg" className="h-10 lg:max-xl:h-8 md:max-lg:h-8" alt="gear-solid" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={handleLogout}>
-                                    <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
+                                    <button>
+                                    <img src="/arrow-right-from-bracket-solid.svg " className="h-10 lg:max-xl:h-8 md:max-lg:h-8" alt="arrow-right-from-bracket-solid" />
                                     </button>
                                 </li>
                             </ul>
@@ -84,52 +85,52 @@ const HomeSPSO = () => {
                 </nav>
             </section>
         {/* Body */}
-            <section className="flex place-content-evenly"> 
+        <section className="flex place-content-evenly"> 
                 <div className="flex-initial  ml-16 my-10  justify-center w-8/12 ">
-                    <div className="font-sans text-5xl font-bold text-[#2991C2] ">Chào SPSO-0, <br/> chúc một ngày tốt lành!</div>
-                    <div className="bg-[#DBF3FF] text-[#051319] font-sans text-2xl font-semibold rounded-3xl pt-6 px-10 my-14 ">
+                    <div className="font-sans text-5xl lg:max-xl:text-4xl md:max-lg:text-4xl font-bold text-[#2991C2] ">Chào SPSO-0, <br/> chúc một ngày tốt lành!</div>
+                    <div className="bg-[#DBF3FF] text-[#051319] font-sans text-2xl lg:max-xl:text-xl md:max-lg:text-xl font-semibold rounded-3xl pt-6 px-10 my-14 ">
                         Số trang còn lại: 
-                        <div className="font-sans text-[#014464] text-8xl font-bold text-center pt-1 pb-7 "> {pageBalance} </div>   
+                        <div className="font-sans text-[#014464] text-8xl lg:max-xl:text-7xl md:max-lg:text-6xl font-bold text-center pt-1 pb-7 "> {pageBalance} </div>   
                         <div className="flex justify-end pb-3 text-base text-[#014464] font-bold">
                             <button onClick={()=>navigate('/PageBuyHistory')}>Xem lịch sử mua trang in</button>
                         </div>
                     </div>
                     
                     <div className="grid grid-cols-2 place-content-around w-full text-center justify-center">
-                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5 place-self-center w-[250px] ">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5 place-self-center w-[240px] lg:max-xl:w-[165px] md:max-lg:w-[155px] ">
                             <button onClick={()=>navigate('/printUser')}>
-                                <img src="/print-solid.svg" className="h-20 mx-auto " alt="print" />
+                                <img src="/print-solid.svg" className="h-20 mx-auto lg:max-xl:h-16 md:max-lg:h-12" alt="print" />
                                 <span className ="text-white text-2xl ">In tài liệu</span>
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[250px]">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[240px] lg:max-xl:w-[165px] md:max-lg:w-[155px]">
                             <button onClick={()=>navigate('/BuyPage')}>    
-                                <img src="/cart-shopping-solid.svg" className="h-20 mx-auto" alt="shopping" />
-                                <span className="text-white text-2xl">Mua thêm trang</span> 
+                                <img src="/cart-shopping-solid.svg" className="h-20 mx-auto lg:max-xl:h-16 md:max-lg:h-12" alt="shopping" />
+                                <span className="text-white text-2xl lg:max-xl:text-xl md:max-lg:text-lg">Mua thêm trang</span> 
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5 place-self-center w-[250px] ">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5 place-self-center w-[240px] lg:max-xl:w-[165px] md:max-lg:w-[155px] ">
                             <button onClick={()=>navigate('/printerManagement')}>
-                                <img src="/bars-progress.svg" className="h-20 mx-auto" alt="print" />
-                                <span className ="text-white text-2xl ">Quản lý máy in</span>
+                                <img src="/bars-progress.svg" className="h-20 mx-auto lg:max-xl:h-16 md:max-lg:h-12" alt="print" />
+                                <span className ="text-white text-2xl lg:max-xl:text-xl md:max-lg:text-lg">Quản lý máy in</span>
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[250px]">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[240px] lg:max-xl:w-[165px] md:max-lg:w-[155px]">
                             <button onClick={()=>navigate('/userManagement')}>    
-                                <img src="/user-solid.svg" className="h-20 mx-auto" alt="shopping" />
-                                <span className="text-white text-2xl">Quản lý người dùng</span> 
+                                <img src="/user-solid.svg" className="h-20 mx-auto lg:max-xl:h-16 md:max-lg:h-12" alt="shopping" />
+                                <span className="text-white text-2xl lg:max-xl:text-lg md:max-lg:text-base">Quản lý người dùng</span> 
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[250px] ">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[240px] lg:max-xl:w-[165px] md:max-lg:w-[155px] ">
                             <button onClick={()=>navigate('/queueManagement')}>
-                                <img src="/table-column.svg" className="h-20 mx-auto" alt="print" />
-                                <span className ="text-white text-2xl ">Quản lý hàng đợi in</span>
+                                <img src="/table-column.svg" className="h-20 mx-auto lg:max-xl:h-16 md:max-lg:h-12" alt="print" />
+                                <span className ="text-white text-2xl lg:max-xl:text-lg md:max-lg:text-base">Quản lý hàng đợi in</span>
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[250px]">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[240px] lg:max-xl:w-[165px] md:max-lg:w-[155px]">
                             <button onClick={()=>navigate('/genaralSetting')}>    
-                                <img src="/gears-solid.svg" className="h-20 mx-auto" alt="shopping" />
-                                <span className="text-white text-2xl">Cài đặt chung</span> 
+                                <img src="/gears-solid.svg" className="h-20 mx-auto lg:max-xl:h-16 md:max-lg:h-12" alt="shopping" />
+                                <span className="text-white text-2xl lg:max-xl:text-xl md:max-lg:text-lg">Cài đặt chung</span> 
                             </button>
                         </div>
                     </div>
@@ -137,11 +138,11 @@ const HomeSPSO = () => {
 
                 <div className="flex-initial w-full m-14">
                     {/* first table */}
-                    <div className="w-full text-3xl font-semibold mb-5 mx-5"> Tài liệu đã in gần đây </div>
-                    <table className="relative overflow-x-auto mx-auto text w-full">
+                    <div className="w-full text-3xl lg:max-xl:text-2xl  md:max-lg:text-xl font-semibold mb-5 mx-5"> Tài liệu đã in gần đây </div>
+                    <table className="relative overflow-x-auto mx-auto text lg:max-xl:text-sm md:max-lg:text-xs w-full">
                         <tbody>
                             <tr className="bg-[#AADEF6] ">
-                                <th className="h-11">Dự kiến lấy</th>
+                                <th className="h-11 lg:max-xl:h-9 md:max-lg:h-7">Dự kiến lấy</th>
                                 <th className="">Phương thức tới lấy</th>
                                 <th className="">Tài liệu</th>
                                 <th className="">Máy in</th>
@@ -154,8 +155,8 @@ const HomeSPSO = () => {
                         if (key % 2 === 0) {
                             return (
                                 <tbody>
-                                    <tr className="text-center text bg-[#E8F6FD]" key={key} >
-                                        <td className="h-11">{val.pickupTime}</td>
+                                    <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-sm bg-[#E8F6FD]" key={key} >
+                                        <td className="h-11  lg:max-xl:h-9 md:max-lg:h-7">{val.pickupTime}</td>
                                         <td className="">{val.pickupMethod}</td>
                                         <td className="">{val.fileName}</td>
                                         <td className="">{val.model}</td>
@@ -168,8 +169,8 @@ const HomeSPSO = () => {
                         else {
                             return (
                                 <tbody>
-                                    <tr className="text-center text" key={key} >
-                                        <td className="h-11">{val.pickupTime}</td>
+                                    <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-sm" key={key} >
+                                        <td className="h-11 lg:max-xl:h-9 md:max-lg:h-7">{val.pickupTime}</td>
                                         <td className="">{val.pickupMethod}</td>
                                         <td className="">{val.fileName}</td>
                                         <td className="">{val.model}</td>
@@ -181,15 +182,15 @@ const HomeSPSO = () => {
                         }
                     })}
                 </table>
-                    <div className="text-right text-[#114A65] font-semibold my-5 mx-5 text-xl"> 
+                    <div className="text-right text-[#114A65] font-semibold my-5 mx-5 text-xl lg:max-xl:text-base md:max-lg:text-sm"> 
                         <button onClick={()=>navigate('/History')}> Xem tất cả </button>
                     </div>
                     {/* second table */}
-                    <div className="w-full text-3xl font-semibold mb-5 mx-5"> Báo cáo in ấn (Not this data, just test) </div>
-                    <table className="relative overflow-x-auto mx-auto text w-full">
+                    <div className="w-full text-3xl lg:max-xl:text-2xl  md:max-lg:text-xl font-semibold mb-5 mx-5"> Báo cáo in ấn (Not this data, just test) </div>
+                    <table className="relative overflow-x-auto mx-auto text lg:max-xl:text-sm md:max-lg:text-xs w-full">
                         <tbody>
                             <tr className="bg-[#AADEF6] ">
-                                <th className="h-11">ID</th>
+                                <th className="h-11 lg:max-xl:h-9 md:max-lg:h-7">ID</th>
                                 <th className="">Mẫu</th>
                                 <th className="">Phân loại</th>
                                 <th className="">Địa điểm</th>
@@ -201,8 +202,8 @@ const HomeSPSO = () => {
                         if (key % 2 === 0) {
                             return (
                                 <tbody>
-                                    <tr className="text-center text bg-[#E8F6FD]" key={key} >
-                                        <td className="h-11">{val.printerID}</td>
+                                    <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-xs bg-[#E8F6FD]" key={key} >
+                                        <td className="h-11 lg:max-xl:h-9 md:max-lg:h-7">{val.printerID}</td>
                                         <td className="">{val.model}</td>
                                         <td className="">{val.type}</td>
                                         <td className="">{val.location}</td>
@@ -214,8 +215,8 @@ const HomeSPSO = () => {
                         else {
                             return (
                                 <tbody>
-                                    <tr className="text-center text" key={key} >
-                                        <td className="h-11">{val.printerID}</td>
+                                    <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-xs" key={key} >
+                                        <td className="h-11 lg:max-xl:h-9 md:max-lg:h-7">{val.printerID}</td>
                                         <td className="">{val.model}</td>
                                         <td className="">{val.type}</td>
                                         <td className="">{val.location}</td>
@@ -226,7 +227,7 @@ const HomeSPSO = () => {
                         }
                     })}
                 </table>
-                    <div className="text-right text-[#114A65] font-semibold my-5 mx-5 text-xl"> 
+                    <div className="text-right text-[#114A65] font-semibold my-5 mx-5 text-xl lg:max-xl:text-base md:max-lg:text-sm"> 
                         <button onClick={()=>navigate('/History')}> Xem tất cả </button>
                     </div>
                 </div>

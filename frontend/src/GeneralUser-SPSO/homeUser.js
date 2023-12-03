@@ -88,7 +88,7 @@ const HomeUser = () => {
                     <div className="font-sans text-6xl lg:max-xl:text-4xl md:max-lg:text-4xl font-bold text-[#2991C2] ">Chào Student-0, <br/> chúc bạn học tốt!</div>
                     <div className="bg-[#DBF3FF] text-[#051319] font-sans text-2xl lg:max-xl:text-xl md:max-lg:text-xl font-semibold rounded-3xl pt-6 px-10 my-14 w-full">
                         Số trang còn lại: 
-                        <div className="font-sans text-[#014464] text-8xl font-bold text-center pt-1 pb-7 "> {pageBalance} </div>   
+                        <div className="font-sans text-[#014464] text-8xl lg:max-xl:text-7xl md:max-lg:text-6xl font-bold text-center pt-1 pb-7 "> {pageBalance} </div>   
                         <div className="flex justify-end pb-3 text-base text-[#014464] font-bold">
                             <button onClick={()=>navigate('/PageBuyHistory')}>Xem lịch sử mua trang in</button>
                         </div>
@@ -110,7 +110,7 @@ const HomeUser = () => {
                 </div>
 
                 <div className="flex-initial w-full m-14">
-                    <div className="w-full text-3xl lg:max-xl:text-2xl lg:max-xl:text-xl md:max-lg:text-xl font-semibold mb-5 mx-5"> Tài liệu đã in gần đây </div>
+                    <div className="w-full text-3xl lg:max-xl:text-2xl  md:max-lg:text-xl font-semibold mb-5 mx-5"> Tài liệu đã in gần đây </div>
                     <table className="relative overflow-x-auto mx-auto text lg:max-xl:text-sm md:max-lg:text-xs w-full">
                     <tr className="bg-[#AADEF6] ">
                         <th className="h-10">Dự kiến lấy</th>
@@ -125,7 +125,7 @@ const HomeUser = () => {
                         if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-sm bg-[#E8F6FD]" key={key} >
-                                    <td className="h-10">{val.pickupTime}</td>
+                                    <td className="h-10 lg:max-xl:h-8 md:max-lg:h-6">{val.pickupTime}</td>
                                     <td className="">{val.pickupMethod}</td>
                                     <td className="">{val.fileName}</td>
                                     <td className="">{val.model}</td>
