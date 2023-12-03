@@ -12,6 +12,8 @@ class PageController {
       const { token, pageAmount, paymentMethod } = req.body;
       let userId = cookieController.decodeCookie(token);
 
+      //console.log(userId);
+
       // const userId = 7;
       // const pageAmount = 56;
       // const paymentMethod = "Momo";
