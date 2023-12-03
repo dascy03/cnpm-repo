@@ -52,8 +52,10 @@ const LogIn = () => {
         alert("Không được dể trống tên tài khoản/mật khẩu")
       else if (err.response.data['message'] == "Internal Server Error")
         alert("Lỗi máy chủ")
+      else if (err.response.data['message'] == "Inactive user")
+        alert("Tài khoản đã bị khóa")
       else 
-        alert("Không xác định được lỗi")
+          alert("Không xác định được lỗi")
     })
   }
   useEffect(() => {
