@@ -10,7 +10,9 @@ const ProfileUser = (props) => {
     const navigate = useNavigate();
 
     const [refresh, setRefresh] = useState(false);
-    const [old, setOldData] = useState({});
+    const [old, setOldData] = useState({
+        DoB: new Date(),
+    });
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         (async () => {
@@ -103,7 +105,7 @@ const ProfileUser = (props) => {
                                         }
                                     }
                                 }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
-                            <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
+                            <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap ">SMART PRINTING SERVICE</span>
                         </div>
                         <div class="flex items-center px-16" id="navbar-solid-bg">
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
@@ -147,7 +149,7 @@ const ProfileUser = (props) => {
                 <div className="flex justify-start">
                     <form onSubmit={handleSubmit} className="w-full flex justify-start">
                         <div>
-                            <div className="text-[#114A65] font-semibold mt-10 mr- text-2xl">Họ tên</div>
+                            <div className="text-[#114A65] font-semibold mt-10 mr-5 text-2xl">Họ tên</div>
                             <div className="text-[#114A65] font-semibold mt-10 mr-5 text-2xl">Ngày sinh</div>
                             <div className="text-[#114A65] font-semibold mt-10 mr-5 text-2xl">Điện thoại</div>
                             <div className="text-[#114A65] font-semibold mt-10 mr-5 text-2xl">Địa chỉ</div>
@@ -166,12 +168,10 @@ const ProfileUser = (props) => {
                             <div className="justify-start flex mt-10 h-8">
                                 <input
                                     type="date"
-                                    required
                                     onChange={(e) => setData({ ...data, DoB: e.target.value })}
+                                    // onFocus={(e) => e.target.type = 'date'}
+                                    // onBlur={(e) => e.target.type = 'text'}
                                     value={data.DoB}
-                                    placeholder={old.DoB}
-                                    onFocus={(e) => e.target.type = 'date'}
-                                    onBlur={(e) => e.target.type = 'text'}
                                     className="border border-gray-700 rounded-md px-2 w-52"
                                 />
                             </div>

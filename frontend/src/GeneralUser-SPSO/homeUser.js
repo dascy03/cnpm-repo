@@ -57,7 +57,7 @@ const HomeUser = () => {
                                     }
                                 }>
                                     <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
-                                <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
+                                <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap">SMART PRINTING SERVICE</span>
                         </div>
                         <div class="flex items-center px-16" id="navbar-solid-bg">
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
@@ -67,7 +67,7 @@ const HomeUser = () => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button >
+                                    <button onClick={()=>navigate('/SettingUser')}>
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>

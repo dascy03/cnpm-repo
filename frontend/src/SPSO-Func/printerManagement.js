@@ -84,7 +84,7 @@ const PrinterMana = (props) => {
                                         }
                                     }
                                 }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
-                                <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
+                                <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap">SMART PRINTING SERVICE</span>
                         </div>
                         <div class="flex items-center px-16" id="navbar-solid-bg">
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
@@ -123,7 +123,7 @@ const PrinterMana = (props) => {
                 <div className="flex justify-between m-10 px-28"> 
                     <div className=" text-center flex w-full justify-center">
                         <button className="bg-[#2991C2] rounded-2xl flex p-2" onClick={()=>navigate('/insertPrinter')}>
-                            <img src="/circle-plus.svg" className="h-6 flex" alt="plus-solid" />    
+                            <img src="/circle-plus.svg" className="h-6 pr-2 flex" alt="plus-solid" />    
                             <div className="text-white flex ">MÁY IN MỚI</div>
                         </button>
                     </div>
@@ -167,7 +167,7 @@ const PrinterMana = (props) => {
         .catch(err => {
             // console.log(err.response.data.message);
             if ( err.response.data.message == "The current printer is perfoming printing, cannot be blocked!")
-                alert("Máy in đang hoạt động, không thể khóa!")
+                alert("Máy in đang thực hiện hoạt động in, không thể khóa!")
             else
                 alert("Lỗi không xác định!")
             console.log(err.response.data.message);

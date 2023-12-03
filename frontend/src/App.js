@@ -8,6 +8,7 @@ import LogIn from "./GeneralUser-SPSO/logIn"
 import ForgotPassword from "./GeneralUser-SPSO/forgotPassword"
 import BuyPage from "./GeneralUser-SPSO/buyPage"
 import PageBuyHistory from "./GeneralUser-SPSO/pageBuyHistory";
+import SettingUser from "./GeneralUser-SPSO/settingUser";
 
 import "./css/App.css";
 import HomeSPSO from "./SPSO-Func/homeSPSO";
@@ -62,6 +63,12 @@ function App() {
               <BuyPage />
             </Protected>
           } />
+          <Route path="/settingUser" element={
+            <Protected isLoggedIn={isLoggedIn} isSPSO={false}>
+              <SettingUser />
+            </Protected>
+          } />
+          
           {/* SPSO Func */}
           <Route path="/HomeSPSO" element={
             <Protected isLoggedIn={isLoggedIn} isSPSO={true}>

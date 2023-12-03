@@ -44,7 +44,7 @@ const BuyPage = () => {
                                         }
                                     }
                                 }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
-                                  <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">SMART PRINTING SERVICE</span>
+                                  <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap">SMART PRINTING SERVICE</span>
                           </div>
                           <div class="flex items-center px-16" id="navbar-solid-bg">
                               <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
@@ -97,6 +97,10 @@ const BuyPage = () => {
       }
       if (userData.pageAmount <= 0 ) {
         alert("Số trang không hợp lệ")
+        return;
+      }
+      if (userData.pageAmount > 99999){
+        alert("Không được mua quá 99999 trang trong 1 lần mua")
         return;
       }
       axios.post("http://localhost:5000/page/buy", userData).then((response) => {
