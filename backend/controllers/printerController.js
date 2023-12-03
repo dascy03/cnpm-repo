@@ -5,7 +5,7 @@ export const setPrinterStatus = async (req, res) => {
   try {
     const { printerID } = req.params;
     const order_status = await Printer.getOrderStatus(printerID);
-    const isPresent = order_status.some((item) => item.status === "Đang in");
+    const isPresent = order_status.some((item) => item.status === "Đang hoạt động ");
     if (isPresent)
       return res.status(400).send({
         message:

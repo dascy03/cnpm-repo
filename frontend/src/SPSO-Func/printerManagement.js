@@ -152,6 +152,22 @@ const PrinterMana = (props) => {
         }
     }
 
+    const handleStatusClick = (printerID) => {        
+        axios.put(`http://localhost:5000/printers/${printerID}/status`)
+        .then(res => {
+            console.log(res.data);
+            setRefresh(!refresh);
+        })
+        .catch(err => {
+            // console.log(err.response.data.message);
+            if ( err.response.data.message == "The current printer is perfoming printing, cannot be blocked!")
+                alert("Máy in đang hoạt động, không thể khóa!")
+            else
+                alert("Lỗi không xác định!")
+            console.log(err.response.data.message);
+        })
+    }
+
     const handleQueueCLick = (printerID) => {
         sessionStorage.setItem("printerID", printerID)
         navigate('/queuePrinter')
@@ -176,6 +192,7 @@ const PrinterMana = (props) => {
             })
         }
     }
+    
     const table = () => {
         return (
             <section>
@@ -202,7 +219,7 @@ const PrinterMana = (props) => {
                                     <th className="">
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
-                                    <th className="">{showEye(val.status)}</th>
+                                    <th className=""><button onClick={()=>handleStatusClick(val.printerID)}>{showEye(val.status)}</button></th>
                                     <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
                                     <th className="px-2"><button onClick={()=>handleDeleteClick(val)}><img src="/xmark.svg" className="h-8" alt="xmark"/></button></th>
                                 </tr>
@@ -218,7 +235,7 @@ const PrinterMana = (props) => {
                                     <th className="">
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
-                                    <th className="">{showEye(val.status)}</th>
+                                    <th className=""><button onClick={()=>handleStatusClick(val.printerID)}>{showEye(val.status)}</button></th>
                                     <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
                                     <th className="px-2"><button onClick={()=>handleDeleteClick(val)}><img src="/xmark.svg" className="h-8" alt="xmark"/></button></th>
                                 </tr>
