@@ -47,7 +47,8 @@ class PageController {
 
   async displayPagePurchaseHistory(req, res) {
     try {
-      const { token } = req.body;
+      const token = req.headers.authorization.split(" ")[1];
+      //const { token } = req.body;
       let userId = cookieController.decodeCookie(token);
       //const userId = 4;
       const pagePurchaseHistory = await pageModel.getPagePurchaseHistory(
