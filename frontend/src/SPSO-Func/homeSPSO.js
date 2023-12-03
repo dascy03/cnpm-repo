@@ -58,7 +58,7 @@ const HomeSPSO = () => {
                                             navigate('/homeUser')
                                         }
                                     }
-                                }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
+                                }><img src="/hcmut-logo.png" className="h-24" alt="HCMUT logo" /></button>
                                 <span className="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap ">SMART PRINTING SERVICE</span>
                         </div>
                         <div className="flex items-center px-16" id="navbar-solid-bg">
@@ -139,38 +139,44 @@ const HomeSPSO = () => {
                     {/* first table */}
                     <div className="w-full text-3xl font-semibold mb-5 mx-5"> Tài liệu đã in gần đây </div>
                     <table className="relative overflow-x-auto mx-auto text w-full">
-                    <tr className="bg-[#AADEF6] ">
-                        <th className="h-11">Dự kiến lấy</th>
-                        <th className="">Phương thức tới lấy</th>
-                        <th className="">Tài liệu</th>
-                        <th className="">Máy in</th>
-                        <th className="">Số trang sử dụng</th>
-                        <th className="">Trạng thái</th>
-                    </tr>
+                        <tbody>
+                            <tr className="bg-[#AADEF6] ">
+                                <th className="h-11">Dự kiến lấy</th>
+                                <th className="">Phương thức tới lấy</th>
+                                <th className="">Tài liệu</th>
+                                <th className="">Máy in</th>
+                                <th className="">Số trang sử dụng</th>
+                                <th className="">Trạng thái</th>
+                            </tr>
+                        </tbody>
                     {data && data.map((val, key) => {
                         if (key >= pageShow) return [];
                         if (key % 2 === 0) {
                             return (
-                                <tr className="text-center text bg-[#E8F6FD]" key={key} >
-                                    <td className="h-11">{val.pickupTime}</td>
-                                    <td className="">{val.pickupMethod}</td>
-                                    <td className="">{val.fileName}</td>
-                                    <td className="">{val.model}</td>
-                                    <td className="">{val.totalPageUsed}</td>
-                                    <td className="font-semibold">{StatusColor(val.status)}</td>
-                                </tr>
+                                <tbody>
+                                    <tr className="text-center text bg-[#E8F6FD]" key={key} >
+                                        <td className="h-11">{val.pickupTime}</td>
+                                        <td className="">{val.pickupMethod}</td>
+                                        <td className="">{val.fileName}</td>
+                                        <td className="">{val.model}</td>
+                                        <td className="">{val.totalPageUsed}</td>
+                                        <td className="font-semibold">{StatusColor(val.status)}</td>
+                                    </tr>
+                                </tbody>
                             )
                         }
                         else {
                             return (
-                                <tr className="text-center text" key={key} >
-                                    <td className="h-11">{val.pickupTime}</td>
-                                    <td className="">{val.pickupMethod}</td>
-                                    <td className="">{val.fileName}</td>
-                                    <td className="">{val.model}</td>
-                                    <td className="">{val.totalPageUsed}</td>
-                                    <td className="font-semibold">{StatusColor(val.status)}</td>
-                                </tr>
+                                <tbody>
+                                    <tr className="text-center text" key={key} >
+                                        <td className="h-11">{val.pickupTime}</td>
+                                        <td className="">{val.pickupMethod}</td>
+                                        <td className="">{val.fileName}</td>
+                                        <td className="">{val.model}</td>
+                                        <td className="">{val.totalPageUsed}</td>
+                                        <td className="font-semibold">{StatusColor(val.status)}</td>
+                                    </tr>
+                                </tbody>
                             )
                         }
                     })}
@@ -181,35 +187,41 @@ const HomeSPSO = () => {
                     {/* second table */}
                     <div className="w-full text-3xl font-semibold mb-5 mx-5"> Báo cáo in ấn (Not this data, just test) </div>
                     <table className="relative overflow-x-auto mx-auto text w-full">
-                    <tr className="bg-[#AADEF6] ">
-                        <th className="h-11">ID</th>
-                        <th className="">Mẫu</th>
-                        <th className="">Phân loại</th>
-                        <th className="">Địa điểm</th>
-                        <th className="">Trạng thái</th>
-                    </tr>
+                        <tbody>
+                            <tr className="bg-[#AADEF6] ">
+                                <th className="h-11">ID</th>
+                                <th className="">Mẫu</th>
+                                <th className="">Phân loại</th>
+                                <th className="">Địa điểm</th>
+                                <th className="">Trạng thái</th>
+                            </tr>
+                        </tbody>
                     {dataPrinter.map((val, key) => {
                         if (key >= pageShow) return [];
                         if (key % 2 === 0) {
                             return (
-                                <tr className="text-center text bg-[#E8F6FD]" key={key} >
-                                    <td className="h-11">{val.printerID}</td>
-                                    <td className="">{val.model}</td>
-                                    <td className="">{val.type}</td>
-                                    <td className="">{val.location}</td>
-                                    <td className="">{val.status}</td>
-                                </tr>
+                                <tbody>
+                                    <tr className="text-center text bg-[#E8F6FD]" key={key} >
+                                        <td className="h-11">{val.printerID}</td>
+                                        <td className="">{val.model}</td>
+                                        <td className="">{val.type}</td>
+                                        <td className="">{val.location}</td>
+                                        <td className="">{val.status}</td>
+                                    </tr>
+                                </tbody>
                             )
                         }
                         else {
                             return (
-                                <tr className="text-center text" key={key} >
-                                    <td className="h-11">{val.printerID}</td>
-                                    <td className="">{val.model}</td>
-                                    <td className="">{val.type}</td>
-                                    <td className="">{val.location}</td>
-                                    <td className="">{val.status}</td>
-                                </tr>
+                                <tbody>
+                                    <tr className="text-center text" key={key} >
+                                        <td className="h-11">{val.printerID}</td>
+                                        <td className="">{val.model}</td>
+                                        <td className="">{val.type}</td>
+                                        <td className="">{val.location}</td>
+                                        <td className="">{val.status}</td>
+                                    </tr>
+                                </tbody>
                             )
                         }
                     })}
