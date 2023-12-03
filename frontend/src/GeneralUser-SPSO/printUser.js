@@ -50,18 +50,6 @@ const PrintUser = (props) => {
                 return;
             }
         }
-        // const userData = {
-        //     userID : old.userID,
-        //     file: file,
-        //     pickupTime: data.pickupTime,
-        //     printTime: data.printTime,
-        //     printerID: data.printerID,
-        //     printCopy: data.printCopy,
-        //     pageSize: data.pageSize,
-        //     pickupMethod: data.pickupMethod,
-        //     pageSide: data.pageSide,
-        //     pageColor: data.pageColor,
-        // }
         const userData = new FormData();
         userData.append("userID", old.userID);
         userData.append("file", file);
@@ -165,8 +153,8 @@ const PrintUser = (props) => {
             </section>
             {/* Body */}
             <div className="justify-center flex text-4xl font-bold mx-12 mt-12 mb-5">In tài liệu</div>  
-            <section className="flex justify-center">
-            <form onSubmit={handleSubmit} className="justify-center flex">
+            <section className="grid grid-cols-2 justify-center">
+            <form onSubmit={handleSubmit} className="justify-end flex">
                 <div>
                     <div className="text-[#114A65] font-semibold m-8 text-xl">Tài liệu</div>
                     <div className="text-[#114A65] font-semibold m-8 text-xl">Giờ in</div>
@@ -390,6 +378,9 @@ const PrintUser = (props) => {
                     </div>
                 </div>
             </form>
+            <div className="flex justify-center">
+                asdsadasdsadsadsad
+            </div>
         </section>
         <div className="justify-center flex my-5">
                 <button onClick={handleSubmit} className="bg-[#2991C2] text-white border-black mx-7 px-10 py-2 text-center rounded-2xl font-semibold">IN</button>

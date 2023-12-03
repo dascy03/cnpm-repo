@@ -37,7 +37,7 @@ const LogIn = () => {
         setIsSPSO(res.data["isSPSO"]);
         // store token to cookies
         const cookie = new Cookie();
-        // cookie.set("token", res.data["token"], { path: "/" });
+        cookie.set("token", res.data["token"], { path: "/" });
         cookie.set("isLogged", res.data["success"], { path: "/" });
         cookie.set("isSPSO", res.data["isSPSO"], { path: "/" });
         sessionStorage.setItem("isSPSO", res.data["isSPSO"]);
@@ -54,6 +54,7 @@ const LogIn = () => {
         else if (err.response.data["message"] === "Inactive user")
           alert("Tài khoản đã bị khóa");
         else alert("Không xác định được lỗi");
+        console.log(err.response.data);
       });
   };
   useEffect(() => {
