@@ -69,6 +69,7 @@ class UserModel {
     try {
       let name = newData.name;
       let DoB = new Date(newData.DoB);
+      DoB = DoB.toISOString().slice(0, 10);
       let phone = newData.phone;
       let address = newData.address;
 
