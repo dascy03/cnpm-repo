@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import axios from "axios";
 
 const InsertPrinter = () => {
     const navigate = useNavigate();
@@ -62,6 +63,35 @@ const InsertPrinter = () => {
           </>
       );
     }
+    const [data,setData] = useState({
+        model: "",
+        location: "CS2 - Lầu 1",
+    })
+    
+    const handleSelect = (e) => {
+        setData({...data, location: e.target.value})
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {
+            model: data.model,
+            location: data.location,
+        }
+        axios.post("http://localhost:5000/printers/", userData)
+        .then(res => {
+            console.log(res.data);
+            alert("Thêm máy in thành công!")
+            // navigate("/printerManagement")
+        })
+        .catch(err => {
+            if (err.response.data.message === "Please send Printer model!") 
+                alert("Vui lòng nhập thông tin máy in!")
+            else 
+                alert("Đã có lỗi xảy ra! Vui lòng thử lại sau!")
+            console.log(err.response.data.message);
+        })
+    }
     const showBody = () => {
         return (
             <section>
@@ -76,11 +106,19 @@ const InsertPrinter = () => {
                         <div className="m-7">Vị trí đặt máy in</div>
                     </div>
                     <div className="text-xl m-2">
-                        <div className="m-7"><input type="text" className="px-2 border w-72 border-gray-400 rounded-md" placeholder="Tên máy in - địa điểm"></input></div>
+                        <div className="m-7"><input onChange={
+                            (e) => {
+                                setData({...data, model: e.target.value})
+                            }
+                        } value={data.model} type="text" className="px-2 border w-72 border-gray-400 rounded-md" placeholder="Tên máy in - địa điểm"></input></div>
                         <div className="m-7">
-                            <select className="px-1 border w-72 border-gray-400 rounded-md">
-                                <option>123</option>
-                                <option>456</option>
+                            <select onChange={handleSelect} className="px-1 border w-72 border-gray-400 rounded-md">
+                                <option value="CS2 - Lầu 1">Cơ sở 2 - Lầu 1</option>
+                                <option value="CS2 - Lầu 2">Cơ sở 2 - Lầu 2</option>
+                                <option value="CS2 - Lầu 3">Cơ sở 2 - Lầu 3</option>
+                                <option value="CS2 - Lầu 4">Cơ sở 2 - Lầu 4</option>
+                                <option value="CS2 - Lầu 5">Cơ sở 2 - Lầu 5</option>
+                                <option value="CS2 - Lầu 6">Cơ sở 2 - Lầu 6</option>
                             </select>
                         </div>
                     </div>
@@ -92,7 +130,7 @@ const InsertPrinter = () => {
     const showEnd = () => {
         return (
             <div className="flex justify-center my-10">
-                <button className="bg-[#2991C2] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl">OK</button>
+                <button onClick={handleSubmit} className="bg-[#2991C2] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl">OK</button>
                 <button onClick={()=>navigate("/printerManagement")} className="bg-[#676767] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl">Hủy</button>
             </div>
         );
