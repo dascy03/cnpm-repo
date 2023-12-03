@@ -106,7 +106,7 @@ const PageBuyHistory = (props) => {
                   </button>
                 </li>
                 <li className="px-5 pt-3">
-                  <button onClick={() => navigate("/")}>
+                  <button onClick={() => navigate("/SettingUser")}>
                     <img
                       src="/gear-solid.svg"
                       className="h-10"
