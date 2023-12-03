@@ -6,6 +6,7 @@ import PDFParser from "pdf2json";
 const handleFile = async (req) => {
   try {
     const pdfPath = req.file.path;
+    console.log(req.file);
     let result = [req.file.originalname];
     const parsePDF = (path) => {
       return new Promise((resolve, reject) => {
@@ -112,8 +113,9 @@ export const insertPrintOrder = async (req, res) => {
       pageColor,
       userID,
     } = req.body;
+    console.log(req.body);
     const file_data = await handleFile(req);
-    if (!file_data)
+    if (!req.file_data)
       return res.status(400).send({ message: "Please upload file to print!" });
     const fileName = file_data[0];
     const pageSelected = file_data[1];

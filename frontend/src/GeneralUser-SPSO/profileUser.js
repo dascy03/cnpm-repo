@@ -131,7 +131,7 @@ const ProfileUser = (props) => {
                                 <div className="justify-center flex text-3xl font-bold m-12">Thông tin cá nhân</div>
             <section className="grid grid-cols-2">
                 <div className="flex justify-center">
-                    <div className=" border border-gray-500 w-4/12">
+                    <div className=" border border-gray-500 w-4/12 rounded-sm">
                         <div className="justify-center flex m-5 ">
                             <img src={old.avtLink} alt="my-ava" className="rounded-full h-52" />
                         </div>
@@ -153,7 +153,7 @@ const ProfileUser = (props) => {
                             <div className="text-[#114A65] font-semibold m-7 text-xl">Địa chỉ</div>
                         </div>
                         <div>
-                            <div className="justify-start flex my-7">
+                            <div className="justify-start flex mt-8">
                                 <input
                                     type="text"
                                     onChange={(e) => setData({ ...data, name: e.target.value })}
@@ -163,7 +163,7 @@ const ProfileUser = (props) => {
                                     className="border border-gray-700 rounded-md px-2 w-96"
                                 />
                             </div>
-                            <div className="justify-start flex my-7">
+                            <div className="justify-start flex mt-7">
                                 <input
                                     type="date"
                                     required
@@ -175,7 +175,7 @@ const ProfileUser = (props) => {
                                     className="border border-gray-700 rounded-md px-2"
                                 />
                             </div>
-                            <div className="justify-start flex my-7">
+                            <div className="justify-start flex mt-7">
                                 <input
                                     type="text"
                                     required
@@ -196,7 +196,7 @@ const ProfileUser = (props) => {
                                     className="border border-gray-700 rounded-md px-2 w-96"
                                 />
                             </div>
-                            <div className="justify-start flex my-16">
+                            <div className="justify-start flex my-14">
                                  <button onClick={handleSubmit} className="bg-[#2991C2] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl font-semibold">LƯU</button>
                                  <button onClick={
                                     () => {
