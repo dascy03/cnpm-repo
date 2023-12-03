@@ -81,7 +81,7 @@ const LogIn = () => {
       <section className="App-header">
         <nav className="border-blue-200 text-lg bg-[#C4E4F3]">
           <div className="flex flex-wrap justify-between p-2">
-            <div className="flex items-center space-x-0 rtl:space-x-reverse px-4">
+            <div className="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
               <img src="/hcmut-logo.png" className="h-24" alt="HCMUT logo" />
               <span className="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap">
                 SMART PRINTING SERVICE
