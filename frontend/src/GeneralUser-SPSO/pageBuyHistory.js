@@ -15,7 +15,7 @@ const PageBuyHistory = (props) => {
 
     useEffect(() => {
         (async () => {
-            await axios.get("http://localhost:5000/page/history", {"token": cookies.get("token")}).
+            await axios.get("http://localhost:5000/page/history", {token: cookies.get("token")}).
             then((res) => {
                 console.log(res.data)
                 setData(res.data)

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../utils-component/Pagination";
 import DataFetching from "../utils-component/dataFetching";
 import Cookies from "universal-cookie";
+import {StatusColor} from "../utils-component/StatusColor";
 
 const QueuePrinter = (props) => {
     /* Fetching and Pagination */
@@ -121,19 +122,6 @@ const QueuePrinter = (props) => {
         )
     };
 
-    const showEye = (val) => {
-        if (val === "Đang hoạt động") {
-            return (
-                <img src="/eye-solid.svg" className="h-7" alt="eye-solid" />
-            )
-        }
-        else {
-            return (
-                <img src="/eye-slash-solid.svg" className="h-7" alt="eye-slash-solid" />
-            )
-        }
-    }
-
     const table = () => {
         return (
             <section>
@@ -143,6 +131,7 @@ const QueuePrinter = (props) => {
                         <th className="">Máy in</th>
                         <th className="">Thời gian in</th>
                         <th className="">Email</th>
+                        <th className="">Trạng thái</th>
                     </tr>
                     {currentTableData.map((val, key) => {
                         if (key % 2 == 0) {
@@ -152,6 +141,7 @@ const QueuePrinter = (props) => {
                                     <th className="">{val.model}</th>
                                     <th className="">{val.printTime}</th>
                                     <th className="">{val.email}</th>
+                                    <th className="">{StatusColor(val.status)}</th>
                                 </tr>
                             )
                         }
@@ -162,6 +152,7 @@ const QueuePrinter = (props) => {
                                     <th className="">{val.model}</th>
                                     <th className="">{val.printTime}</th>
                                     <th className="">{val.email}</th>
+                                    <th className="">{StatusColor(val.status)}</th>
                                 </tr>
                             )
                         }
