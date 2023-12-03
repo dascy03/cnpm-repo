@@ -73,7 +73,7 @@ export class PrintOrder {
 
   static getOrderByUser = async (userID) => {
     const [orderDetail, _] = await db.execute(
-      `SELECT printorderID, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, DATE_FORMAT(pickupTime, "%Y-%m-%d %H:%i:%s") AS pickupTime, fileName, model, pickupMethod, totalPageUsed, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID WHERE print_order.userID=? ORDER BY printTime;`,
+      `SELECT printorderID, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, DATE_FORMAT(pickupTime, "%Y-%m-%d %H:%i:%s") AS pickupTime, fileName, model, pickupMethod, totalPageUsed, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID WHERE print_order.userID=? ORDER BY printTime DESC;`,
       [userID]
     );
     return orderDetail;
@@ -81,14 +81,14 @@ export class PrintOrder {
 
   static getAllOrder = async () => {
     const [orderDetail, _] = await db.execute(
-      `SELECT printorderID, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, DATE_FORMAT(pickupTime, "%Y-%m-%d %H:%i:%s") AS pickupTime, fileName, model, pickupMethod, totalPageUsed, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID ORDER BY printTime;`
+      `SELECT printorderID, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, DATE_FORMAT(pickupTime, "%Y-%m-%d %H:%i:%s") AS pickupTime, fileName, model, pickupMethod, totalPageUsed, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID ORDER BY printTime DESC;`
     );
     return orderDetail;
   };
 
   static getQueue = async (printerID) => {
     const [printerQueue, _] = await db.execute(
-      `SELECT printorderID, model, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, email, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID JOIN users ON print_order.userID=users.userID WHERE printer.printerID=? AND print_order.status != 'Hoàn thành' ORDER BY printer.printerID, printTime;`,
+      `SELECT printorderID, model, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, email, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID JOIN users ON print_order.userID=users.userID WHERE printer.printerID=? AND print_order.status != 'Hoàn thành' ORDER BY printer.printerID, printTime ;`,
       [printerID]
     );
     return printerQueue;
