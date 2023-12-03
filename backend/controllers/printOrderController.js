@@ -93,12 +93,26 @@ export const getOneOrder = async (req, res) => {
 export const getAllPrintOrder = async (req, res) => {
   try {
     const orders = await PrintOrder.getAllOrder();
-    return res.json(orders);
+    return res.send(orders);
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
   }
 };
+
+export const getPrintOrderByTime = async (req, res) => {
+  try {
+    const { time } = req.params;
+    const month = time.substring(0, 2);
+    const year = time.substring(2);
+    const orders = await PrintOrder.getOrderByTime(month, year);
+    return res.send(orders);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const insertPrintOrder = async (req, res) => {
   try {
     const {
