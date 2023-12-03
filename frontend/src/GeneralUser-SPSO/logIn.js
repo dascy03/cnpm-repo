@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ReactLoading from "react-loading";
 import Cookie from "universal-cookie";
 import { useCookies } from "react-cookie";
 
@@ -26,10 +27,12 @@ const LogIn = () => {
       username: data.username,
       password: data.password,
     };
+    console.log(userData);
 
     axios
       .post("http://localhost:5000/user/login", userData)
       .then((res) => {
+        console.log(res.data);
         setIsLoading(true);
         setSuccess(res.data["success"]);
         setToken(res.data["token"]);
@@ -38,6 +41,7 @@ const LogIn = () => {
         const cookie = new Cookie();
         cookie.set("token", res.data["token"], { path: "/" });
         cookie.set("isLogged", res.data["success"], { path: "/" });
+        cookie.set("isSPSO", res.data["isSPSO"], { path: "/" });
         sessionStorage.setItem("isSPSO", res.data["isSPSO"]);
       })
       .catch((err) => {
@@ -49,6 +53,8 @@ const LogIn = () => {
           alert("Không được dể trống tên tài khoản/mật khẩu");
         else if (err.response.data["message"] == "Internal Server Error")
           alert("Lỗi máy chủ");
+        else if (err.response.data["message"] == "Inactive user")
+          alert("Tài khoản đã bị khóa");
         else alert("Không xác định được lỗi");
       });
   };

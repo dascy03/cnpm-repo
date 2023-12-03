@@ -6,9 +6,12 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 import { printerRouter } from "./routes/printerRouter.js";
+
+import {gsRouter} from "./routes/gsRouter.js";
 import { printOrderRouter } from "./routes/printOrderRouter.js";
 import userRouter from "./routes/userRouter.js";
 import pageRouter from "./routes/pageRouter.js";
+
 
 const app = express();
 
@@ -27,8 +30,12 @@ app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/printers", printerRouter);
+
+app.use("/gs", gsRouter);
+
 app.use("/print", upload.single("file"), printOrderRouter);
 app.use("/page", pageRouter);
+
 
 app.listen(PORT, () => {
   console.log(`App is running in PORT ${PORT}`);

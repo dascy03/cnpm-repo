@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import DataFetching from "../utils-component/dataFetching";
+import { StatusColor } from "../utils-component/StatusColor";
 
 const HomeUser = () => {
     const cookies = new Cookies();
@@ -36,40 +36,12 @@ const HomeUser = () => {
         }
     }
 
-    const StatusColor = (status) => {
-        if (status === "Đã hủy") {
-            return (
-                <div className="text-[#FE1E00]">{status}</div>
-            )
-        }
-        else if (status === "Chờ in") {
-            return (
-                <div className="text-neutral-600">{status}</div>
-            )
-        }
-        else if (status === "Đang in") {
-            return (
-                <div className="text-[#ED9005]">{status}</div>
-            )
-        }
-        else if (status === "Hoàn tất in") {
-            return (
-                <div className="text-[#12E500]">{status}</div>
-            )
-        }
-        else if (status === "Hoàn thành") {
-            return (
-                <div className="text-[#06abfe]">{status}</div>
-            )
-        }
-    }
-
     const WholePage = () => {
     return (
         <>  
         {/* header */}
             <section className="App-header"> 
-                <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
+                <nav class="border-blue-200 text-lg bg-[#C4E4F3] ">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
                                 <button onClick={
@@ -135,38 +107,38 @@ const HomeUser = () => {
 
                 <div className="flex-initial w-full m-14">
                     <div className="w-full text-3xl font-semibold mb-5 mx-5"> Tài liệu đã in gần đây </div>
-                    <table className="relative overflow-x-auto mx-auto text">
+                    <table className="relative overflow-x-auto mx-auto text w-full">
                     <tr className="bg-[#AADEF6] ">
-                        <th className="px-10 py-2">Dự kiến lấy</th>
-                        <th className="px-10 py-2">Phương thức tới lấy</th>
-                        <th className="px-10 py-2">Tài liệu</th>
-                        <th className="px-10 py-2">Máy in</th>
-                        <th className="px-6 py-2">Số trang sử dụng</th>
-                        <th className="px-6 py-2">Trạng thái</th>
+                        <th className="h-10">Dự kiến lấy</th>
+                        <th className="">Phương thức tới lấy</th>
+                        <th className="">Tài liệu</th>
+                        <th className="">Máy in</th>
+                        <th className="">Số trang sử dụng</th>
+                        <th className="">Trạng thái</th>
                     </tr>
                     {data && data.map((val, key) => {
                         if (key > pageShow) return;
                         if (key % 2 == 0) {
                             return (
                                 <tr className="text-center text bg-[#E8F6FD]" key={key} >
-                                    <td className="px-10 py-3">{val.pickupTime}</td>
-                                    <td className="px-10 py-3">{val.pickupMethod}</td>
-                                    <td className="px-10 py-3">{val.fileName}</td>
-                                    <td className="px-10 py-3">{val.model}</td>
-                                    <td className="px-6 py-3">{val.totalPageUsed}</td>
-                                    <td className="px-6 py-3 font-semibold">{StatusColor(val.status)}</td>
+                                    <td className="h-10">{val.pickupTime}</td>
+                                    <td className="">{val.pickupMethod}</td>
+                                    <td className="">{val.fileName}</td>
+                                    <td className="">{val.model}</td>
+                                    <td className="">{val.totalPageUsed}</td>
+                                    <td className="font-semibold">{StatusColor(val.status)}</td>
                                 </tr>
                             )
                         }
                         else {
                             return (
                                 <tr className="text-center text" key={key} >
-                                    <td className="px-10 py-3">{val.pickupTime}</td>
-                                    <td className="px-10 py-3">{val.pickupMethod}</td>
-                                    <td className="px-10 py-3">{val.fileName}</td>
-                                    <td className="px-10 py-3">{val.model}</td>
-                                    <td className="px-6 py-3">{val.totalPageUsed}</td>
-                                    <td className="px-6 py-3 font-semibold">{StatusColor(val.status)}</td>
+                                    <td className="">{val.pickupTime}</td>
+                                    <td className="">{val.pickupMethod}</td>
+                                    <td className="">{val.fileName}</td>
+                                    <td className="">{val.model}</td>
+                                    <td className="">{val.totalPageUsed}</td>
+                                    <td className="font-semibold">{StatusColor(val.status)}</td>
                                 </tr>
                             )
                         }

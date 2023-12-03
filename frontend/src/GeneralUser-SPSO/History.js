@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../utils-component/Pagination";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { StatusColor } from "../utils-component/StatusColor";
 
 
 const History = (props) => {
@@ -10,6 +11,8 @@ const History = (props) => {
     const cookies = new Cookies();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+
     useEffect(() => {
         (async () => {
             const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
@@ -17,10 +20,11 @@ const History = (props) => {
             setData(tempData["data"])
             setLoading(true)
         })()
-    }, [])
+    }, [refresh])
+
 
     // Start
-    const PageSize = 8;
+    const PageSize = 5;
     const [currentPage, setCurrentPage] = useState(1);
     const [currentTableData, setCurrentTableData] = useState([]);
     // const currentTableData = useMemo(() => {
@@ -30,12 +34,25 @@ const History = (props) => {
     //     const lastPageIndex = firstPageIndex + PageSize;
     //     return data.slice(firstPageIndex, lastPageIndex);
     // }, [currentPage]);
+    // const [searchQuery, setSearchQuery] = useState("")
+    // const keys=["printorderID", "printTime", "pickupTime", "fileName", "model", "pickupMethod", "totalPageUsed", "status"]
+    // const filterData = currentTableData.filter((item) =>
+    //     keys.some((key) => item[key].toString().toLowerCase().includes(searchQuery.toLowerCase()))
+    // );
+    const [searchQuery, setSearchQuery] = useState("")
+    const [filterData, setFilterData] = useState([]);
+    useEffect(() => {
+        setCurrentPage(1);
+        const keys=["printorderID", "printTime", "pickupTime", "fileName", "model", "pickupMethod", "totalPageUsed", "status"]
+        setFilterData(data.filter((item) =>
+            keys.some((key) => item[key] && item[key].toString().toLowerCase().includes(searchQuery.toLowerCase())) === true
+        ))
+    }, [searchQuery, data]);
     useEffect(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
-        setCurrentTableData(data.slice(firstPageIndex, lastPageIndex));
-    }, [currentPage, data]);
-
+        setCurrentTableData(filterData.slice(firstPageIndex, lastPageIndex));
+    }, [currentPage, filterData]);
 
     const navigate = useNavigate();
 
@@ -53,7 +70,7 @@ const History = (props) => {
     const showHeader = () => {
         return(
             <section className="App-header"> 
-                <nav class="border-blue-200 text-lg bg-[#C4E4F3] dark:bg-blue-800 dark:border-blue-700">
+                <nav class="border-blue-200 text-lg bg-[#C4E4F3] ">
                     <div class="flex flex-wrap justify-between p-2">
                         <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
                                 <button onClick={
@@ -93,11 +110,6 @@ const History = (props) => {
         )
     };
 
-    const [searchQuery, setSearchQuery] = useState("")
-    const keys=["printorderID", "printTime", "pickupTime", "fileName", "model", "pickupMethod", "totalPageUsed", "status"]
-    const filterData = currentTableData.filter((item) =>
-        keys.some((key) => item[key].toString().toLowerCase().includes(searchQuery.toLowerCase()))
-    );
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -107,10 +119,10 @@ const History = (props) => {
     const searchBar = () => {
         return (
             <section>
-                <div className="flex justify-between m-10 px-28"> 
-                    <div className="text-center flex"></div>
-                    <div className="justify-self-center text-4xl font-bold text-center flex">Lịch sử in</div>
-                    <div className="flex" >
+                <div className="flex justify-between m-10 "> 
+                    <div className="text-center flex w-full"></div>
+                    <div className="justify-self-center text-4xl font-bold text-center flex w-full justify-center">Lịch sử in</div>
+                    <div className="flex w-full justify-center" >
                     <form>   
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -127,115 +139,101 @@ const History = (props) => {
         )
     };
 
-    const StatusAction = (status) => {
-        if (status === "Đã hủy") {
+    const handleStatus = (val) => {
+        axios.put("http://localhost:5000/print/orders/update/" + val.printorderID)
+        .then((res) => {   
+            console.log(res.data)
+            setRefresh(!refresh)
+        }
+        )
+        .catch((err) => console.log(err));
+    }
+
+    const StatusAction = (val) => {
+        if (val.status === "Đã huỷ") {
             return (
-                <img src="/trash-solid.svg" alt = "xmark" className="h-10" />
+                <img src="/trash-solid.svg" alt = "trash-solid" className="h-7" />
             )
         }
-        else if (status === "Chờ in") {
+        else if (val.status === "Chờ in") {
             return (
-                <button><img src="/xmark.svg" alt = "xmark" className="h-10" /></button>
+                <button onClick={() => handleStatus(val)}><img src="/xmark.svg" alt = "xmark" className="h-7" /></button>
             )
         }
-        else if (status === "Đang in") {
+        else if (val.status === "Đang in") {
             return (
-                <img src="/hour-glass.svg" alt = "spinner" className="h-10" />
+                <img src="/hour-glass.svg" alt = "spinner" className="h-7" />
             )
         }
-        else if (status === "Hoàn tất in") {
+        else if (val.status === "Hoàn tất in") {
             return (
-                <button><img src="/check.svg" alt = "check-circle" className="h-10" /></button>
+                <button onClick={() => handleStatus(val)}><img src="/check.svg" alt = "check-circle" className="h-7" /></button>
             )
         }
-        else if (status === "Hoàn thành") {
+        else if (val.status === "Hoàn thành") {
             return (
-                <img src="/circle-check.svg" alt = "check-circle" className="h-10" />
+                <img src="/circle-check.svg" alt = "check-circle" className="h-7" />
             )
         }
     }
-    const StatusColor = (status) => {
-        if (status === "Đã hủy") {
-            return (
-                <div className="text-[#FE1E00]">{status}</div>
-            )
-        }
-        else if (status === "Chờ in") {
-            return (
-                <div className="text-neutral-600">{status}</div>
-            )
-        }
-        else if (status === "Đang in") {
-            return (
-                <div className="text-[#ED9005]">{status}</div>
-            )
-        }
-        else if (status === "Hoàn tất in") {
-            return (
-                <div className="text-[#12E500]">{status}</div>
-            )
-        }
-        else if (status === "Hoàn thành") {
-            return (
-                <div className="text-[#06abfe]">{status}</div>
-            )
-        }
-    }
+
     const table = () => {
-        return (
-            <section>
-                <table className="relative overflow-x-auto mx-auto text-2xl">
-                    <tr className="bg-[#AADEF6]">
-                        <th className="px-16 py-2">Ngày in</th>
-                        <th className="px-16 py-2">Dự kiến lấy</th>
-                        <th className="px-16 py-2">Tài liệu</th>
-                        <th className="px-10 py-2">Máy in</th>
-                        <th className="px-10 py-2">Phương thức nhận</th>
-                        <th className="px-6 py-2">Số trang</th>
-                        <th className="px-6 py-2">Trạng thái</th>
-                        <th className="py-2"></th>
-                    </tr>
-                    {filterData.map((val, key) => {
-                        if (key % 2 == 0) {
-                            return (
-                                <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <td className="px-10 py-3">{val.printTime}</td>
-                                    <td className="px-10 py-3">{val.pickupTime}</td>
-                                    <td className="px-10 py-3">{val.fileName}</td>
-                                    <td className="px-10 py-3">{val.model}</td>
-                                    <td className="px-10 py-3">{val.pickupMethod}</td>
-                                    <td className="px-6 py-3">{val.totalPageUsed}</td>
-                                    <td className="px-6 py-3 font-semibold">{StatusColor(val.status)}</td> {/* Đã hủy, Chờ in ( có nút hủy), đang in, Hoàn tất in, Hoàn thành */}
-                                    <td className="pr-6 py-3">{StatusAction(val.status)}</td>
-                                </tr>
-                            )
-                        }
-                        else {
-                            return (
-                                <tr className="text-center text-xl" key={key} >
-                                    <td className="px-10 py-3">{val.printTime}</td>
-                                    <td className="px-10 py-3">{val.pickupTime}</td>
-                                    <td className="px-10 py-3">{val.fileName}</td>
-                                    <td className="px-10 py-3">{val.model}</td>
-                                    <td className="px-10 py-3">{val.pickupMethod}</td>
-                                    <td className="px-6 py-3">{val.totalPageUsed}</td>
-                                    <td className="px-6 py-3 font-semibold">{StatusColor(val.status)}</td>
-                                    <td className="pr-6 py-3">{StatusAction(val.status)}</td>
-                                </tr>
-                            )
-                        }
-                    })}
-                </table>
-                <section>
-                    <Pagination
-                        className="pagination-bar"
-                        currentPage={currentPage}
-                        totalCount={data.length}
-                        pageSize={PageSize}
-                        onPageChange={page => setCurrentPage(page)}
-                    />
-                </section>
+    return (
+        <section>
+            <table className="relative overflow-x-auto mx-auto text-2xl w-10/12">
+                <tr className="bg-[#AADEF6]">
+                    <th className="">Ngày in</th>
+                    <th className="">Dự kiến lấy</th>
+                    <th className="">Tài liệu</th>
+                    <th className="">Máy in</th>
+                    <th className="">Phương thức nhận</th>
+                    <th className="">Số trang</th>
+                    <th className="">Trạng thái</th>
+                    <th className=""></th>
+                </tr>
+                {currentTableData.map((val, key) => {
+                    if (key % 2 == 0) {
+                        return (
+                            <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
+                                <td className="h-12">{val.printTime}</td>
+                                <td className="">{val.pickupTime}</td>
+                                <td className="">{val.fileName}</td>
+                                <td className="">{val.model}</td>
+                                <td className="">{val.pickupMethod}</td>
+                                <td className="">{val.totalPageUsed}</td>
+                                <td className="font-semibold">{StatusColor(val.status)}</td> {/* Đã hủy, Chờ in ( có nút hủy), đang in, Hoàn tất in, Hoàn thành */}
+                                <td className="">{StatusAction(val)}</td>
+                            </tr>
+                        )
+                    }
+                    else {
+                        return (
+                            <tr className="text-center text-xl" key={key} >
+                                <td className="h-12">{val.printTime}</td>
+                                <td className="">{val.pickupTime}</td>
+                                <td className="">{val.fileName}</td>
+                                <td className="">{val.model}</td>
+                                <td className="">{val.pickupMethod}</td>
+                                <td className="">{val.totalPageUsed}</td>
+                                <td className="font-semibold">{StatusColor(val.status)}</td> {/* Đã hủy, Chờ in ( có nút hủy), đang in, Hoàn tất in, Hoàn thành */}
+                                <td className="">{StatusAction(val)}</td>
+                            </tr>
+                        )
+                    }
+                })}
+            </table>
+            <section >
+                <Pagination
+                    className="pagination-bar"
+                    currentPage={currentPage}
+                    totalCount={filterData.length}
+                    pageSize={PageSize}
+                    onPageChange={page => setCurrentPage(page)}
+                />
+
+
             </section>
+        </section>
         )
     };
     return (
@@ -247,20 +245,20 @@ const History = (props) => {
             {showHeader()}
             {searchBar()}
             {table()}
-            <div className="w-full px-28 m-10">
-                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={
-                            () => {
-                                if (sessionStorage.getItem("isSPSO") === "true") {
-                                    navigate('/homeSPSO')
+            <div className="w-full  my-10 flex justify-center">
+                            <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={
+                                () => {
+                                    if (sessionStorage.getItem("isSPSO") === "true") {
+                                        navigate('/homeSPSO')
+                                    }
+                                    else {
+                                        navigate('/homeUser')
+                                    }
                                 }
-                                else {
-                                    navigate('/homeUser')
-                                }
-                            }
-                        }>
-                            TRỞ VỀ
-                        </button>
-                    </div>
+                            }>
+                                TRỞ VỀ
+                            </button>
+            </div>
         </>)}
         </div>
     );

@@ -1,57 +1,29 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../utils-component/Pagination";
-// import DataFetching from "../utils-component/dataFetching";
+import DataFetching from "../utils-component/dataFetching";
 import Cookies from "universal-cookie";
-import axios from "axios";
 
-const UserMana = (props) => {
+const QueuePrinter = (props) => {
     /* Fetching and Pagination */
-    const cookies = new Cookies();
+    const URL_API = "http://localhost:5000/print/" + sessionStorage.getItem("printerID") + "/queue";
+    const {data , loading} = DataFetching(URL_API);
 
-    const [refresh, setRefresh] = useState(false); // this is for refreshing the table after updating the status
-
-    const [isActive, setIsActive] = useState(false);    
-
-    const [id, setId] = useState("");
-
-    useEffect(() => {
-        (async () => {
-            const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
-            setId(res.data["data"]["userID"])
-            // console.log(res.data["data"]["userID"])
-        })()
-    }, [])
-
-    const URL_API = "http://localhost:5000/user/list"
-    // const {data , loading} = DataFetching(URL_API); this method need check click to fetch again
-
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        const fetchUsers = async () => {
-            const res = await axios.get(URL_API);
-            setData(res.data);
-            setLoading(true);
-        };
-        fetchUsers();
-    }, [refresh]);
-
-    // Pagination
+    //
     const PageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
     const [currentTableData, setCurrentTableData] = useState([]);
     /* Filter Search Bar */
     const [searchQuery, setSearchQuery] = useState("")
-    const [filterData, setFilterData] = useState([]);
+    const [filterData, setFilterData] = useState(data)
     useEffect(() => {
-        if (!isActive) setCurrentPage(1);
-        setIsActive(true);
-        const keys=["userID", "name", "phone", "address", "email", "pageBalance", "status"];
+        setCurrentPage(1);
+        const keys=["printerID", "model", "location", "status", "pageBalance"]
         setFilterData(data.filter((item) =>
             keys.some((key) => item[key] && item[key].toString().toLowerCase().includes(searchQuery.toLowerCase())) === true
         ))
     }, [searchQuery, data]);
+
     /* PAGE SIZE */
     
     useEffect(() => {
@@ -64,7 +36,7 @@ const UserMana = (props) => {
 
     const navigate = useNavigate();
 
-    const handleLogout = () => {   
+    const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
             const cookies = new Cookies();
             // clear token
@@ -75,8 +47,7 @@ const UserMana = (props) => {
             cookies.remove("isLogged");
             navigate('/');
         }
-    };
-
+    }
 
     const showHeader = () => {
         return(
@@ -130,9 +101,9 @@ const UserMana = (props) => {
     const searchBar = () => {
         return (
             <section>
-                <div className="flex justify-between m-10"> 
-                    <div className=" text-center flex w-full"></div>
-                    <div className=" justify-self-center text-4xl font-bold text-center flex w-full justify-center">Quản lý người dùng</div>
+                <div className="flex justify-between m-10 px-28"> 
+                    <div className=" text-center flex w-full justify-center"></div>
+                    <div className=" justify-self-center text-4xl font-bold text-center flex w-full justify-center">Quản lý máy in</div>
                     <div className="flex w-full justify-center" >
                     <form>   
                         <div class="relative">
@@ -151,7 +122,7 @@ const UserMana = (props) => {
     };
 
     const showEye = (val) => {
-        if (val === "Active") {
+        if (val === "Đang hoạt động") {
             return (
                 <img src="/eye-solid.svg" className="h-7" alt="eye-solid" />
             )
@@ -163,68 +134,34 @@ const UserMana = (props) => {
         }
     }
 
-
-    const handleStatus = (val) => {
-        if (val === id) {
-            alert("Không thể thay đổi trạng thái của chính mình");
-            return;
-        }
-        axios.put("http://localhost:5000/user/update-status", { userID: val })
-        .then((res) => {
-            console.log(res.data);
-            setRefresh(!refresh);
-            setIsActive(true);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    }
-
-
     const table = () => {
         return (
             <section>
-                <table className="relative overflow-x-auto mx-auto text-2xl w-9/12">
+                <table className="relative overflow-x-auto mx-auto text-2xl w-6/12">
                     <tr className="bg-[#AADEF6]">
                         <th className="h-12">ID</th>
-                        <th className="">Tên người dùng</th>
-                        <th className="">Số điện thoại</th>
-                        <th className="">Địa chỉ</th>
+                        <th className="">Máy in</th>
+                        <th className="">Thời gian in</th>
                         <th className="">Email</th>
-                        <th className="">Số trang còn lại</th>
-                        <th className="">Trạng thái</th>
-                        <th className=""></th>
                     </tr>
                     {currentTableData.map((val, key) => {
                         if (key % 2 == 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <th className="h-12">{val.userID}</th>
-                                    <th className="">{val.name}</th>
-                                    <th className="">{val.phone}</th>
-                                    <th className="">{val.address}</th>
+                                    <th className="h-12">{val.printorderID}</th>
+                                    <th className="">{val.model}</th>
+                                    <th className="">{val.printTime}</th>
                                     <th className="">{val.email}</th>
-                                    <th className="">{val.pageBalance}</th>
-                                    <th className="">
-                                    {(val.status === "Active") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
-                                    </th>
-                                    <th className=""><button onClick={() => handleStatus(val.userID)}>{showEye(val.status)}</button></th>
                                 </tr>
                             )
                         }
                         else {
                             return (
                                 <tr className="text-center text-xl" key={key} >
-                                    <th className="h-12">{val.userID}</th>
-                                    <th className="">{val.name}</th>
-                                    <th className="">{val.phone}</th>
-                                    <th className="">{val.address}</th>
+                                    <th className="h-12">{val.printorderID}</th>
+                                    <th className="">{val.model}</th>
+                                    <th className="">{val.printTime}</th>
                                     <th className="">{val.email}</th>
-                                    <th className="">{val.pageBalance}</th>
-                                    <th className="">
-                                    {(val.status === "Active") ? <span className="text-[#12E500]">{val.status}</span> : <span className="text-[#FE1E00]">{val.status}</span>}
-                                    </th>
-                                    <th className=""><button onClick={() => handleStatus(val.userID)}>{showEye(val.status)}</button></th>
                                 </tr>
                             )
                         }
@@ -254,8 +191,11 @@ const UserMana = (props) => {
                     {showHeader()}
                     {searchBar()}
                     {table()}  
-                    <div className="w-full my-10 flex justify-center">
-                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>navigate('/homeSPSO')}>
+                    <div className="w-full my-10 justify-center flex">
+                        <button className=" text-center w-28 rounded-2xl h-10 text-xl bg-[#676767] text-white" onClick={()=>
+                            {   sessionStorage.removeItem("printerID")
+                                navigate('/printerManagement')
+                            }}>
                             TRỞ VỀ
                         </button>
                     </div>
@@ -264,4 +204,4 @@ const UserMana = (props) => {
     );
 }
 
-export default UserMana
+export default QueuePrinter;
