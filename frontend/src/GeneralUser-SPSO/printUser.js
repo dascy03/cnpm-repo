@@ -85,6 +85,15 @@ const PrintUser = (props) => {
             if(err.response.data["message"] == "Ngưng hoạt động"){
                 alert("Máy in không hoạt động! Vui lòng chọn máy in khác");
             }
+            else if(err.response.data["message"] == "Please upload file to print!"){
+                alert("Vui lòng chọn file để in");
+            }
+            else if(err.response.data["message"] == "Your chosen pickupTime is wrong!"){
+                alert("Thời gian hẹn không hợp lệ! Vui lòng chọn thời gian khác");
+            }
+            else if(err.response.data["message"] == "The current printer is not active!"){
+                alert("Máy in không hoạt động! Vui lòng chọn máy in khác");
+            }
             else if(err.response.data["message"] == "The current printer do not have enough paper!"){
                 alert("Máy in không đủ giấy! Vui lòng chọn máy in khác");
             }
@@ -94,7 +103,7 @@ const PrintUser = (props) => {
             else if(err.response.data["message"] == "The current printer has another order at your chosen time!"){
                 alert("Máy in đã có đơn hàng khác vào thời gian này! Vui lòng chọn thời gian khác");
             }
-            else if(err.response.data["message"] == "Internal Server Error"){
+            else {
                 alert("Lỗi máy chủ");
             }
             console.log(err.response.data["message"]);
