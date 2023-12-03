@@ -7,13 +7,7 @@ import { StatusColor } from "../utils-component/StatusColor";
 
 const HomeSPSO = () => {
     const [oldData, setOldData] = useState({});
-    useEffect(() => {
-      (async () => {
-            const cookies = new Cookies();
-          const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
-          setOldData(res["data"]["data"])
-        })()
-    }, [])
+
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [pageBalance, setPageBalance] = useState(0);
@@ -21,7 +15,7 @@ const HomeSPSO = () => {
         (async () => {
             const cookies = new Cookies();  
             const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
-            setIsLoading(true)
+            setOldData(res["data"]["data"])
             const tempData = await axios.get("http://localhost:5000/print/orders/"+res["data"]["data"]["userID"])
             setData(tempData["data"])
             setPageBalance(res["data"]["data"]["pageBalance"])
@@ -52,9 +46,9 @@ const HomeSPSO = () => {
         <>  
         {/* header */}
             <section className="App-header"> 
-                <nav class="border-blue-200 text-lg bg-[#C4E4F3]">
-                    <div class="flex flex-wrap justify-between p-2">
-                        <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
+                <nav className="border-blue-200 text-lg bg-[#C4E4F3]">
+                    <div className="flex flex-wrap justify-between p-2">
+                        <div className="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
                                 <button onClick={
                                     () => {
                                         if (sessionStorage.getItem("isSPSO") === "true") {
@@ -65,10 +59,10 @@ const HomeSPSO = () => {
                                         }
                                     }
                                 }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
-                                <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap ">SMART PRINTING SERVICE</span>
+                                <span className="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap ">SMART PRINTING SERVICE</span>
                         </div>
-                        <div class="flex items-center px-16" id="navbar-solid-bg">
-                            <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+                        <div className="flex items-center px-16" id="navbar-solid-bg">
+                            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
                                     <button onClick={()=>navigate('/profileUser')}>
                                     <img className="rounded-full h-16 " src={oldData.avtLink} alt="my-ava" />
