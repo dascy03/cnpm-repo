@@ -22,126 +22,126 @@ const HomeSPSO = () => {
     }, [])
 
     const dataPrinter = [
-        {
-            "printerID": 1,
-            "model": "MAXIFY GX5070",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 2,
-            "model": "MAXIFY GX5071",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 3,
-            "model": "MAXIFY GX5073",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 4,
-            "model": "MAXIFY GX5074",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 5,
-            "model": "MAXIFY GX5075",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 6,
-            "model": "MAXIFY GX5076",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 7,
-            "model": "MAXIFY GX5077",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 8,
-            "model": "MAXIFY GX5077",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 9,
-            "model": "MAXIFY GX5079",
-            "imgLink": null,
-            "type": "High Volume Document Printing",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 11,
-            "model": "Only model",
-            "imgLink": null,
-            "type": "null",
-            "location": "null",
-            "status": "null"
-        },
-        {
-            "printerID": 12,
-            "model": "Only model",
-            "imgLink": null,
-            "type": "",
-            "location": "",
-            "status": ""
-        },
-        {
-            "printerID": 13,
-            "model": "MAXIFY GX5079",
-            "imgLink": null,
-            "type": "",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 14,
-            "model": "MAXIFY GX5079",
-            "imgLink": null,
-            "type": "",
-            "location": "H1 lobby",
-            "status": "active"
-        },
-        {
-            "printerID": 15,
-            "model": "MAXIFY GX5079",
-            "imgLink": null,
-            "type": "",
-            "location": "",
-            "status": "active"
-        },
-        {
-            "printerID": 16,
-            "model": "Only model",
-            "imgLink": null,
-            "type": "Normal",
-            "location": "H1 lobby",
-            "status": "active"
-        }
+        // {
+        //     "printerID": 1,
+        //     "model": "MAXIFY GX5070",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 2,
+        //     "model": "MAXIFY GX5071",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 3,
+        //     "model": "MAXIFY GX5073",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 4,
+        //     "model": "MAXIFY GX5074",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 5,
+        //     "model": "MAXIFY GX5075",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 6,
+        //     "model": "MAXIFY GX5076",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 7,
+        //     "model": "MAXIFY GX5077",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 8,
+        //     "model": "MAXIFY GX5077",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 9,
+        //     "model": "MAXIFY GX5079",
+        //     "imgLink": null,
+        //     "type": "High Volume Document Printing",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 11,
+        //     "model": "Only model",
+        //     "imgLink": null,
+        //     "type": "null",
+        //     "location": "null",
+        //     "status": "null"
+        // },
+        // {
+        //     "printerID": 12,
+        //     "model": "Only model",
+        //     "imgLink": null,
+        //     "type": "",
+        //     "location": "",
+        //     "status": ""
+        // },
+        // {
+        //     "printerID": 13,
+        //     "model": "MAXIFY GX5079",
+        //     "imgLink": null,
+        //     "type": "",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 14,
+        //     "model": "MAXIFY GX5079",
+        //     "imgLink": null,
+        //     "type": "",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 15,
+        //     "model": "MAXIFY GX5079",
+        //     "imgLink": null,
+        //     "type": "",
+        //     "location": "",
+        //     "status": "active"
+        // },
+        // {
+        //     "printerID": 16,
+        //     "model": "Only model",
+        //     "imgLink": null,
+        //     "type": "Normal",
+        //     "location": "H1 lobby",
+        //     "status": "active"
+        // }
     ]
     const navigate = useNavigate();
     const pageShow = 8
@@ -202,45 +202,48 @@ const HomeSPSO = () => {
             </section>
         {/* Body */}
             <section className="flex place-content-evenly"> 
-                <div className="flex-initial w-4/5 ml-16 my-10 px-28  ">
+                <div className="flex-initial  ml-16 my-10  justify-center w-8/12 ">
                     <div className="font-sans text-5xl font-bold text-[#2991C2] ">Chào SPSO-0, <br/> chúc một ngày tốt lành!</div>
-                    <div className="bg-[#DBF3FF] text-[#051319] font-sans text-2xl font-semibold rounded-3xl pt-6 px-10 my-14 w-full">
+                    <div className="bg-[#DBF3FF] text-[#051319] font-sans text-2xl font-semibold rounded-3xl pt-6 px-10 my-14 ">
                         Số trang còn lại: 
-                        <div className="font-sans text-[#014464] text-8xl font-bold text-center pt-1 pb-12 "> {pageBalance} </div>   
+                        <div className="font-sans text-[#014464] text-8xl font-bold text-center pt-1 pb-7 "> {pageBalance} </div>   
+                        <div className="flex justify-end pb-3 text-base text-[#014464] font-bold">
+                            <button onClick={()=>navigate('/PageBuyHistory')}>Xem lịch sử mua trang in</button>
+                        </div>
                     </div>
                     
                     <div className="grid grid-cols-2 place-content-around w-full text-center justify-center">
-                        <div className="rounded-3xl bg-[#2991C2] mr-5 py-10 my-5 w-[275px] ">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5 place-self-center w-[250px] ">
                             <button onClick={()=>navigate('/printUser')}>
-                                <img src="/print-solid.svg" className="h-20 mx-auto" alt="print" />
+                                <img src="/print-solid.svg" className="h-20 mx-auto " alt="print" />
                                 <span className ="text-white text-2xl ">In tài liệu</span>
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2] ml-5 py-10 my-5 w-[275px]">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[250px]">
                             <button onClick={()=>navigate('/BuyPage')}>    
                                 <img src="/cart-shopping-solid.svg" className="h-20 mx-auto" alt="shopping" />
                                 <span className="text-white text-2xl">Mua thêm trang</span> 
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2] mr-5 py-10 my-5 w-[275px] ">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5 place-self-center w-[250px] ">
                             <button onClick={()=>navigate('/printerManagement')}>
                                 <img src="/bars-progress.svg" className="h-20 mx-auto" alt="print" />
                                 <span className ="text-white text-2xl ">Quản lý máy in</span>
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2] ml-5 py-10 my-5 w-[275px]">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[250px]">
                             <button onClick={()=>navigate('/userManagement')}>    
                                 <img src="/user-solid.svg" className="h-20 mx-auto" alt="shopping" />
                                 <span className="text-white text-2xl">Quản lý người dùng</span> 
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2] mr-5 py-10 my-5 w-[275px] ">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[250px] ">
                             <button onClick={()=>navigate('/queueManagement')}>
                                 <img src="/table-column.svg" className="h-20 mx-auto" alt="print" />
                                 <span className ="text-white text-2xl ">Quản lý hàng đợi in</span>
                             </button>
                         </div>
-                        <div className="rounded-3xl bg-[#2991C2] ml-5 py-10 my-5 w-[275px]">
+                        <div className="rounded-3xl bg-[#2991C2]  py-10 my-5  place-self-center w-[250px]">
                             <button onClick={()=>navigate('/genaralSetting')}>    
                                 <img src="/gears-solid.svg" className="h-20 mx-auto" alt="shopping" />
                                 <span className="text-white text-2xl">Cài đặt chung</span> 

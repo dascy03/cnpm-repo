@@ -1,14 +1,27 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../utils-component/Pagination";
-import DataFetching from "../utils-component/dataFetching";
+// import DataFetching from "../utils-component/dataFetching";
 import Cookies from "universal-cookie";
+import axios from "axios";
 
 const PrinterMana = (props) => {
+
+    const [refresh, setRefresh] = useState(false);
+
     /* Fetching and Pagination */
     const URL_API = "http://localhost:5000/printers"
-    const {data , loading} = DataFetching(URL_API);
-
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        (async () => {
+            const res = await axios.get(URL_API);
+            setData(res.data);
+            setLoading(true);
+        }
+        )();
+    }
+    , [refresh]);
     //
     const PageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
@@ -129,14 +142,30 @@ const PrinterMana = (props) => {
     const showEye = (val) => {
         if (val === "Đang hoạt động") {
             return (
-                <img src="/eye-solid.svg" className="h-7" alt="eye-solid" />
+                <img src="/eye-solid.svg" className="h-8" alt="eye-solid" />
             )
         }
         else {
             return (
-                <img src="/eye-slash-solid.svg" className="h-7" alt="eye-slash-solid" />
+                <img src="/eye-slash-solid.svg" className="h-8" alt="eye-slash-solid" />
             )
         }
+    }
+
+    const handleStatusClick = (printerID) => {        
+        axios.put(`http://localhost:5000/printers/${printerID}/status`)
+        .then(res => {
+            console.log(res.data);
+            setRefresh(!refresh);
+        })
+        .catch(err => {
+            // console.log(err.response.data.message);
+            if ( err.response.data.message == "The current printer is perfoming printing, cannot be blocked!")
+                alert("Máy in đang hoạt động, không thể khóa!")
+            else
+                alert("Lỗi không xác định!")
+            console.log(err.response.data.message);
+        })
     }
 
     const handleQueueCLick = (printerID) => {
@@ -145,6 +174,25 @@ const PrinterMana = (props) => {
     }
 
 
+    const handleDeleteClick = (printer) => {
+        if (printer.status === "Đang hoạt động") { 
+            alert("Máy in đang hoạt động, không thể xóa!")
+            return ;
+        }
+        // check option of printer
+        if (window.confirm("Bạn có chắc chắn muốn xóa máy in này?")) {
+            axios.delete(`http://localhost:5000/printers/${printer.printerID}`)
+            .then(res => {
+                console.log(res.data);
+                setRefresh(!refresh);
+                navigate("/printerManagement")
+            })
+            .catch(err => {
+                console.log(err.response.data.message);
+            })
+        }
+    }
+    
     const table = () => {
         return (
             <section>
@@ -153,13 +201,15 @@ const PrinterMana = (props) => {
                         <th className="h-12">Mã máy in</th>
                         <th className="">Mẫu</th>
                         <th className="">Địa điểm</th>
-                        <th className="">Trạng thái</th>
                         <th className="">Số trang có sẵn</th>
+                        <th className="">Trạng thái</th>
+                        <th className=""></th>
+                        <th className=""></th>
                         <th className=""></th>
                         <th className=""></th>
                     </tr>
                     {currentTableData.map((val, key) => {
-                        if (key % 2 == 0) {
+                        if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
                                     <th className="h-12">{val.printerID}</th>
@@ -169,8 +219,9 @@ const PrinterMana = (props) => {
                                     <th className="">
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
-                                    <th className="">{showEye(val.status)}</th>
-                                    <th className=""><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
+                                    <th className=""><button onClick={()=>handleStatusClick(val.printerID)}>{showEye(val.status)}</button></th>
+                                    <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
+                                    <th className="px-2"><button onClick={()=>handleDeleteClick(val)}><img src="/xmark.svg" className="h-8" alt="xmark"/></button></th>
                                 </tr>
                             )
                         }
@@ -184,8 +235,9 @@ const PrinterMana = (props) => {
                                     <th className="">
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
-                                    <th className="">{showEye(val.status)}</th>
-                                    <th className=""><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
+                                    <th className=""><button onClick={()=>handleStatusClick(val.printerID)}>{showEye(val.status)}</button></th>
+                                    <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
+                                    <th className="px-2"><button onClick={()=>handleDeleteClick(val)}><img src="/xmark.svg" className="h-8" alt="xmark"/></button></th>
                                 </tr>
                             )
                         }
@@ -208,7 +260,7 @@ const PrinterMana = (props) => {
         //  check if loading is true, if true then show loading, if not then show table
         //  also check the currentTableData, if it is empty then show loading, if not then show table
         <div>
-            {loading == false ? (
+            {loading === false ? (
                 <div>Loading...</div>
             ) : (
                 <div>

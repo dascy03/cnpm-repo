@@ -5,9 +5,9 @@ export class Printer {
     this.model = model;
 
     if (location) this.location = location;
-    else this.location = "H1 lobby";
+    else this.location = "H1 - Lầu 1";
     if (status) this.status = status;
-    else this.status = "active";
+    else this.status = "Đang hoạt động";
   }
   save = async () => {
     let sql = `
