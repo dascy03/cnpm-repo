@@ -73,43 +73,44 @@ const History = (props) => {
     const showHeader = () => {
         return(
             <section className="App-header"> 
-                <nav class="border-blue-200 text-lg bg-[#C4E4F3] ">
-                    <div class="flex flex-wrap justify-between p-2">
-                        <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
-                                <button onClick={
-                                    () => {
-                                        if (sessionStorage.getItem("isSPSO") === "true") {
-                                            navigate('/homeSPSO')
-                                        }
-                                        else {
-                                            navigate('/homeUser')
-                                        }
+            <nav class="border-blue-200 text-lg bg-[#C4E4F3] ">
+                <div class="flex flex-wrap justify-between p-2 lg:max-xl:p-0 md:max-lg:p-0">
+                    <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4 lg:max-xl:mx-3 md:max-lg:mx-3 lg:max-xl:px-2 md:max-lg:px-2">
+                            <button onClick={
+                                () => {
+                                    if (sessionStorage.getItem("isSPSO") === "true") {
+                                        navigate('/homeSPSO')
                                     }
-                                }><img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
-                                <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap ">SMART PRINTING SERVICE</span>
-                        </div>
-                        <div class="flex items-center px-16" id="navbar-solid-bg">
-                            <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
-                                <li className="px-5">
-                                    <button onClick={()=>navigate('/homeUser')}>
-                                    <img className="rounded-full h-16 " src={oldData.avtLink} alt="my-ava" />
-                                    </button>
-                                </li>
-                                <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/SettingUser')}>
-                                    <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
-                                    </button>
-                                </li>
-                                <li className="px-5 pt-3">
-                                    <button onClick={handleLogout}>
-                                    <img src="/arrow-right-from-bracket-solid.svg" className="h-10" alt="arrow-right-from-bracket-solid" />
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                                    else {
+                                        navigate('/homeUser')
+                                    }
+                                }
+                            }>
+                                <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" /></button>
+                            <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap lg:max-xl:text-lg md:max-lg:text-lg">SMART PRINTING SERVICE</span>
                     </div>
-                </nav>
-            </section>
+                    <div class="flex items-center px-16" id="navbar-solid-bg">
+                        <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+                            <li className="px-5">
+                                <button onClick={()=>navigate('/profileUser')}>
+                                <img className="rounded-full h-16 lg:max-xl:h-14 md:max-lg:h-14" src={oldData.avtLink} alt="my-ava" />
+                                </button>
+                            </li>
+                            <li className="px-5 pt-3">
+                                <button onClick={()=>navigate('/SettingUser')}>
+                                <img src="/gear-solid.svg" className="h-10 lg:max-xl:h-8 md:max-lg:h-8" alt="gear-solid" />
+                                </button>
+                            </li>
+                            <li className="px-5 pt-3">
+                                <button onClick={handleLogout}>
+                                <img src="/arrow-right-from-bracket-solid.svg" className="h-10 lg:max-xl:h-8 md:max-lg:h-8" alt="arrow-right-from-bracket-solid" />
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </section>
         )
     };
 
@@ -124,7 +125,7 @@ const History = (props) => {
             <section>
                 <div className="flex justify-between m-10 "> 
                     <div className="text-center flex w-full"></div>
-                    <div className="justify-self-center text-4xl font-bold text-center flex w-full justify-center">Lịch sử in</div>
+                    <div className="justify-self-center text-4xl font-bold text-center flex w-full justify-center lg:max-xl:text-3xl md:max-lg:text-2xl">Lịch sử in</div>
                     <div className="flex w-full justify-center" >
                     <form>   
                         <div class="relative">
@@ -133,7 +134,7 @@ const History = (props) => {
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
                             </div>
-                            <input type="search" id="default-search" class="italic block p-2 ps-10  text-smt text-black border border-black rounded-full" placeholder="Tìm kiếm..." onKeyDown={handleEnter} value={searchQuery} onChange={(e)=> setSearchQuery(e.target.value)} />
+                            <input type="search" id="default-search" class="italic block p-2 ps-10  text-smt text-black border border-black rounded-full lg:max-xl:text-xs md:max-lg:text-xs" placeholder="Tìm kiếm..." onKeyDown={handleEnter} value={searchQuery} onChange={(e)=> setSearchQuery(e.target.value)} />
                         </div> 
                     </form>
                     </div>
@@ -183,7 +184,7 @@ const History = (props) => {
     const table = () => {
     return (
         <section>
-            <table className="relative overflow-x-auto mx-auto text-2xl w-10/12">
+            <table className="relative overflow-x-auto mx-auto text-2xl w-10/12 lg:max-xl:text-lg sm:max-lg:text-base">
                 <tr className="bg-[#AADEF6]">
                     <th className="">Ngày in</th>
                     <th className="">Dự kiến lấy</th>
@@ -197,8 +198,8 @@ const History = (props) => {
                 {currentTableData.map((val, key) => {
                     if (key % 2 === 0) {
                         return (
-                            <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                <td className="h-12">{val.printTime}</td>
+                            <tr className="text-center text-xl bg-[#E8F6FD] lg:max-xl:text-lg md:max-lg:text-sm" key={key} >
+                                <td className="h-12 lg:max-xl:h-10 md:max-lg:h-10">{val.printTime}</td>
                                 <td className="">{val.pickupTime}</td>
                                 <td className="">{val.fileName}</td>
                                 <td className="">{val.model}</td>
@@ -211,8 +212,8 @@ const History = (props) => {
                     }
                     else {
                         return (
-                            <tr className="text-center text-xl" key={key} >
-                                <td className="h-12">{val.printTime}</td>
+                            <tr className="text-center text-xl lg:max-xl:text-lg md:max-lg:text-sm" key={key} >
+                                <td className="h-12 lg:max-xl:h-10 md:max-lg:h-10">{val.printTime}</td>
                                 <td className="">{val.pickupTime}</td>
                                 <td className="">{val.fileName}</td>
                                 <td className="">{val.model}</td>
