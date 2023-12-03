@@ -82,25 +82,25 @@ const PrintUser = (props) => {
             console.log(res.data);
             alert("Đặt in thành công");
         }).catch((err) => {
-            if(err.response.data["message"] == "Ngưng hoạt động"){
+            if(err.response.data["message"] === "Ngưng hoạt động"){
                 alert("Máy in không hoạt động! Vui lòng chọn máy in khác");
             }
-            else if(err.response.data["message"] == "Please upload file to print!"){
+            else if(err.response.data["message"] === "Please upload file to print!"){
                 alert("Vui lòng chọn file để in");
             }
-            else if(err.response.data["message"] == "Your chosen pickupTime is wrong!"){
+            else if(err.response.data["message"] === "Your chosen pickupTime is wrong!"){
                 alert("Thời gian hẹn không hợp lệ! Vui lòng chọn thời gian khác");
             }
-            else if(err.response.data["message"] == "The current printer is not active!"){
+            else if(err.response.data["message"] === "The current printer is not active!"){
                 alert("Máy in không hoạt động! Vui lòng chọn máy in khác");
             }
-            else if(err.response.data["message"] == "The current printer do not have enough paper!"){
+            else if(err.response.data["message"] === "The current printer do not have enough paper!"){
                 alert("Máy in không đủ giấy! Vui lòng chọn máy in khác");
             }
-            else if(err.response.data["message"] == "You do not have enough page!"){
+            else if(err.response.data["message"] === "You do not have enough page!"){
                 alert("Bạn không đủ trang để in! Vui lòng nạp thêm trang");
             }
-            else if(err.response.data["message"] == "The current printer has another order at your chosen time!"){
+            else if(err.response.data["message"] === "The current printer has another order at your chosen time!"){
                 alert("Máy in đã có đơn hàng khác vào thời gian này! Vui lòng chọn thời gian khác");
             }
             else {
@@ -271,7 +271,7 @@ const PrintUser = (props) => {
                                 <input type="radio" name="Method"
                                     onChange={
                                         (e) => {
-                                            if (data.printTime == "") {
+                                            if (data.printTime === "") {
                                                 alert("Vui lòng nhập thời gian in trước");
                                                 setData({ ...data, pickupMethod: "" })
                                                 return;
@@ -290,7 +290,7 @@ const PrintUser = (props) => {
                                 <input type="radio" name="Method"
                                     onChange={
                                         (e) => {
-                                            if (data.printTime == "") {
+                                            if (data.printTime === "") {
                                                 alert("Vui lòng nhập thời gian in trước");
                                                 setData({ ...data, pickupMethod: "" })
                                                 return;
@@ -310,7 +310,7 @@ const PrintUser = (props) => {
                                     required ì
                                     onChange={
                                        (e) =>{
-                                        if (data.printTime == "") {
+                                        if (data.printTime === "") {
                                             alert("Vui lòng nhập thời gian in trước");
                                             setData({ ...data, pickupMethod: "" })
                                             return;

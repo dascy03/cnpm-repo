@@ -1,9 +1,8 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../utils-component/Pagination";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import { StatusColor } from "../utils-component/StatusColor";
 
 const PageBuyHistory = (props) => {
   // Fetching
@@ -11,7 +10,6 @@ const PageBuyHistory = (props) => {
   const [oldData, setOldData] = useState({});
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -30,7 +28,7 @@ const PageBuyHistory = (props) => {
         })
         .catch((err) => console.log(err));
     })();
-  }, [refresh]);
+  }, []);
 
   // Start
   const PageSize = 5;
@@ -182,38 +180,6 @@ const PageBuyHistory = (props) => {
     );
   };
 
-  const handleStatus = (val) => {
-    axios
-      .put("http://localhost:5000/print/orders/update/" + val.printorderID)
-      .then((res) => {
-        console.log(res.data);
-        setRefresh(!refresh);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const StatusAction = (val) => {
-    if (val.status === "Đã huỷ") {
-      return <img src="/trash-solid.svg" alt="trash-solid" className="h-7" />;
-    } else if (val.status === "Chờ in") {
-      return (
-        <button onClick={() => handleStatus(val)}>
-          <img src="/xmark.svg" alt="xmark" className="h-7" />
-        </button>
-      );
-    } else if (val.status === "Đang in") {
-      return <img src="/hour-glass.svg" alt="spinner" className="h-7" />;
-    } else if (val.status === "Hoàn tất in") {
-      return (
-        <button onClick={() => handleStatus(val)}>
-          <img src="/check.svg" alt="check-circle" className="h-7" />
-        </button>
-      );
-    } else if (val.status === "Hoàn thành") {
-      return <img src="/circle-check.svg" alt="check-circle" className="h-7" />;
-    }
-  };
-
   const table = () => {
     return (
       <section>
@@ -226,7 +192,7 @@ const PageBuyHistory = (props) => {
             <th className="">Tổng tiền</th>
           </tr>
           {currentTableData.map((val, key) => {
-            if (key % 2 == 0) {
+            if (key % 2 === 0) {
               return (
                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key}>
                   <td className="h-12">{val.purchaseID}</td>

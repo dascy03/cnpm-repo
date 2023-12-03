@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../utils-component/Pagination";
-import DataFetching from "../utils-component/dataFetching";
 import Cookies from "universal-cookie";
 import { StatusColor } from "../utils-component/StatusColor";
 import axios from "axios";
 
 const QueueMana = (props) => {
-    const cookies = new Cookies();
     const [oldData, setOldData] = useState({});
     useEffect(() => {
       (async () => {
+            const cookies = new Cookies();
           const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
           setOldData(res["data"]["data"])
         })()
@@ -57,6 +56,7 @@ const QueueMana = (props) => {
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            const cookies = new Cookies();
             // clear token
             localStorage.clear();
             // remove session storage
@@ -173,7 +173,7 @@ const QueueMana = (props) => {
                         <th className=""></th>
                     </tr>
                     {currentTableData.map((val, key) => {
-                        if (key % 2 == 0) {
+                        if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
                                     <th className="h-12">{val.printorderID}</th>
@@ -231,7 +231,7 @@ const QueueMana = (props) => {
         //  check if loading is true, if true then show loading, if not then show table
         //  also check the currentTableData, if it is empty then show loading, if not then show table
         <div>
-            {loading == false ? (
+            {loading === false ? (
                 <div>Loading...</div>
             ) : (
                 <div>

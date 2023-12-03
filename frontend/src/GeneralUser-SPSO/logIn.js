@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import ReactLoading from "react-loading";
 import Cookie from "universal-cookie";
-import { useCookies } from "react-cookie";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -13,7 +11,7 @@ const LogIn = () => {
   });
   const [isloading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
   const [isSPSO, setIsSPSO] = useState(false);
 
   const handleLogin = (e) => {
@@ -35,25 +33,25 @@ const LogIn = () => {
         console.log(res.data);
         setIsLoading(true);
         setSuccess(res.data["success"]);
-        setToken(res.data["token"]);
+        // setToken(res.data["token"]);
         setIsSPSO(res.data["isSPSO"]);
         // store token to cookies
         const cookie = new Cookie();
-        cookie.set("token", res.data["token"], { path: "/" });
+        // cookie.set("token", res.data["token"], { path: "/" });
         cookie.set("isLogged", res.data["success"], { path: "/" });
         cookie.set("isSPSO", res.data["isSPSO"], { path: "/" });
         sessionStorage.setItem("isSPSO", res.data["isSPSO"]);
       })
       .catch((err) => {
-        if (err.response.data["message"] == "Invalid credentials")
+        if (err.response.data["message"] === "Invalid credentials")
           alert("Sai tên tài khoản hoặc mật khẩu");
         else if (
-          err.response.data["message"] == "Username and password are required."
+          err.response.data["message"] === "Username and password are required."
         )
           alert("Không được dể trống tên tài khoản/mật khẩu");
-        else if (err.response.data["message"] == "Internal Server Error")
+        else if (err.response.data["message"] === "Internal Server Error")
           alert("Lỗi máy chủ");
-        else if (err.response.data["message"] == "Inactive user")
+        else if (err.response.data["message"] === "Inactive user")
           alert("Tài khoản đã bị khóa");
         else alert("Không xác định được lỗi");
       });
@@ -136,21 +134,19 @@ const LogIn = () => {
           </div>
 
           <div className="mt-6 w-1/4 flex justify-center">
-            <a
-              href=""
+            <button
               className="font-bold"
               onClick={() => navigate("/register")}
             >
               Đăng ký
-            </a>
+            </button>
             <span className="mx-4">|</span>
-            <a
-              href=""
+            <button
               className="font-bold"
               onClick={() => navigate("/forgotPassword")}
             >
               Quên mật khẩu?
-            </a>
+            </button>
           </div>
         </form>
       </section>

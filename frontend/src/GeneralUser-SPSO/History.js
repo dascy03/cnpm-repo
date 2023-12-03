@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../utils-component/Pagination";
 import axios from "axios";
@@ -8,7 +8,6 @@ import { StatusColor } from "../utils-component/StatusColor";
 
 const History = (props) => {
     // Fetching
-    const cookies = new Cookies();
     const [oldData, setOldData] = useState({}); 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -16,6 +15,7 @@ const History = (props) => {
 
     useEffect(() => {
         (async () => {
+            const cookies = new Cookies();
             const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
             setOldData(res["data"]["data"])
             const tempData = await axios.get("http://localhost:5000/print/orders/"+res["data"]["data"]["userID"])
@@ -60,6 +60,7 @@ const History = (props) => {
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            const cookies = new Cookies();
             sessionStorage.clear();
             localStorage.clear();
             cookies.remove("token");
@@ -194,7 +195,7 @@ const History = (props) => {
                     <th className=""></th>
                 </tr>
                 {currentTableData.map((val, key) => {
-                    if (key % 2 == 0) {
+                    if (key % 2 === 0) {
                         return (
                             <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
                                 <td className="h-12">{val.printTime}</td>
@@ -240,7 +241,7 @@ const History = (props) => {
     };
     return (
         <div>
-        { loading == false  ? (
+        { loading === false  ? (
             <div>Loading...</div>
         ) : (
         <>

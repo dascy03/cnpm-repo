@@ -6,10 +6,10 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 
 const PrinterMana = (props) => {
-    const cookies = new Cookies();
     const [oldData, setOldData] = useState({});
     useEffect(() => {
       (async () => {
+            const cookies = new Cookies();
           const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
           setOldData(res["data"]["data"])
         })()
@@ -58,6 +58,7 @@ const PrinterMana = (props) => {
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            const cookies = new Cookies();
             // clear token
             localStorage.clear();
             // remove session storage
@@ -166,7 +167,7 @@ const PrinterMana = (props) => {
         })
         .catch(err => {
             // console.log(err.response.data.message);
-            if ( err.response.data.message == "The current printer is perfoming printing, cannot be blocked!")
+            if ( err.response.data.message === "The current printer is perfoming printing, cannot be blocked!")
                 alert("Máy in đang thực hiện hoạt động in, không thể khóa!")
             else
                 alert("Lỗi không xác định!")

@@ -6,34 +6,28 @@ import axios from "axios";
 
 
 const SettingUser = (props) => {
-    const cookies = new Cookie();   
     const navigate = useNavigate();
 
-    const [refresh, setRefresh] = useState(false);
     const [old, setOldData] = useState({
         DoB: new Date(),
     });
-    const [loading, setLoading] = useState(false);
     useEffect(() => {
         (async () => {
-            const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+            const cookies = new Cookie();
+            await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
             .then((res) => {
                 console.log(res.data["data"]);
                 setOldData(res.data["data"]);
-                setLoading(true);
             })
             .catch((err) => {
-                if (err.response.data["message"] == "User not found")
+                if (err.response.data["message"] === "User not found")
                     alert("Không tìm được User");
-                else if (err.response.data["message"] == "Internal Server Error")
+                else if (err.response.data["message"] === "Internal Server Error")
                     alert("Lỗi máy chủ");
             });
         })()
-    }, [refresh]);
+    }, []);
 
-    const handleSubmit = (e) => {
-    
-    }
     
 
     const handleLogout = () => {

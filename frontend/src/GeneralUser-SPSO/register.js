@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState({
-    'username': '',
-    'password': '',
-    'repassword': '',
-  })
+  
   return (
       <>  
       {/* header */}

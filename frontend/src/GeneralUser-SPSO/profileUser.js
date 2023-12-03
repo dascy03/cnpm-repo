@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import React, {useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import '../css/style.css';
 import Cookie from "universal-cookie";
@@ -7,7 +7,6 @@ import dateFormat from "dateformat";
 
 
 const ProfileUser = (props) => {
-    const cookies = new Cookie();   
     const navigate = useNavigate();
 
     const [refresh, setRefresh] = useState(false);
@@ -15,16 +14,17 @@ const ProfileUser = (props) => {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         (async () => {
-            const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+            const cookies = new Cookie();   
+            await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
             .then((res) => {
                 console.log(res.data["data"]);
                 setOldData(res.data["data"]);
                 setLoading(true);
             })
             .catch((err) => {
-                if (err.response.data["message"] == "User not found")
+                if (err.response.data["message"] === "User not found")
                     alert("Không tìm được User");
-                else if (err.response.data["message"] == "Internal Server Error")
+                else if (err.response.data["message"] === "Internal Server Error")
                     alert("Lỗi máy chủ");
             });
         })()
@@ -38,6 +38,7 @@ const ProfileUser = (props) => {
     });
 
     const handleSubmit = (e) => {
+        const cookies = new Cookie();
         console.log(data);
         e.preventDefault();
         const userData = {
@@ -48,7 +49,7 @@ const ProfileUser = (props) => {
             address: data.address,
         };
         for (let key in userData) {
-            if (userData[key] == "") {
+            if (userData[key] === "") {
                 userData[key] = old[key];
             }
         }
@@ -67,9 +68,9 @@ const ProfileUser = (props) => {
             }
             )
             .catch((err) => {
-                if (err.response.data["message"] == "User not found")
+                if (err.response.data["message"] === "User not found")
                     alert("Không tìm được User");
-                else if (err.response.data["message"] == "Internal Server Error")
+                else if (err.response.data["message"] === "Internal Server Error")
                     alert("Lỗi máy chủ");
             });
 
@@ -86,7 +87,6 @@ const ProfileUser = (props) => {
             navigate('/');
         }
     }
-    const date = new Date();
     return (
         <>
             {/* header */}

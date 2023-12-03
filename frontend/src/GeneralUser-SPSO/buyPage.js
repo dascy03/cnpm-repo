@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
 
 const BuyPage = () => {
-    const cookies = new Cookie();
     const navigate = useNavigate();
 
     const [oldData, setOldData] = useState({});
     useEffect(() => {
+      const cookies = new Cookie();
       (async () => {
           const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
           setOldData(res["data"]["data"])
@@ -17,6 +17,7 @@ const BuyPage = () => {
 
     const handleLogout = () => {
       if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          const cookies = new Cookie();
           // clear token
           localStorage.clear();
           // remove session storage
@@ -78,6 +79,7 @@ const BuyPage = () => {
       );
     }
 
+    const cookies = new Cookie();
     const [data, setData] = useState({
         token: cookies.get("token"),
         pageAmount: 0,
@@ -108,9 +110,9 @@ const BuyPage = () => {
         alert("Mua trang thành công")
       })
       .catch((error) => {
-        if (error.response.data["message"] == "Missing required information.")
+        if (error.response.data["message"] === "Missing required information.")
           alert("Vui lòng nhập số trang cần mua")
-        else if (error.response.data["message"] == "Page purchase successful.")
+        else if (error.response.data["message"] === "Page purchase successful.")
           alert ("Mua trang thành công")
         else {
           console.log(error)
