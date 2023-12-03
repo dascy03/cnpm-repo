@@ -20,44 +20,44 @@ const LogIn = () => {
     setData({ ...data, [e.target.name]: e.target.value });
     // check if empty
   };
-  
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = {
       username: data.username,
       password: data.password,
     };
-    console.log(userData)
+    console.log(userData);
 
-    axios.post("http://localhost:5000/user/login", userData)
-    .then((res) => {
-      console.log(res.data)
-      setIsLoading(true)
-      setSuccess(res.data["success"])
-      setToken(res.data["token"])
-      setIsSPSO(res.data["isSPSO"])
-      // store token to cookies 
-      const cookie = new Cookie();
-      cookie.set("token", res.data["token"], { path: "/" });
-      cookie.set("isLogged", res.data["success"], { path: "/" });
-      cookie.set("isSPSO", res.data["isSPSO"], { path: "/" });
-      sessionStorage.setItem("isSPSO", res.data["isSPSO"])
-    })
-    .catch((err) => {
-      if (err.response.data['message'] == "Invalid credentials")
-        alert("Sai tên tài khoản hoặc mật khẩu")
-      else if (err.response.data['message'] == "Username and password are required.")
-        alert("Không được dể trống tên tài khoản/mật khẩu")
-      else if (err.response.data['message'] == "Internal Server Error")
-        alert("Lỗi máy chủ")
-      else if (err.response.data['message'] == "Inactive user")
-        alert("Tài khoản đã bị khóa")
-      else 
-          alert("Không xác định được lỗi")
-    })
-  }
+    axios
+      .post("http://localhost:5000/user/login", userData)
+      .then((res) => {
+        console.log(res.data);
+        setIsLoading(true);
+        setSuccess(res.data["success"]);
+        setToken(res.data["token"]);
+        setIsSPSO(res.data["isSPSO"]);
+        // store token to cookies
+        const cookie = new Cookie();
+        cookie.set("token", res.data["token"], { path: "/" });
+        cookie.set("isLogged", res.data["success"], { path: "/" });
+        cookie.set("isSPSO", res.data["isSPSO"], { path: "/" });
+        sessionStorage.setItem("isSPSO", res.data["isSPSO"]);
+      })
+      .catch((err) => {
+        if (err.response.data["message"] == "Invalid credentials")
+          alert("Sai tên tài khoản hoặc mật khẩu");
+        else if (
+          err.response.data["message"] == "Username and password are required."
+        )
+          alert("Không được dể trống tên tài khoản/mật khẩu");
+        else if (err.response.data["message"] == "Internal Server Error")
+          alert("Lỗi máy chủ");
+        else if (err.response.data["message"] == "Inactive user")
+          alert("Tài khoản đã bị khóa");
+        else alert("Không xác định được lỗi");
+      });
+  };
   useEffect(() => {
     if (isloading) {
       if (success) {
@@ -92,14 +92,19 @@ const LogIn = () => {
       </section>
       {/* Body */}
       <section className="flex place-content-evenly justify-center h-screen">
-        <form className="w-screen flex flex-col items-center" onSubmit={handleSubmit}>
+        <form
+          className="w-screen flex flex-col items-center"
+          onSubmit={handleSubmit}
+        >
           <h1 className="font-bold text-3xl mt-6 text-center">Đăng nhập</h1>
           <div className="mt-12 w-1/4">
-            <p className="text-base text-gray-500 font-semibold">Tên đăng nhập</p>
+            <p className="text-base text-gray-500 font-semibold">
+              Tên đăng nhập
+            </p>
             <div className="relative">
               <input
                 type="email"
-                name = "username"
+                name="username"
                 className="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
                 value={data.username}
                 onChange={handleLogin}
@@ -112,7 +117,7 @@ const LogIn = () => {
             <div className="relative">
               <input
                 type="password"
-                name = "password"
+                name="password"
                 className="border border-gray-500 bg-white h-12 w-full px-4 pr-4 rounded-3xl text-sm focus:outline-none mt-2"
                 value={data.password}
                 onChange={handleLogin}
@@ -131,7 +136,11 @@ const LogIn = () => {
           </div>
 
           <div className="mt-6 w-1/4 flex justify-center">
-            <a href="" className="font-bold" onClick={() => navigate("/register")}>
+            <a
+              href=""
+              className="font-bold"
+              onClick={() => navigate("/register")}
+            >
               Đăng ký
             </a>
             <span className="mx-4">|</span>
