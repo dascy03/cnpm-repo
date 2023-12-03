@@ -4,10 +4,10 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 
 const GenaralSetting = () => {
-    const cookies = new Cookies();
     const [oldData, setOldData] = useState({});
     useEffect(() => {
       (async () => {
+          const cookies = new Cookies();
           const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
           setOldData(res["data"]["data"])
         })()
@@ -15,6 +15,7 @@ const GenaralSetting = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
       if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          const cookies = new Cookies();
           // clear token
           localStorage.clear();
           // remove session storage

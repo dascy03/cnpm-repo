@@ -6,10 +6,10 @@ import Cookies from "universal-cookie";
 import { StatusColor } from "../utils-component/StatusColor";
 
 const HomeSPSO = () => {
-    const cookies = new Cookies();
     const [oldData, setOldData] = useState({});
     useEffect(() => {
       (async () => {
+            const cookies = new Cookies();
           const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
           setOldData(res["data"]["data"])
         })()
@@ -19,6 +19,7 @@ const HomeSPSO = () => {
     const [pageBalance, setPageBalance] = useState(0);
     useEffect(() => {
         (async () => {
+            const cookies = new Cookies();  
             const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
             setIsLoading(true)
             const tempData = await axios.get("http://localhost:5000/print/orders/"+res["data"]["data"]["userID"])
@@ -35,6 +36,7 @@ const HomeSPSO = () => {
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            const cookies = new Cookies();
             // clear token
             localStorage.clear();
             // remove session storage
@@ -152,8 +154,8 @@ const HomeSPSO = () => {
                         <th className="">Trạng thái</th>
                     </tr>
                     {data && data.map((val, key) => {
-                        if (key > pageShow) return;
-                        if (key % 2 == 0) {
+                        if (key >= pageShow) return [];
+                        if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text bg-[#E8F6FD]" key={key} >
                                     <td className="h-11">{val.pickupTime}</td>
@@ -193,8 +195,8 @@ const HomeSPSO = () => {
                         <th className="">Trạng thái</th>
                     </tr>
                     {dataPrinter.map((val, key) => {
-                        if (key > pageShow) return;
-                        if (key % 2 == 0) {
+                        if (key >= pageShow) return [];
+                        if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text bg-[#E8F6FD]" key={key} >
                                     <td className="h-11">{val.printerID}</td>
@@ -230,7 +232,7 @@ const HomeSPSO = () => {
                 }
     return (
         <div>
-            {isLoading == false ? <div>Loading...</div> : <WholePage />}
+            {isLoading === false ? <div>Loading...</div> : <WholePage />}
         </div>
     );
 }

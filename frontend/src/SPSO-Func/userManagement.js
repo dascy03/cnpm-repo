@@ -7,7 +7,6 @@ import axios from "axios";
 
 const UserMana = (props) => {
     /* Fetching and Pagination */
-    const cookies = new Cookies();
 
     const [refresh, setRefresh] = useState(false); // this is for refreshing the table after updating the status
 
@@ -19,6 +18,7 @@ const UserMana = (props) => {
 
     useEffect(() => {
         (async () => {
+            const cookies = new Cookies();
             const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
             setOldData(res["data"]["data"])
             setId(res.data["data"]["userID"])
@@ -199,7 +199,7 @@ const UserMana = (props) => {
                         <th className=""></th>
                     </tr>
                     {currentTableData.map((val, key) => {
-                        if (key % 2 == 0) {
+                        if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
                                     <th className="h-12">{val.userID}</th>
@@ -250,7 +250,7 @@ const UserMana = (props) => {
         //  check if loading is true, if true then show loading, if not then show table
         //  also check the currentTableData, if it is empty then show loading, if not then show table
         <div>
-            {loading == false ? (
+            {loading === false ? (
                 <div>Loading...</div>
             ) : (
                 <div>

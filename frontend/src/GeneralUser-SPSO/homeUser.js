@@ -6,13 +6,13 @@ import Cookies from "universal-cookie";
 import { StatusColor } from "../utils-component/StatusColor";
 
 const HomeUser = () => {
-    const cookies = new Cookies();
     const [oldData, setOldData] = useState({});
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [pageBalance, setPageBalance] = useState(0);
     useEffect(() => {
         (async () => {
+            const cookies = new Cookies();
             const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
             setOldData(res["data"]["data"])
             setIsLoading(true)
@@ -28,6 +28,7 @@ const HomeUser = () => {
     const pageShow = 8
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+            const cookies = new Cookies();
             // clear token
             localStorage.clear();
             // remove session storage
@@ -120,8 +121,8 @@ const HomeUser = () => {
                         <th className="">Trạng thái</th>
                     </tr>
                     {data && data.map((val, key) => {
-                        if (key > pageShow) return;
-                        if (key % 2 == 0) {
+                        if (key >= pageShow) return [];
+                        if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text bg-[#E8F6FD]" key={key} >
                                     <td className="h-10">{val.pickupTime}</td>
@@ -136,7 +137,7 @@ const HomeUser = () => {
                         else {
                             return (
                                 <tr className="text-center text" key={key} >
-                                    <td className="">{val.pickupTime}</td>
+                                    <td className="h-10">{val.pickupTime}</td>
                                     <td className="">{val.pickupMethod}</td>
                                     <td className="">{val.fileName}</td>
                                     <td className="">{val.model}</td>
@@ -158,7 +159,7 @@ const HomeUser = () => {
                 }
     return (
         <div>
-            {(isLoading == false) ?(<div>...Loading</div>) : <WholePage />}
+            {(isLoading === false) ?(<div>...Loading</div>) : <WholePage />}
         </div>
     )
 }
