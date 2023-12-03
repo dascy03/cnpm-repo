@@ -1,12 +1,13 @@
-import React from "react";
+import axios from "axios";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
 
 const BuyPage = () => {
+    const cookies = new Cookie();
     const navigate = useNavigate();
     const handleLogout = () => {
       if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-          const cookies = new Cookie();
           // clear token
           localStorage.clear();
           // remove session storage
@@ -67,6 +68,46 @@ const BuyPage = () => {
           </>
       );
     }
+
+    const [data, setData] = useState({
+        token: cookies.get("token"),
+        pageAmount: 0,
+        paymentMethod: "BKPay",
+    });
+
+    const handleSelect = (e) => {
+      setData({...data, paymentMethod: e.target.value})
+    }
+
+    const handleSubmit = (e) =>{
+      e.preventDefault();
+      const userData = {
+        token: cookies.get("token"),
+        pageAmount: data.pageAmount,
+        paymentMethod: data.paymentMethod,
+      }
+      if (userData.pageAmount <= 0 ) {
+        alert("Số trang không hợp lệ")
+        return;
+      }
+      axios.post("http://localhost:5000/page/buy", userData).then((response) => {
+        console.log(response);
+        alert("Mua trang thành công")
+      })
+      .catch((error) => {
+        if (error.response.data["message"] == "Missing required information.")
+          alert("Vui lòng nhập số trang cần mua")
+        else if (error.response.data["message"] == "Page purchase successful.")
+          alert ("Mua trang thành công")
+        else {
+          alert("Mua trang thất bại")
+        }
+      });
+    }
+
+    const [total, setTotal] = useState(0);
+
+
     const showBody = () => {
         return (
             <section>
@@ -83,6 +124,12 @@ const BuyPage = () => {
                       <div class="relative">
                         <input
                           type="text"
+                          onChange={
+                            (e) => {
+                              setData({...data, pageAmount: e.target.value})
+                              setTotal(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(e.target.value * 1000))
+                            }
+                          }
                           class="border border-gray-500 bg-white h-12 w-64 px-4 pr-4 rounded-xl text-lg focus:outline-none mt-2"
                         />
                       </div>
@@ -93,10 +140,10 @@ const BuyPage = () => {
                         Phương thức thanh toán
                       </p>
                       <div class="relative" >
-                        <select class="border border-gray-500 bg-white h-12 w-64 px-4 pr-4 rounded-xl text-lg focus:outline-none mt-2">
-                          <option>BKPay</option>
-                          <option>Momo</option>
-                          <option>Thẻ tín dụng</option>
+                        <select onChange={handleSelect} class="border border-gray-500 bg-white h-12 w-64 px-4 pr-4 rounded-xl text-lg focus:outline-none mt-2">
+                          <option value="BKPay">BKPay</option>
+                          <option value="Momo">Momo</option>
+                          <option value="Thẻ tín dụng">Thẻ tín dụng</option>
                         </select>
                       </div>
                     </div>
@@ -119,12 +166,13 @@ const BuyPage = () => {
                       Tổng
                     </p>
                     <p class=" col-span-2 text-lg text-right font-bold mr-6">
-                      400.000 đồng
+                      {total}
+
                     </p>
                   </div>
                   <div className="grid grid-cols-2 mt-16">
                     <button class="mr-3 justify-self-end col-span-1 relative bg-[#2991C2] border hover:bg-[#247ea8] active:bg-[#1b5f7e] hover:shadow-md border-gray-500 h-8 w-24 rounded-xl text-sm focus:outline-none font-semibold text-white"
-                    
+                      onClick={handleSubmit}
                     >
                       OK
                     </button>
