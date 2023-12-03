@@ -90,7 +90,7 @@ const PageBuyHistory = (props) => {
               >
                 <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" />
               </button>
-              <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap dark:text-white">
+              <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap ">
                 SMART PRINTING SERVICE
               </span>
             </div>
