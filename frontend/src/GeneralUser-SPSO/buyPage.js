@@ -1,11 +1,20 @@
 import axios from "axios";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
 
 const BuyPage = () => {
     const cookies = new Cookie();
     const navigate = useNavigate();
+
+    const [oldData, setOldData] = useState({});
+    useEffect(() => {
+      (async () => {
+          const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+          setOldData(res["data"]["data"])
+      })()
+  }, [])
+
     const handleLogout = () => {
       if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
           // clear token
@@ -47,7 +56,7 @@ const BuyPage = () => {
                                           navigate('/homeUser');
                                       }
                                       }}>
-                                      <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
+                                      <img className="rounded-full h-16 " src={oldData.avtLink} alt="my-ava" />
                                       </button>
                                   </li>
                                   <li className="px-5 pt-3">
@@ -100,6 +109,7 @@ const BuyPage = () => {
         else if (error.response.data["message"] == "Page purchase successful.")
           alert ("Mua trang thành công")
         else {
+          console.log(error)
           alert("Mua trang thất bại")
         }
       });

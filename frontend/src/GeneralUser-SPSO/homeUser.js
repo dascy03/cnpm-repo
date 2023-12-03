@@ -7,12 +7,14 @@ import { StatusColor } from "../utils-component/StatusColor";
 
 const HomeUser = () => {
     const cookies = new Cookies();
+    const [oldData, setOldData] = useState({});
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [pageBalance, setPageBalance] = useState(0);
     useEffect(() => {
         (async () => {
             const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+            setOldData(res["data"]["data"])
             setIsLoading(true)
             const tempData = await axios.get("http://localhost:5000/print/orders/"+res["data"]["data"]["userID"])
             setData(tempData["data"])
@@ -61,11 +63,11 @@ const HomeUser = () => {
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
                                     <button onClick={()=>navigate('/profileUser')}>
-                                    <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
+                                    <img className="rounded-full h-16 " src={oldData.avtLink} alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/')}>
+                                    <button >
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>

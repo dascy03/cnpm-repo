@@ -7,6 +7,13 @@ import { StatusColor } from "../utils-component/StatusColor";
 
 const HomeSPSO = () => {
     const cookies = new Cookies();
+    const [oldData, setOldData] = useState({});
+    useEffect(() => {
+      (async () => {
+          const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+          setOldData(res["data"]["data"])
+        })()
+    }, [])
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [pageBalance, setPageBalance] = useState(0);
@@ -22,126 +29,6 @@ const HomeSPSO = () => {
     }, [])
 
     const dataPrinter = [
-        // {
-        //     "printerID": 1,
-        //     "model": "MAXIFY GX5070",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 2,
-        //     "model": "MAXIFY GX5071",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 3,
-        //     "model": "MAXIFY GX5073",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 4,
-        //     "model": "MAXIFY GX5074",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 5,
-        //     "model": "MAXIFY GX5075",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 6,
-        //     "model": "MAXIFY GX5076",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 7,
-        //     "model": "MAXIFY GX5077",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 8,
-        //     "model": "MAXIFY GX5077",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 9,
-        //     "model": "MAXIFY GX5079",
-        //     "imgLink": null,
-        //     "type": "High Volume Document Printing",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 11,
-        //     "model": "Only model",
-        //     "imgLink": null,
-        //     "type": "null",
-        //     "location": "null",
-        //     "status": "null"
-        // },
-        // {
-        //     "printerID": 12,
-        //     "model": "Only model",
-        //     "imgLink": null,
-        //     "type": "",
-        //     "location": "",
-        //     "status": ""
-        // },
-        // {
-        //     "printerID": 13,
-        //     "model": "MAXIFY GX5079",
-        //     "imgLink": null,
-        //     "type": "",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 14,
-        //     "model": "MAXIFY GX5079",
-        //     "imgLink": null,
-        //     "type": "",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 15,
-        //     "model": "MAXIFY GX5079",
-        //     "imgLink": null,
-        //     "type": "",
-        //     "location": "",
-        //     "status": "active"
-        // },
-        // {
-        //     "printerID": 16,
-        //     "model": "Only model",
-        //     "imgLink": null,
-        //     "type": "Normal",
-        //     "location": "H1 lobby",
-        //     "status": "active"
-        // }
     ]
     const navigate = useNavigate();
     const pageShow = 8
@@ -182,11 +69,11 @@ const HomeSPSO = () => {
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
                                     <button onClick={()=>navigate('/profileUser')}>
-                                    <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
+                                    <img className="rounded-full h-16 " src={oldData.avtLink} alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button onClick={()=>navigate('/')}>
+                                    <button >
                                     <img src="/gear-solid.svg" className="h-10" alt="gear-solid" />
                                     </button>
                                 </li>

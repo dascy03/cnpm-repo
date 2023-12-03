@@ -7,7 +7,14 @@ import { StatusColor } from "../utils-component/StatusColor";
 import axios from "axios";
 
 const QueueMana = (props) => {
-
+    const cookies = new Cookies();
+    const [oldData, setOldData] = useState({});
+    useEffect(() => {
+      (async () => {
+          const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+          setOldData(res["data"]["data"])
+        })()
+    }, [])
     const [refresh, setRefresh] = useState(false);
 
     /* Fetching and Pagination */
@@ -50,7 +57,6 @@ const QueueMana = (props) => {
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-            const cookies = new Cookies();
             // clear token
             localStorage.clear();
             // remove session storage
@@ -84,7 +90,7 @@ const QueueMana = (props) => {
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
                                     <button onClick={()=>navigate('/homeSPSO')}>
-                                    <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
+                                    <img className="rounded-full h-16 " src={oldData.avtLink} alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
