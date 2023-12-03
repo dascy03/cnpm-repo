@@ -115,7 +115,7 @@ export const insertPrintOrder = async (req, res) => {
     } = req.body;
     console.log(req.body);
     const file_data = await handleFile(req);
-    if (!req.file_data)
+    if (!file_data)
       return res.status(400).send({ message: "Please upload file to print!" });
     const fileName = file_data[0];
     const pageSelected = file_data[1];

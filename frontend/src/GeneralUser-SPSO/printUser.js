@@ -16,7 +16,7 @@ const PrintUser = (props) => {
             const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
             .then((res) => {
                 // console.log(res.data["data"]);
-                // setOldData(res.data["data"]);
+                setOldData(res.data["data"]);
             })
             .catch((err) => {
                 if (err.response.data["message"] == "User not found")
@@ -77,11 +77,9 @@ const PrintUser = (props) => {
         // console.log(file)
         console.log([...userData])
         // console.log("halo")
-        axios.post("http://localhost:5000/print/orders", {
-           body: userData,
-        }).then((res) => {  
-
-            // console.log(res.data);
+        axios.post("http://localhost:5000/print/orders", userData
+        ).then((res) => {  
+            console.log(res.data);
             alert("Đặt in thành công");
         }).catch((err) => {
             if(err.response.data["message"] == "Ngưng hoạt động"){

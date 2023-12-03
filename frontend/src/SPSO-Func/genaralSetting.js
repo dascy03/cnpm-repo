@@ -24,6 +24,9 @@ const GenaralSetting = () => {
           navigate('/');
       }
   }
+
+    const handleSubmit = () => {
+    }
     return (
         <>  
         {/* header */}
@@ -34,7 +37,7 @@ const GenaralSetting = () => {
                                 <button onClick={
                                     () => {
                                         if (sessionStorage.getItem("isSPSO") === "true") {
-                                            navigate('/homeSPSO')
+                                            navigate('/homeSPSO') 
                                         }
                                         else {
                                             navigate('/homeUser')
@@ -233,7 +236,20 @@ const GenaralSetting = () => {
               />
               </div>
             </div>   
-        </section>
+        </section>  
+        <div className="justify-center flex mt-5 mb-10">
+              <button onClick={handleSubmit} className="bg-[#2991C2] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl font-semibold">LƯU</button>
+              <button onClick={
+                () => {
+                    if (sessionStorage.getItem("isSPSO") === "true") {
+                        navigate('/homeSPSO')
+                    }
+                    else {
+                        navigate('/homeUser')
+                    }
+                }
+              } className="bg-[#676767] text-white border-black mx-10 px-8 py-2 text-center rounded-2xl font-semibold ">TRỞ VỀ</button>
+        </div>
   
   
   
