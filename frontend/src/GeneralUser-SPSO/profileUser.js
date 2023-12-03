@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 // import '../css/style.css';
 import Cookie from "universal-cookie";
 import axios from "axios";
+import dateFormat from "dateformat";
 
 
 const ProfileUser = (props) => {
@@ -10,9 +11,7 @@ const ProfileUser = (props) => {
     const navigate = useNavigate();
 
     const [refresh, setRefresh] = useState(false);
-    const [old, setOldData] = useState({
-        DoB: new Date(),
-    });
+    const [old, setOldData] = useState({});
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         (async () => {
@@ -87,7 +86,7 @@ const ProfileUser = (props) => {
             navigate('/');
         }
     }
-
+    const date = new Date();
     return (
         <>
             {/* header */}
@@ -167,11 +166,11 @@ const ProfileUser = (props) => {
                             </div>
                             <div className="justify-start flex mt-10 h-8">
                                 <input
-                                    type="date"
                                     onChange={(e) => setData({ ...data, DoB: e.target.value })}
-                                    // onFocus={(e) => e.target.type = 'date'}
-                                    // onBlur={(e) => e.target.type = 'text'}
+                                    onFocus={(e) => e.target.type = 'date'}
+                                    onBlur={(e) => e.target.type = 'text'}
                                     value={data.DoB}
+                                    placeholder={dateFormat(old.DoB, "yyyy-mm-dd")}
                                     className="border border-gray-700 rounded-md px-2 w-52"
                                 />
                             </div>
