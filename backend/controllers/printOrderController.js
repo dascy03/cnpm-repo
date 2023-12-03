@@ -2,12 +2,21 @@ import { PrintOrder } from "../models/printOrderModel.js";
 import { db } from "../config/dbConfig.js";
 import { Printer } from "../models/Printer.js";
 import PDFParser from "pdf2json";
+import { DocxCounter } from "page-count";
+import { readFileSync } from "fs";
 
 const handleFile = async (req) => {
   try {
     const pdfPath = req.file.path;
     console.log(req.file);
     let result = [req.file.originalname];
+    if (result[0].slice(-4, -1) === "doc") {
+      const docxBuffer = readFileSync(pdfPath);
+      const pages = await DocxCounter.count(docxBuffer);
+      result.push(pages);
+      return result;
+    }
+
     const parsePDF = (path) => {
       return new Promise((resolve, reject) => {
         const pdfParser = new PDFParser();
@@ -148,6 +157,13 @@ export const insertPrintOrder = async (req, res) => {
       printCopy;
 
     const [current_printer, _] = await Printer.getByID(printerID);
+    // compare printTime and pickupTime
+    const date1 = new Date(printTime);
+    const date2 = new Date(pickupTime);
+    if (date2 < date1)
+      return res
+        .status(400)
+        .send({ message: "Your chosen pickupTime is wrong!" });
     // check status
     if (current_printer["status"] === "Ngưng hoạt động")
       return res
