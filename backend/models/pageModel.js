@@ -22,9 +22,10 @@ class PageModel {
         totalPrice,
       ]);
 
-      if (result[0].affectedRows > 0) {
+      if (this.result[0].affectedRows > 0) {
         const updateSql = `UPDATE users SET pageBalance = pageBalance + ? WHERE userID = ?;`;
         const updateResult = await db.execute(updateSql, [pageAmount, userId]);
+        //console.log(updateResult[0].affectedRows);
         return updateResult[0].affectedRows;
       }
 
