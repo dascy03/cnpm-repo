@@ -69,7 +69,7 @@ const ForgotPassword = () => {
           </div>
           <div class="mt-8 w-1/4">
             <button class="relative bg-[#2991C2] border hover:bg-[#247ea8] active:bg-[#1b5f7e] hover:shadow-md border-gray-500 h-12 w-full px-4 pr-4 rounded-3xl text-base focus:outline-none mt-2 font-bold text-white"
-            onClick={()=>navigate('/logIn')}>
+            onClick={()=>navigate('/')}>
               Đặt lại mật khẩu
             </button>
           </div>
