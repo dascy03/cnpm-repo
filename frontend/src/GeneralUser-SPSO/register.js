@@ -17,7 +17,7 @@ const Register = () => {
                   <div class="flex flex-wrap justify-between p-2">
                       <div class="flex items-center space-x-0 rtl:space-x-reverse mx-5 px-4">
                               <img src="/hcmut-logo.png" class="h-24" alt="HCMUT logo" />
-                              <span class="self-center text-[#014464] text-1xl font-bold whitespace-nowrap ">SMART PRINTING SERVICE</span>
+                              <span class="self-center text-[#014464] text-1xl font-semibold whitespace-nowrap ">SMART PRINTING SERVICE</span>
                       </div>
                   </div>
               </nav>
