@@ -1,97 +1,79 @@
 ﻿import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../css/style.css';
+// import '../css/style.css';
 import Cookie from "universal-cookie";
 import axios from "axios";
 
+
 const ProfileUser = (props) => {
+    const cookies = new Cookie();   
     const navigate = useNavigate();
 
-    // const [name, setName] = useState('Nguyễn Văn T');
-    // const [DOB, setDOB] = useState('20/04/2003');
-    // const [phone, setPhone] = useState('0123456789');
-    // const [email, setEmail] = useState('nguyen.vanT@hcmut.edu.vn');
-    // const [address, setAddress] = useState('BKCS2, Dĩ An, Bình Dương');
+    const [refresh, setRefresh] = useState(false);
+    const [old, setOldData] = useState({});
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        (async () => {
+            const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+            .then((res) => {
+                console.log(res.data["data"]);
+                setOldData(res.data["data"]);
+                setLoading(true);
+            })
+            .catch((err) => {
+                if (err.response.data["message"] == "User not found")
+                    alert("Không tìm được User");
+                else if (err.response.data["message"] == "Internal Server Error")
+                    alert("Lỗi máy chủ");
+            });
+        })()
+    }, [refresh]);
 
-    // const URL_API = "http://localhost:5000/user/info"
-    // const {data , loading} = DataFetching(URL_API);
-    // const keys=["userID", "name", "DoB", "phone", "address","email","password","status","pageBalance","avtLink"]
-    
-    const [success, setSuccess] = useState(false);
-    const cookie = new Cookie();
-    const Token123 = {
-        token:cookie.get("token"),
-    }
-    const [data, setData] = useState({
-        token:cookie.get("token"),
-        userID:1,
-        name:'',
-        DoB:new Date(),
-        phone:'',   
-        address:'',
-        email:'',
-        //avtLink:res.avtLink,
-    })
-
-    axios.post("http://localhost:5000/user/info", Token123)
-    .then((res) => {
-        setSuccess(res.data["success"])
-
-        data.userID=res.data.userID
-        data.name=res.data.name
-        data.DoB=res.data.DoB
-        data.phone=res.data.phone 
-        data.address=res.data.address
-        data.email=res.data.email
-        //data.avtLink=res.avtLink,
-    })
-    .catch((err) => {
-        if (err.response.data["message"] == "User not found")
-          alert("Không tìm được User");
-        else if (err.response.data["message"] == "Internal Server Error")
-          alert("Lỗi máy chủ");
+    const [data, setData] = useState({  
+        name: "",
+        DoB: "",
+        phone: "",
+        address: "",
     });
-
-    const handleUpdate = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
-        // check if empty
-    };
 
     const handleSubmit = (e) => {
-    e.preventDefault();
-    const userData = {
-        token: data.token,
-        name: data.name,
-        DoB: data.DoB,
-        phone: data.phone,
-        address: data.address,
-    }
-    axios.post("http://localhost:5000/user/update", userData)
-    .then((res) => {
-        setSuccess(res.data["success"])
-    })
-    .catch((err) => {
-        if (err.response.data["message"] == "User updated successfully")
-          alert("Đã được cập nhật thành công");
-        else if (
-          err.response.data["message"] == "User not found"
-        )
-          alert("Không tìm được User");
-        else if (err.response.data["message"] == "Internal Server Error")
-          alert("Lỗi máy chủ");
-    });
+        console.log(data);
+        e.preventDefault();
+        const userData = {
+            token: cookies.get("token"),
+            name: data.name,
+            DoB: data.DoB,
+            phone: data.phone,
+            address: data.address,
+        };
+        for (let key in userData) {
+            if (userData[key] == "") {
+                userData[key] = old[key];
+            }
+        }
+        // check phone format 
+        const phoneFormat = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+        if (!phoneFormat.test(userData.phone) && (userData.phone.length > 12 || userData.phone.length < 10)) {
+            alert("Số điện thoại không hợp lệ");
+            return;
+        }
+        console.log(userData);
+        axios.post("http://localhost:5000/user/update", userData)
+            .then((res) => {
+                console.log(res.data);
+                setRefresh(!refresh);
+                alert("Cập nhật thông tin thành công");
+            }
+            )
+            .catch((err) => {
+                if (err.response.data["message"] == "User not found")
+                    alert("Không tìm được User");
+                else if (err.response.data["message"] == "Internal Server Error")
+                    alert("Lỗi máy chủ");
+            });
 
     }
     
-    useEffect(() => {
-        if (sessionStorage.getItem("isSPSO") === "true") {
-            navigate('/homeSPSO')
-        }
-        else {
-            navigate('/homeUser')
-        }
-    }
-    );
 
     const handleLogout = () => {
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
@@ -104,7 +86,6 @@ const ProfileUser = (props) => {
         }
     }
 
-    
     return (
         <>
             {/* header */}
@@ -128,7 +109,7 @@ const ProfileUser = (props) => {
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
                                     <button onClick={() => navigate('/homeUser')}>
-                                        <img className="rounded-full h-16 " src="/ava-test.jpg" alt="my-ava" />
+                                        <img className="rounded-full h-16 " src={old.avtLink} alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
@@ -147,62 +128,91 @@ const ProfileUser = (props) => {
                 </nav>
             </section>
             {/* Body */}
-            <section className="profileUser">
-          <h1>Thông tin cá nhân</h1>
-              <div class="image12">
-                  <img src="./ava-test.jpg" alt=""/>
-                  <h2>{data.name}</h2>
-                  <p>{data.DoB}</p>
-                  <p>ID: {data.userID}</p>
-              </div>
-          <form onSubmit={handleSubmit}>
-
-              <label>Họ tên</label>
-              <input
-                  type="text" 
-                  required
-                  value={data.name}
-                  onChange={handleUpdate}
-              />
-
-              <label>Ngày sinh</label>
-              <input
-                  type="date"
-                  required
-                  value={data.DoB}
-                  onChange={handleUpdate}
-              />
-
-              <label>Điện thoại</label>
-              <input
-                  type="text"
-                  required
-                  value={data.phone}
-                  onChange={handleUpdate}
-              />
-
-              <label>Email</label>
-              <input
-                  type="text"
-                  required
-                  value={data.email}
-                  readOnly={true}
-              />
-
-              <label>Địa chỉ</label>
-              <input
-                  type="text"
-                  required
-                  value={data.address}
-                  onChange={handleUpdate}
-              />
-
-              <div className="LUU">
-                  <button>LƯU</button>
-              </div>
-
-          </form>
-      </section >
+                                <div className="justify-center flex text-3xl font-bold m-12">Thông tin cá nhân</div>
+            <section className="grid grid-cols-2">
+                <div className="flex justify-center">
+                    <div className=" border border-gray-500 w-4/12">
+                        <div className="justify-center flex m-5 ">
+                            <img src={old.avtLink} alt="my-ava" className="rounded-full h-52" />
+                        </div>
+                        <div className="justify-center flex text-2xl font-bold m-2 text-[#114A65]">
+                            {loading ? old.name : "Loading..."}
+                        </div>
+                        <div className="justify-center flex text-2xl m-2 ">
+                            {loading ? old.email : "Loading..."}
+                        </div>
+                        <span className="justify-center flex text-2xl font-bold m-2">ID:&nbsp;<div className="font-normal">{loading ? old.userID : "Loading..."}</div></span>
+                    </div>
+                </div>
+                <div className="flex justify-start">
+                    <form onSubmit={handleSubmit} className="w-full flex justify-start">
+                        <div>
+                            <div className="text-[#114A65] font-semibold m-7 text-xl">Họ tên</div>
+                            <div className="text-[#114A65] font-semibold m-7 text-xl">Ngày sinh</div>
+                            <div className="text-[#114A65] font-semibold m-7 text-xl">Điện thoại</div>
+                            <div className="text-[#114A65] font-semibold m-7 text-xl">Địa chỉ</div>
+                        </div>
+                        <div>
+                            <div className="justify-start flex my-7">
+                                <input
+                                    type="text"
+                                    onChange={(e) => setData({ ...data, name: e.target.value })}
+                                    required
+                                    value = {data.name}
+                                    placeholder={old.name}
+                                    className="border border-gray-700 rounded-md px-2 w-96"
+                                />
+                            </div>
+                            <div className="justify-start flex my-7">
+                                <input
+                                    type="date"
+                                    required
+                                    onChange={(e) => setData({ ...data, DoB: e.target.value })}
+                                    value={data.DoB}
+                                    placeholder={old.DoB}
+                                    onFocus={(e) => e.target.type = 'date'}
+                                    onBlur={(e) => e.target.type = 'text'}
+                                    className="border border-gray-700 rounded-md px-2"
+                                />
+                            </div>
+                            <div className="justify-start flex my-7">
+                                <input
+                                    type="text"
+                                    required
+                                    onChange={(e) => setData({ ...data, phone: e.target.value })}
+                                    value={data.phone}
+                                    placeholder={old.phone}
+                                    className="border border-gray-700 rounded-md px-2 w-96"
+                                />
+                            </div>
+                    
+                            <div className="justify-start flex my-8">
+                                <input
+                                    type="text"
+                                    required
+                                    onChange={(e)=> setData({ ...data, address: e.target.value })}
+                                    value={data.address}
+                                    placeholder={old.address}
+                                    className="border border-gray-700 rounded-md px-2 w-96"
+                                />
+                            </div>
+                            <div className="justify-start flex my-16">
+                                 <button onClick={handleSubmit} className="bg-[#2991C2] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl font-semibold">LƯU</button>
+                                 <button onClick={
+                                    () => {
+                                        if (sessionStorage.getItem("isSPSO") === "true") {
+                                            navigate('/homeSPSO')
+                                        }
+                                        else {
+                                            navigate('/homeUser')
+                                        }
+                                    }
+                                 } className="bg-[#676767] text-white border-black mx-10 px-8 py-2 text-center rounded-2xl font-semibold ">TRỞ VỀ</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section >
         </>
     );
 }

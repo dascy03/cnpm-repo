@@ -8,12 +8,15 @@ import { StatusColor } from "../utils-component/StatusColor";
 const PageBuyHistory = (props) => {
   // Fetching
   const cookies = new Cookies();
+  const [oldData, setOldData] = useState({});
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     (async () => {
+      const res = await axios.post("http://localhost:5000/user/info",{token: cookies.get("token")})
+            setOldData(res["data"]["data"])
       await axios
         .get("http://localhost:5000/page/history", {
           headers: {
@@ -33,32 +36,11 @@ const PageBuyHistory = (props) => {
   const PageSize = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTableData, setCurrentTableData] = useState([]);
-  // const currentTableData = useMemo(() => {
-  //     console.log(data)
-  //     console.log("hello")
-  //     const firstPageIndex = (currentPage - 1) * PageSize;
-  //     const lastPageIndex = firstPageIndex + PageSize;
-  //     return data.slice(firstPageIndex, lastPageIndex);
-  // }, [currentPage]);
-  // const [searchQuery, setSearchQuery] = useState("")
-  // const keys=["printorderID", "printTime", "pickupTime", "fileName", "model", "pickupMethod", "totalPageUsed", "status"]
-  // const filterData = currentTableData.filter((item) =>
-  //     keys.some((key) => item[key].toString().toLowerCase().includes(searchQuery.toLowerCase()))
-  // );
   const [searchQuery, setSearchQuery] = useState("");
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
     setCurrentPage(1);
-    const keys = [
-      "printorderID",
-      "printTime",
-      "pickupTime",
-      "fileName",
-      "model",
-      "pickupMethod",
-      "totalPageUsed",
-      "status",
-    ];
+    const keys = ["purchaseID", "pageAmount", "paymentMethod", "unitPrice"];
     setFilterData(
       data.filter(
         (item) =>
@@ -118,7 +100,7 @@ const PageBuyHistory = (props) => {
                   <button onClick={() => navigate("/homeUser")}>
                     <img
                       className="rounded-full h-16 "
-                      src="/ava-test.jpg"
+                      src={oldData.avtLink}
                       alt="my-ava"
                     />
                   </button>
@@ -235,48 +217,33 @@ const PageBuyHistory = (props) => {
   const table = () => {
     return (
       <section>
-        <table className="relative overflow-x-auto mx-auto text-2xl w-10/12">
+        <table className="relative overflow-x-auto mx-auto text-2xl w-5/12">
           <tr className="bg-[#AADEF6]">
-            <th className="">Ngày in</th>
-            <th className="">Dự kiến lấy</th>
-            <th className="">Tài liệu</th>
-            <th className="">Máy in</th>
-            <th className="">Phương thức nhận</th>
-            <th className="">Số trang</th>
-            <th className="">Trạng thái</th>
-            <th className=""></th>
+            <th className="">ID</th>
+            <th className="">Số lượng trang</th>
+            <th className="">Phương thức thanh toán</th>
+            <th className="">Đơn giá</th>
+            <th className="">Tổng tiền</th>
           </tr>
           {currentTableData.map((val, key) => {
             if (key % 2 == 0) {
               return (
                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key}>
-                  <td className="h-12">{val.printTime}</td>
-                  <td className="">{val.pickupTime}</td>
-                  <td className="">{val.fileName}</td>
-                  <td className="">{val.model}</td>
-                  <td className="">{val.pickupMethod}</td>
-                  <td className="">{val.totalPageUsed}</td>
-                  <td className="font-semibold">
-                    {StatusColor(val.status)}
-                  </td>{" "}
-                  {/* Đã hủy, Chờ in ( có nút hủy), đang in, Hoàn tất in, Hoàn thành */}
-                  <td className="">{StatusAction(val)}</td>
+                  <td className="h-12">{val.purchaseID}</td>
+                  <td className="">{val.pageAmount}</td>
+                  <td className="">{val.paymentMethod}</td>
+                  <td className="">{new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(val.unitPrice)}</td>
+                  <td className="">{new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(val.unitPrice*val.pageAmount)}</td>
                 </tr>
               );
             } else {
               return (
                 <tr className="text-center text-xl" key={key}>
-                  <td className="h-12">{val.printTime}</td>
-                  <td className="">{val.pickupTime}</td>
-                  <td className="">{val.fileName}</td>
-                  <td className="">{val.model}</td>
-                  <td className="">{val.pickupMethod}</td>
-                  <td className="">{val.totalPageUsed}</td>
-                  <td className="font-semibold">
-                    {StatusColor(val.status)}
-                  </td>{" "}
-                  {/* Đã hủy, Chờ in ( có nút hủy), đang in, Hoàn tất in, Hoàn thành */}
-                  <td className="">{StatusAction(val)}</td>
+                  <td className="h-12">{val.purchaseID}</td>
+                  <td className="">{val.pageAmount}</td>
+                  <td className="">{val.paymentMethod}</td>
+                  <td className="">{new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(val.unitPrice)}</td>
+                  <td className="">{new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(val.unitPrice*val.pageAmount)}</td>
                 </tr>
               );
             }
