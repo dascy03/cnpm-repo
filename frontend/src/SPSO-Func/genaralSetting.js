@@ -24,6 +24,9 @@ const GenaralSetting = () => {
           navigate('/');
       }
   }
+
+    const handleSubmit = () => {
+    }
     return (
         <>  
         {/* header */}
@@ -34,7 +37,7 @@ const GenaralSetting = () => {
                                 <button onClick={
                                     () => {
                                         if (sessionStorage.getItem("isSPSO") === "true") {
-                                            navigate('/homeSPSO')
+                                            navigate('/homeSPSO') 
                                         }
                                         else {
                                             navigate('/homeUser')
@@ -66,10 +69,10 @@ const GenaralSetting = () => {
                 </nav>
             </section>
         {/* Body */}
-        <h1 class="font-bold text-4xl mt-6 text-center">
+        <h1 class="font-bold text-3xl mt-6 text-center">
                 Cài đặt chung
         </h1>
-        <section className="grid justify-center mt-12 gap-4 h-screen bg-white">
+        <section className="grid justify-center mt-10 gap-4 h-screen bg-white">
             <div class="flex items-center">
                 <p class="text-xl text-[#114A65] w-64 font-semibold">
                   Hạn ngạch trang
@@ -77,7 +80,7 @@ const GenaralSetting = () => {
               <div class="w-2/3  ">
               <input
                 type="text"
-                class="border border-gray-500 bg-white h-12 w-2/3 px-4 pr-4 rounded-xl text-sm focus:outline-none"
+                class="border border-gray-500 bg-white h-10 w-2/3 px-4 pr-4 rounded-xl text-sm focus:outline-none"
               />
               </div>
             </div>   
@@ -88,7 +91,7 @@ const GenaralSetting = () => {
                 <div class="w-2/3  ">
               <input
                 type="text"
-                class="border border-gray-500 bg-white h-12 w-2/3 px-4 pr-4 rounded-xl text-sm focus:outline-none "                
+                class="border border-gray-500 bg-white h-10 w-2/3 px-4 pr-4 rounded-xl text-sm focus:outline-none "                
               />
               </div>
             </div>   
@@ -99,13 +102,13 @@ const GenaralSetting = () => {
               <div class="relative  ">
               <input
                 type="text"
-                class="border border-gray-500 bg-white h-12 w-64 px-4 pr-4 rounded-xl text-sm focus:outline-none"
+                class="border border-gray-500 bg-white h-10 w-64 px-4 pr-4 rounded-xl text-sm focus:outline-none"
               />
               </div>
               <p class="text-xl text-blackw-64 font-semibold ml-8">KB</p>
             </div>        
             <div class="flex items-start">
-                <p class="text-xl text-[#114A65] w-64 font-semibold">
+                <p class="text-xl text-[#114A65] w-64 font-semibold ">
                   Loại tệp cho phép
                 </p>
               <div class="grid grid-cols-3 grid-rows-2 ">
@@ -121,15 +124,15 @@ const GenaralSetting = () => {
                   <input type="checkbox" id="myCheckbox" class="form-checkbox h-5 w-5 text-black rounded"/> 
                   <label for="myCheckbox" class="ml-2 text-xl text-black font-semibold">Excel</label>
                 </div> 
-                <div class="flex col-span-1 row-span-1 items-center row-start-2 mt-4 ">
+                <div class="flex col-span-1 row-span-1 items-center row-start-2 mt-3 ">
                   <input type="checkbox" id="myCheckbox" class="form-checkbox h-5 w-5 text-black rounded"/> 
                   <label for="myCheckbox" class="ml-2 text-xl text-black font-semibold">Word</label>
                 </div> 
-                <div class="flex col-span-1 row-span-1 items-center row-start-2 mt-4">
+                <div class="flex col-span-1 row-span-1 items-center row-start-2 mt-3">
                   <input type="checkbox" id="myCheckbox" class="form-checkbox h-5 w-5 text-black rounded"/> 
                   <label for="myCheckbox" class="ml-2 text-xl text-black font-semibold">HTML</label>
                 </div> 
-                <div class="flex col-span-1 row-span-1 items-center row-start-2 mt-4  w-40">
+                <div class="flex col-span-1 row-span-1 items-center row-start-2 mt-3  w-40">
                   <input type="checkbox" id="myCheckbox" class="form-checkbox h-5 w-5 text-black rounded"/> 
                   <label for="myCheckbox" class="ml-2 text-xl text-black font-semibold">Powerpoint</label>
                 </div> 
@@ -142,7 +145,7 @@ const GenaralSetting = () => {
               <div class="w-2/3  ">
               <input
                 type="text"
-                class="border border-gray-500 bg-white h-12 w-2/3 px-4 pr-4 rounded-xl text-sm focus:outline-none"
+                class="border border-gray-500 bg-white h-10 w-2/3 px-4 pr-4 rounded-xl text-sm focus:outline-none"
               />
               </div>
             </div>           
@@ -229,11 +232,24 @@ const GenaralSetting = () => {
               <div class="w-2/3  ">
               <input
                 type="text"
-                class="border border-gray-500 bg-white h-12 w-2/3 px-4 pr-4 rounded-xl text-sm focus:outline-none"
+                class="border border-gray-500 bg-white h-10 w-2/3 px-4 pr-4 rounded-xl text-sm focus:outline-none"
               />
               </div>
             </div>   
-        </section>
+        </section>  
+        <div className="justify-center flex mt-5 mb-10">
+              <button onClick={handleSubmit} className="bg-[#2991C2] text-white border-black mx-10 px-10 py-2 text-center rounded-2xl font-semibold">LƯU</button>
+              <button onClick={
+                () => {
+                    if (sessionStorage.getItem("isSPSO") === "true") {
+                        navigate('/homeSPSO')
+                    }
+                    else {
+                        navigate('/homeUser')
+                    }
+                }
+              } className="bg-[#676767] text-white border-black mx-10 px-8 py-2 text-center rounded-2xl font-semibold ">TRỞ VỀ</button>
+        </div>
   
   
   

@@ -1,8 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState } from "react"; 
 import HomeUser from "./GeneralUser-SPSO/homeUser";
 import History from "./GeneralUser-SPSO/History";
-// import PrintUser from "./GeneralUser-SPSO/printUser";
+import PrintUser from "./GeneralUser-SPSO/printUser";
 import ProfileUser from "./GeneralUser-SPSO/profileUser";
 import Register from "./GeneralUser-SPSO/register";
 import LogIn from "./GeneralUser-SPSO/logIn"
@@ -48,11 +47,11 @@ function App() {
               <PageBuyHistory />
             </Protected>
           }/>
-          {/* <Route path="/printUser" element={
+          <Route path="/printUser" element={
             <Protected isLoggedIn={isLoggedIn} isSPSO={false}>
               <PrintUser />
             </Protected>
-          } /> */}
+          } />
           <Route path="/profileUser" element={
             <Protected isLoggedIn={isLoggedIn} isSPSO={false}>
               <ProfileUser />
