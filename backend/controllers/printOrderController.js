@@ -39,15 +39,37 @@ const handleFile = async (req) => {
   }
 };
 
+const rollbackPage = async (printorderID) => {
+  try {
+    const [userID, __] = await db.execute(
+      `SELECT userID FROM print_order WHERE printorderID = ?;`,
+      [printorderID]
+    );
+    const [totalPageUsed, ___] = await db.execute(
+      `SELECT totalPageUsed FROM print_order WHERE printorderID = ?;`,
+      [printorderID]
+    );
+    const result = await db.execute(
+      `UPDATE users SET pageBalance = pageBalance + ? WHERE userID = ?;`,
+      [totalPageUsed[0]["totalPageUsed"], userID[0]["userID"]]
+    );
+    return result;
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
+
 export const handleOrder = async (req, res) => {
   try {
     const { printorderID } = req.params;
     let [current_status, _] = await PrintOrder.getOrderStatus(printorderID);
     current_status = current_status[0]["status"];
     let result;
-    if (current_status === "Chờ in")
+    if (current_status === "Chờ in") {
       result = await PrintOrder.setOrderStatus(printorderID, "Đã huỷ");
-    else if (current_status === "Hoàn tất in")
+      await rollbackPage(printorderID);
+    } else if (current_status === "Hoàn tất in")
       result = await PrintOrder.setOrderStatus(printorderID, "Hoàn thành");
     else return res.status(200).send({ message: "nothing change" });
     if (!result) return res.status(400).send({ message: "Update order fail" });
@@ -63,6 +85,7 @@ export const cancelOrder = async (req, res) => {
     const { printorderID } = req.params;
     const result = await PrintOrder.setOrderStatus(printorderID, "Đã huỷ");
     if (!result) return res.status(400).send({ message: "Update order fail" });
+    await rollbackPage(printorderID);
     return res.status(200).send({ message: "ok" });
   } catch (error) {
     console.log(error.message);
