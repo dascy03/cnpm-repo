@@ -43,8 +43,12 @@ const History = (props) => {
     // );
     const [searchQuery, setSearchQuery] = useState("")
     const [filterData, setFilterData] = useState([]);
+    const [action, setAction] = useState(false);
     useEffect(() => {
-        setCurrentPage(1);
+        if (action === true) {
+            setAction(false);
+        }
+        else setCurrentPage(1);
         const keys=["printorderID", "printTime", "pickupTime", "fileName", "model", "pickupMethod", "totalPageUsed", "status"]
         setFilterData(data.filter((item) =>
             keys.some((key) => item[key] && item[key].toString().toLowerCase().includes(searchQuery.toLowerCase())) === true
@@ -146,6 +150,7 @@ const History = (props) => {
         axios.put("http://localhost:5000/print/orders/update/" + val.printorderID)
         .then((res) => {   
             console.log(res.data)
+            setAction(true)
             setRefresh(!refresh)
         }
         )
