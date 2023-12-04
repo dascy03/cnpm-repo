@@ -15,21 +15,24 @@ const handleFile = async (req) => {
       result.push(pages);
       return result;
     }
-
-    const parsePDF = (path) => {
-      return new Promise((resolve, reject) => {
-        const pdfParser = new PDFParser();
-        pdfParser.on("pdfParser_dataError", (errData) => {
-          reject(errData.parserError);
+    if (result[0].slice(-4, -1) === ".pd") {
+      const parsePDF = (path) => {
+        return new Promise((resolve, reject) => {
+          const pdfParser = new PDFParser();
+          pdfParser.on("pdfParser_dataError", (errData) => {
+            reject(errData.parserError);
+          });
+          pdfParser.on("pdfParser_dataReady", (pdfData) => {
+            resolve(pdfData);
+          });
+          pdfParser.loadPDF(path);
         });
-        pdfParser.on("pdfParser_dataReady", (pdfData) => {
-          resolve(pdfData);
-        });
-        pdfParser.loadPDF(path);
-      });
-    };
-    const pdfData = await parsePDF(pdfPath);
-    result.push(pdfData.Pages.length);
+      };
+      const pdfData = await parsePDF(pdfPath);
+      result.push(pdfData.Pages.length);
+      return result;
+    }
+    result.push(1);
     return result;
   } catch (error) {
     console.log(error.message);
