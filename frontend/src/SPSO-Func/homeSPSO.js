@@ -178,7 +178,7 @@ const HomeSPSO = () => {
                                 <th className="w-3/12">Phương thức tới lấy</th>
                                 <th className="w-3/12">Tài liệu</th>
                                 <th className="w-1/12">Máy in</th>
-                                <th className="w-1/12">Số trang sử dụng</th>
+                                <th className="w-1/12">Số trang</th>
                                 <th className="w-2/12 px-1">Trạng thái</th>
                             </tr>
                         </tbody>
@@ -222,10 +222,10 @@ const HomeSPSO = () => {
                     <table className="relative overflow-x-auto mx-auto text lg:max-xl:text-sm md:max-lg:text-xs w-full">
                         <tbody>
                             <tr className="bg-[#AADEF6] ">
-                                <th className="h-11 lg:max-xl:h-9 md:max-lg:h-7">ID</th>
-                                <th className="">Thời gian báo cáo</th>
-                                <th className="">Tên báo cáo</th>
-                                <th ></th>
+                                <th className="h-11 lg:max-xl:h-9 md:max-lg:h-7 w-1/12">ID</th>
+                                <th className="w-3/12">Thời gian báo cáo</th>
+                                <th className="w-3/12">Tên báo cáo</th>
+                                <th className="w-1/12" ></th>
                             </tr>
                         </tbody>
                     {dataPrinter.map((val, key) => {
@@ -234,7 +234,7 @@ const HomeSPSO = () => {
                             return (
                                 <tbody>
                                     <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-xs bg-[#E8F6FD]" key={key} >
-                                        <td className="">{val.ID}</td>
+                                        <td className="h-11">{val.ID}</td>
                                         <td className="">{val.time}</td>
                                         <td className="">{val.name}</td>
                                         <th><button onClick={
@@ -251,7 +251,7 @@ const HomeSPSO = () => {
                             return (
                                 <tbody>
                                     <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-xs" key={key} >
-                                        <td className="">{val.ID}</td>
+                                        <td className="h-11">{val.ID}</td>
                                         <td className="">{val.time}</td>
                                         <td className="">{val.name}</td>
                                         <th><button className="text-[#114A65] font-semibold">xem</button></th>

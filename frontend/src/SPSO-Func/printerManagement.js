@@ -214,7 +214,7 @@ const PrinterMana = (props) => {
             <section>
                 <table className="relative overflow-x-auto mx-auto text-2xl w-7/12">
                     <tr className="bg-[#AADEF6]">
-                        <th className="h-12">Mã máy in</th>
+                        <th className="h-12">ID</th>
                         <th className="">Mẫu</th>
                         <th className="">Địa điểm</th>
                         <th className="">Số trang có sẵn</th>
@@ -228,16 +228,16 @@ const PrinterMana = (props) => {
                         if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <th className="h-12">{val.printerID}</th>
-                                    <th className="">{val.model}</th>
-                                    <th className="">{val.location}</th>
-                                    <th className="">{val.pageBalance}</th>
-                                    <th className="">
+                                    <th className="h-12 w-1/12">{val.printerID}</th>
+                                    <th className="w-2/12">{val.model}</th>
+                                    <th className="w-2/12">{val.location}</th>
+                                    <th className="w-2/12">{val.pageBalance}</th>
+                                    <th className="w-2/12">
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
-                                    <th className=""><button onClick={()=>handleStatusClick(val.printerID)}>{showEye(val.status)}</button></th>
-                                    <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID,val.model)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
-                                    <th className="px-2"><button onClick={()=>handleDeleteClick(val)}><img src="/xmark.svg" className="h-8" alt="xmark"/></button></th>
+                                    <th className="w-1/12"><button onClick={()=>handleStatusClick(val.printerID)}>{showEye(val.status)}</button></th>
+                                    <th className="w-1/12"><button onClick={()=>handleQueueCLick(val.printerID,val.model)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
+                                    <th className="w-1/12"><button onClick={()=>handleDeleteClick(val)}><img src="/xmark.svg" className="h-8" alt="xmark"/></button></th>
                                 </tr>
                             )
                         }

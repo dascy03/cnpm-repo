@@ -161,7 +161,7 @@ const History = (props) => {
     const StatusAction = (val) => {
         if (val.status === "Đã huỷ") {
             return (
-                <img src="/trash-solid.svg" alt = "trash-solid" className="h-7" />
+                <button disabled="true"><img src="/trash-solid.svg" alt = "trash-solid" className="h-7 " /></button>
             )
         }
         else if (val.status === "Chờ in") {
@@ -171,7 +171,7 @@ const History = (props) => {
         }
         else if (val.status === "Đang in") {
             return (
-                <img src="/hour-glass.svg" alt = "spinner" className="h-7" />
+                <button disabled="true"><img src="/hour-glass.svg" alt = "spinner" className="h-7" /></button>
             )
         }
         else if (val.status === "Hoàn tất in") {
@@ -181,7 +181,7 @@ const History = (props) => {
         }
         else if (val.status === "Hoàn thành") {
             return (
-                <img src="/circle-check.svg" alt = "check-circle" className="h-7" />
+                <button disabled="true"><img src="/circle-check.svg" alt = "check-circle" className="h-7" /></button>
             )
         }
     }
@@ -191,14 +191,14 @@ const History = (props) => {
         <section>
             <table className="relative overflow-x-auto mx-auto text-2xl w-10/12 lg:max-xl:text-lg sm:max-lg:text-base">
                 <tr className="bg-[#AADEF6]">
-                    <th className="">Ngày in</th>
-                    <th className="">Dự kiến lấy</th>
-                    <th className="">Tài liệu</th>
-                    <th className="">Máy in</th>
-                    <th className="">Phương thức nhận</th>
-                    <th className="">Số trang</th>
-                    <th className="">Trạng thái</th>
-                    <th className=""></th>
+                    <th className="w-2/12 h-12">Ngày in</th>
+                    <th className="w-2/12">Dự kiến lấy</th>
+                    <th className="w-3/12">Tài liệu</th>
+                    <th className="w-1/12">Máy in</th>
+                    <th className="w-1/12">Phương thức nhận</th>
+                    <th className="w-1/12">Số trang</th>
+                    <th className="w-1/12">Trạng thái</th>
+                    <th className="w-1/12"></th>
                 </tr>
                 {currentTableData.map((val, key) => {
                     if (key % 2 === 0) {

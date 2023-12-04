@@ -136,19 +136,19 @@ const QueuePrinter = (props) => {
             <section>
                 <table className="relative overflow-x-auto mx-auto text-2xl w-6/12">
                     <tr className="bg-[#AADEF6]">
-                        <th className="h-12">ID</th>
-                        <th className="">Thời gian in</th>
-                        <th className="">Email</th>
-                        <th className="">Trạng thái</th>
+                        <th className="h-12 w-1/12">ID</th>
+                        <th className="w-3/12">Thời gian in</th>
+                        <th className="w-3/12">Email</th>
+                        <th className="w-2/12">Trạng thái</th>
                     </tr>
                     {currentTableData.map((val, key) => {
                         if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <th className="h-12">{val.printorderID}</th>
-                                    <th className="">{val.printTime}</th>
-                                    <th className="">{val.email}</th>
-                                    <th className="">{StatusColor(val.status)}</th>
+                                    <th className="h-12 w-1/12">{val.printorderID}</th>
+                                    <th className="w-3/12">{val.printTime}</th>
+                                    <th className="w-3/12">{val.email}</th>
+                                    <th className="w-2/12">{StatusColor(val.status)}</th>
                                 </tr>
                             )
                         }

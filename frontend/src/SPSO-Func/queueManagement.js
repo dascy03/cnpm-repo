@@ -15,7 +15,7 @@ const QueueMana = (props) => {
         })()
     }, [])
     const [refresh, setRefresh] = useState(false);
-
+    const [action,setAction] = useState(false);
     /* Fetching and Pagination */
     const URL_API = "http://localhost:5000/print/queues"
     // const {data , loading} = DataFetching(URL_API);
@@ -38,7 +38,8 @@ const QueueMana = (props) => {
      const [searchQuery, setSearchQuery] = useState("")
      const [filterData, setFilterData] = useState([]);
      useEffect(() => {
-         setCurrentPage(1);
+        if (action === true) setCurrentPage(1);
+        setAction(false);
          const keys=["printorderID","model","printTime","email","status"]
          setFilterData(data.filter((item) =>
              keys.some((key) => item[key] && item[key].toString().toLowerCase().includes(searchQuery.toLowerCase())) === true
@@ -151,10 +152,38 @@ const QueueMana = (props) => {
         })
     }
     const handleTrash = (val) => {
-        if (val.status === "Đã huỷ") {
+        if (val.status === "Chờ in") {
             return (
                 <button onClick={() => handleDelete(val.printorderID)}>
-                    <img src="/trash-solid.svg" className="flex h-7 px-2" alt="trash-solid" />
+                    <img src="/xmark.svg" className="h-7" alt="xmark" />
+                </button>
+            )
+        }
+        if (val.status === "Đang in") {
+            return (
+                <button disabled="true">
+                    <img src="/hour-glass.svg" className="h-7" alt="hour-glass" />
+                </button>
+            )
+        }
+        if (val.status === "Hoàn tất in") {
+            return (
+                <button disabled="true">
+                    <img src="/check.svg" className="h-7" alt="check" />
+                </button>
+            )
+        }
+        if (val.status === "Đã huỷ") {
+            return (
+                <button disabled="true">
+                    <img src="/trash-solid.svg" className="h-7" alt="trash-solid" />
+                </button>
+            )
+        }
+        if (val.status === "Hoàn thành"){
+            return (
+                <button disabled="true">
+                    <img src="/check-circle.svg" className="h-7" alt="check-circle" />
                 </button>
             )
         }
@@ -164,13 +193,13 @@ const QueueMana = (props) => {
             <section>
                 <table className="relative overflow-x-auto mx-auto text-2xl w-7/12">
                     <tr className="bg-[#AADEF6]">
-                        <th className="">ID</th>
-                        <th className="">Máy in</th>
-                        <th className="">Thời gian bắt đầu in</th>
-                        <th className="">Email</th>
-                        <th className="">Trạng thái</th>
-                        <th className=""></th>
-                        <th className=""></th>
+                        <th className="h-12 w-1/12">ID</th>
+                        <th className="w-2/12">Máy in</th>
+                        <th className="w-3/12">Thời gian bắt đầu in</th>
+                        <th className="w-2/12">Email</th>
+                        <th className="w-2/12">Trạng thái</th>
+                        <th className="w-1/12"></th>
+                        <th className="w-1/12"></th>
                     </tr>
                     {currentTableData.map((val, key) => {
                         if (key % 2 === 0) {
@@ -184,7 +213,7 @@ const QueueMana = (props) => {
                                         {StatusColor(val.status)}
                                     </th>
                                     <th className="">
-                                            <img src="/bars-solid.svg" className="flex h-7 " alt="bars-solid" />
+                                    <button><img src="/bars-solid.svg" className="flex h-7 " alt="bars-solid" /></button>
                                     </th>
                                     <th className="">
                                             {handleTrash(val)}
@@ -203,7 +232,7 @@ const QueueMana = (props) => {
                                         {StatusColor(val.status)}
                                     </th>
                                     <th className="">
-                                            <img src="/bars-solid.svg" className="flex h-7 " alt="bars-solid" />
+                                            <button><img src="/bars-solid.svg" className="flex h-7 " alt="bars-solid" /></button>
                                     </th>
                                     <th className="">
                                             {/* <img src="/trash-solid.svg" className="flex h-7" alt="bars-solid" /> */}
