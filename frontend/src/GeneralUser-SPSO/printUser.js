@@ -147,6 +147,38 @@ const PrintUser = (props) => {
             e.preventDefault();
         }
     };
+
+    const [model,setModel] = useState("");
+
+    const [prePrinter, setPrePrinter] = useState("");
+
+    const handlePrintChoice = (val) => {
+        if (prePrinter === val) return;
+        if (prePrinter === ""){
+            setData({ ...data, printerID: val.printerID })
+            setModel(val.model);
+            var img = document.getElementById(val.printerID);
+            img.src = "square-check-green.svg";
+            setPrePrinter(val);
+            return;
+        }
+        if (prePrinter.status === "Đang hoạt động") {
+            var img = document.getElementById(prePrinter.printerID);
+            img.src = "square-check.svg";
+        }
+        else {
+            var img = document.getElementById(prePrinter.printerID);
+            img.src = "square-mark.svg";
+        }
+
+        setData({ ...data, printerID: val.printerID })
+        setModel(val.model);
+        var img = document.getElementById(val.printerID);
+        img.src = "square-check-green.svg";
+        setPrePrinter(val);
+        
+    }
+
     const tablePrinter = () => {
         return (
             <>
@@ -165,7 +197,7 @@ const PrintUser = (props) => {
             <section className="pt-10">
                 <table className="relative overflow-x-auto mx-auto text-2xl w-9/12">
                     <tr className="bg-[#AADEF6]">
-                        <th className="h-12">ID</th>
+                        <th className="h-12"></th>
                         <th className="">Mẫu</th>
                         <th className="">Địa điểm</th>
                         <th className="">Số trang có sẵn</th>
@@ -176,7 +208,17 @@ const PrintUser = (props) => {
                         if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <th className="h-12">{val.printerID}</th>
+                                    <th className="h-12 px-3">
+                                        <button onClick={()=>handlePrintChoice(val)}
+                                            disabled = {val.status !== "Đang hoạt động"}>
+                                                <img src={
+                                            (val.status === "Đang hoạt động") ? "square-check.svg" : "square-mark.svg"
+                                            } 
+                                                id = {val.printerID}
+                                                alt = "check"
+                                            className="h-7"/>
+                                        </button>
+                                    </th>
                                     <th className="">{val.model}</th>
                                     <th className="">{val.location}</th>
                                     <th className="">{val.pageBalance}</th>
@@ -189,7 +231,17 @@ const PrintUser = (props) => {
                         else {
                             return (
                                 <tr className="text-center text-xl" key={key} >
-                                    <th className="h-12">{val.printerID}</th>
+                                    <th className="h-12 px-3">
+                                        <button onClick={()=>handlePrintChoice(val)}
+                                            disabled = {val.status !== "Đang hoạt động"}>
+                                                <img src={
+                                            (val.status === "Đang hoạt động") ? "square-check.svg" : "square-mark.svg"
+                                            } 
+                                                id = {val.printerID}
+                                                alt = "check"
+                                            className="h-7"/>
+                                        </button>
+                                    </th>
                                     <th className="">{val.model}</th>
                                     <th className="">{val.location}</th>
                                     <th className="">{val.pageBalance}</th>   
@@ -305,19 +357,20 @@ const PrintUser = (props) => {
                     {/* Máy in */}
                     <div className="justify-start flex mt-9">
                         <input
-                            type="number"
                             required
                             className="border border-gray-700 rounded-md px-2 w-56"
-                            onChange={
-                                (e) => {
-                                    if (e.target.value < 0) {
-                                        alert("ID máy in- không hợp lệ");
-                                        setData({ ...data, printerID: "" })
-                                        return;
-                                    }
-                                    setData({ ...data, printerID: e.target.value })
-                                }
-                            }
+                            // onChange={
+                            //     (e) => {
+                            //         if (e.target.value < 0) {
+                            //             alert("ID máy in- không hợp lệ");
+                            //             setData({ ...data, printerID: "" })
+                            //             return;
+                            //         }
+                            //         setData({ ...data, printerID: e.target.value })
+                            //     }
+                            // }
+                            value = {model}
+                            onClick={()=>alert("Vui lòng chọn máy in ở bảng bên phải")}
                             min = "0"
                         />
                     </div>
