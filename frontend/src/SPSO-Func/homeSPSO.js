@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { StatusColor } from "../utils-component/StatusColor";
 
+
 const HomeSPSO = () => {
     const [oldData, setOldData] = useState({});
 
@@ -24,6 +25,35 @@ const HomeSPSO = () => {
     }, [])
 
     const dataPrinter = [
+        {
+            ID: "5",
+            time: "01/12/2023",
+            name: "report_T12_2023"
+        }
+        ,
+        {
+            ID: "4",
+            time: "01/11/2023",
+            name:  "report_T11_2023"
+        }
+        ,
+        {
+            ID: "3",
+            time: "01/10/2023",
+            name:   "report_T10_2023"
+        }
+        ,
+        {
+            ID: "2",
+            time: "01/09/2023",
+            name:   "report_T9_2023"
+        }
+        ,
+        {
+            ID: "1",
+            time: "01/08/2023",
+            name:   "report_T8_2023"
+        }
     ]
     const navigate = useNavigate();
     const pageShow = 8
@@ -144,12 +174,12 @@ const HomeSPSO = () => {
                     <table className="relative overflow-x-auto mx-auto text lg:max-xl:text-sm md:max-lg:text-xs w-full">
                         <tbody>
                             <tr className="bg-[#AADEF6] ">
-                                <th className="h-11 lg:max-xl:h-9 md:max-lg:h-7">Dự kiến lấy</th>
-                                <th className="">Phương thức tới lấy</th>
-                                <th className="">Tài liệu</th>
-                                <th className="">Máy in</th>
-                                <th className="">Số trang sử dụng</th>
-                                <th className="">Trạng thái</th>
+                                <th className="h-11 lg:max-xl:h-9 md:max-lg:h-7 w-1/6">Dự kiến lấy</th>
+                                <th className="w-3/12">Phương thức tới lấy</th>
+                                <th className="w-3/12">Tài liệu</th>
+                                <th className="w-1/12">Máy in</th>
+                                <th className="w-1/12">Số trang sử dụng</th>
+                                <th className="w-2/12 px-1">Trạng thái</th>
                             </tr>
                         </tbody>
                     {data && data.map((val, key) => {
@@ -188,15 +218,14 @@ const HomeSPSO = () => {
                         <button onClick={()=>navigate('/History')}> Xem tất cả </button>
                     </div>
                     {/* second table */}
-                    <div className="w-full text-3xl lg:max-xl:text-2xl  md:max-lg:text-xl font-semibold mb-5 mx-5"> Báo cáo in ấn (Not this data, just test) </div>
+                    <div className="w-full text-3xl lg:max-xl:text-2xl  md:max-lg:text-xl font-semibold mb-5 mx-5"> Báo cáo in ấn </div>
                     <table className="relative overflow-x-auto mx-auto text lg:max-xl:text-sm md:max-lg:text-xs w-full">
                         <tbody>
                             <tr className="bg-[#AADEF6] ">
                                 <th className="h-11 lg:max-xl:h-9 md:max-lg:h-7">ID</th>
-                                <th className="">Mẫu</th>
-                                <th className="">Phân loại</th>
-                                <th className="">Địa điểm</th>
-                                <th className="">Trạng thái</th>
+                                <th className="">Thời gian báo cáo</th>
+                                <th className="">Tên báo cáo</th>
+                                <th ></th>
                             </tr>
                         </tbody>
                     {dataPrinter.map((val, key) => {
@@ -205,11 +234,15 @@ const HomeSPSO = () => {
                             return (
                                 <tbody>
                                     <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-xs bg-[#E8F6FD]" key={key} >
-                                        <td className="h-11 lg:max-xl:h-9 md:max-lg:h-7">{val.printerID}</td>
-                                        <td className="">{val.model}</td>
-                                        <td className="">{val.type}</td>
-                                        <td className="">{val.location}</td>
-                                        <td className="">{val.status}</td>
+                                        <td className="">{val.ID}</td>
+                                        <td className="">{val.time}</td>
+                                        <td className="">{val.name}</td>
+                                        <th><button onClick={
+                                            () => {
+                                                if (key === 0){
+                                                   navigate('/dashboard')
+                                                }                                            }
+                                        } className="text-[#114A65] font-semibold">xem</button></th>
                                     </tr>
                                 </tbody>
                             )
@@ -218,11 +251,10 @@ const HomeSPSO = () => {
                             return (
                                 <tbody>
                                     <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-xs" key={key} >
-                                        <td className="h-11 lg:max-xl:h-9 md:max-lg:h-7">{val.printerID}</td>
-                                        <td className="">{val.model}</td>
-                                        <td className="">{val.type}</td>
-                                        <td className="">{val.location}</td>
-                                        <td className="">{val.status}</td>
+                                        <td className="">{val.ID}</td>
+                                        <td className="">{val.time}</td>
+                                        <td className="">{val.name}</td>
+                                        <th><button className="text-[#114A65] font-semibold">xem</button></th>
                                     </tr>
                                 </tbody>
                             )
@@ -230,7 +262,7 @@ const HomeSPSO = () => {
                     })}
                 </table>
                     <div className="text-right text-[#114A65] font-semibold my-5 mx-5 text-xl lg:max-xl:text-base md:max-lg:text-sm"> 
-                        <button onClick={()=>navigate('/History')}> Xem tất cả </button>
+                        <button> Xem tất cả </button>
                     </div>
                 </div>
 
