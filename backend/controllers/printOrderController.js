@@ -103,7 +103,18 @@ export const getAllQueue = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
-
+export const getPrintOrderByTime = async (req, res) => {
+  try {
+    const { time } = req.params;
+    const month = time.substring(0, 2);
+    const year = time.substring(2);
+    const orders = await PrintOrder.getOrderByTime(month, year);
+    return res.send(orders);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
 export const getOneQueue = async (req, res) => {
   try {
     const { printerID } = req.params;

@@ -93,7 +93,14 @@ export class PrintOrder {
     );
     return printerQueue;
   };
-
+  static getOrderByTime = async (month, year) => {
+    const [orderDetail, _] = await db.execute(
+      `SELECT printorderID, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, DATE_FORMAT(pickupTime, "%Y-%m-%d %H:%i:%s") AS pickupTime, fileName, model, pickupMethod, totalPageUsed, print_order.status, users.userID FROM printer JOIN print_order ON printer.printerID=print_order.printerID JOIN users ON print_order.userID=users.userID WHERE MONTH(printTime) = ?
+  AND YEAR(printTime) = ? ORDER BY printTime;`,
+      [month, year]
+    );
+    return orderDetail;
+  };
   static getAllQueue = async () => {
     const [printerQueue, _] = await db.execute(
       `SELECT printorderID, model, DATE_FORMAT(printTime, "%Y-%m-%d %H:%i:%s") AS printTime, email, print_order.status FROM printer JOIN print_order ON printer.printerID=print_order.printerID JOIN users ON print_order.userID=users.userID WHERE print_order.status != 'Hoàn thành' ORDER BY printer.printerID, printTime;`
