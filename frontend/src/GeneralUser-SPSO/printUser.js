@@ -197,18 +197,17 @@ const PrintUser = (props) => {
             <section className="pt-10">
                 <table className="relative overflow-x-auto mx-auto text-2xl w-9/12">
                     <tr className="bg-[#AADEF6]">
-                        <th className="h-12"></th>
-                        <th className="">Mẫu</th>
-                        <th className="">Địa điểm</th>
-                        <th className="">Số trang có sẵn</th>
-                        <th className="">Trạng thái</th>
-                        <th className=""></th>
+                        <th className="h-12 w-1/12"></th>
+                        <th className="w-2/12">Mẫu</th>
+                        <th className="w-2/12">Địa điểm</th>
+                        <th className="w-2/12">Số trang</th>
+                        <th className="w-3/12">Trạng thái</th>
                     </tr>
                     {currentTableData.map((val, key) => {
                         if (key % 2 === 0) {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
-                                    <th className="h-12 px-3">
+                                    <th className="h-12">
                                         <button onClick={()=>handlePrintChoice(val)}
                                             disabled = {val.status !== "Đang hoạt động"}>
                                                 <img src={
@@ -231,7 +230,7 @@ const PrintUser = (props) => {
                         else {
                             return (
                                 <tr className="text-center text-xl" key={key} >
-                                    <th className="h-12 px-3">
+                                    <th className="h-12">
                                         <button onClick={()=>handlePrintChoice(val)}
                                             disabled = {val.status !== "Đang hoạt động"}>
                                                 <img src={

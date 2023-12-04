@@ -189,14 +189,14 @@ const UserMana = (props) => {
             <section>
                 <table className="relative overflow-x-auto mx-auto text-2xl w-9/12">
                     <tr className="bg-[#AADEF6]">
-                        <th className="h-12">ID</th>
-                        <th className="">Tên người dùng</th>
-                        <th className="">Số điện thoại</th>
-                        <th className="">Địa chỉ</th>
-                        <th className="">Email</th>
-                        <th className="">Số trang còn lại</th>
-                        <th className="">Trạng thái</th>
-                        <th className=""></th>
+                        <th className="h-12 w-1/12">ID</th>
+                        <th className="w-2/12">Tên người dùng</th>
+                        <th className="w-2/12">Số điện thoại</th>
+                        <th className="w-2/12">Địa chỉ</th>
+                        <th className="w-2/12">Email</th>
+                        <th className="w-1/12">Số trang còn lại</th>
+                        <th className="w-1/12">Trạng thái</th>
+                        <th className="w-1/12"></th>
                     </tr>
                     {currentTableData.map((val, key) => {
                         if (key % 2 === 0) {
