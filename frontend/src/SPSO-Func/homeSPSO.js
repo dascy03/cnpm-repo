@@ -29,6 +29,7 @@ const HomeSPSO = () => {
     const pageShow = 8
 
     const handleLogout = () => {
+        console.log("logout");
         if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
             const cookies = new Cookies();
             // clear token
@@ -66,7 +67,7 @@ const HomeSPSO = () => {
                             <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li className="px-5">
                                     <button onClick={()=>navigate('/profileUser')}>
-                                    <img className="rounded-full h-16 lg:max-xl:h-14 md:max-lg:h-14" src="/ava-test.jpg" alt="my-ava" />
+                                    <img className="rounded-full h-16 lg:max-xl:h-14 md:max-lg:h-14" src={oldData.avtLink} alt="my-ava" />
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
@@ -75,8 +76,9 @@ const HomeSPSO = () => {
                                     </button>
                                 </li>
                                 <li className="px-5 pt-3">
-                                    <button>
+                                    <button onClick={handleLogout}>
                                     <img src="/arrow-right-from-bracket-solid.svg " className="h-10 lg:max-xl:h-8 md:max-lg:h-8" alt="arrow-right-from-bracket-solid" />
+                                    
                                     </button>
                                 </li>
                             </ul>

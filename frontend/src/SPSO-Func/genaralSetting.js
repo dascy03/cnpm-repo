@@ -83,6 +83,7 @@ const GenaralSetting = () => {
                 type="text"
                 class="border border-gray-500 bg-white h-10 w-2/3 px-4 pr-4 rounded-xl text-xl focus:outline-none"
                 value="500"
+                disabled="true"
               />
               </div>
             </div>   
@@ -94,7 +95,8 @@ const GenaralSetting = () => {
               <input
                 type="text"
                 class="border border-gray-500 bg-white h-10 w-2/3 px-4 pr-4 rounded-xl text-xl focus:outline-none "           
-                value="10/20/2023 10:00 AM"     
+                value="10/20/2023 10:00 AM"  
+                disabled="true"   
                 
               />
               </div>
@@ -108,6 +110,7 @@ const GenaralSetting = () => {
                 type="text"
                 class="border border-gray-500 bg-white h-10 w-64 px-4 pr-4 rounded-xl text-xl focus:outline-none"
                 value="500"
+                disabled="true"
               />
               </div>
               <p class="text-xl text-blackw-64 font-semibold ml-8">KB</p>
@@ -152,6 +155,7 @@ const GenaralSetting = () => {
                 type="text"
                 class="border border-gray-500 bg-white h-10 w-2/3 px-4 pr-4 rounded-xl text-xl focus:outline-none"
                 value = "500"
+                disabled="true"
               />
               </div>
             </div>           
@@ -244,6 +248,7 @@ const GenaralSetting = () => {
                 type="text"
                 class="border border-gray-500 bg-white h-10 w-2/3 px-4 pr-4 rounded-xl text-xl focus:outline-none"
                 value="99999"
+                disabled="true"
               />
               </div>
             </div>   
