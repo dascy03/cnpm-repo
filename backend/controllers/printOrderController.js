@@ -16,24 +16,48 @@ const handleFile = async (req) => {
       result.push(pages);
       return result;
     }
-
-    const parsePDF = (path) => {
-      return new Promise((resolve, reject) => {
-        const pdfParser = new PDFParser();
-        pdfParser.on("pdfParser_dataError", (errData) => {
-          reject(errData.parserError);
+    if (result[0].slice(-4, -1) === ".pd") {
+      const parsePDF = (path) => {
+        return new Promise((resolve, reject) => {
+          const pdfParser = new PDFParser();
+          pdfParser.on("pdfParser_dataError", (errData) => {
+            reject(errData.parserError);
+          });
+          pdfParser.on("pdfParser_dataReady", (pdfData) => {
+            resolve(pdfData);
+          });
+          pdfParser.loadPDF(path);
         });
-        pdfParser.on("pdfParser_dataReady", (pdfData) => {
-          resolve(pdfData);
-        });
-        pdfParser.loadPDF(path);
-      });
-    };
-    const pdfData = await parsePDF(pdfPath);
-    result.push(pdfData.Pages.length);
+      };
+      const pdfData = await parsePDF(pdfPath);
+      result.push(pdfData.Pages.length);
+      return result;
+    }
+    result.push(1);
     return result;
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+const rollbackPage = async (printorderID) => {
+  try {
+    const [userID, __] = await db.execute(
+      `SELECT userID FROM print_order WHERE printorderID = ?;`,
+      [printorderID]
+    );
+    const [totalPageUsed, ___] = await db.execute(
+      `SELECT totalPageUsed FROM print_order WHERE printorderID = ?;`,
+      [printorderID]
+    );
+    const result = await db.execute(
+      `UPDATE users SET pageBalance = pageBalance + ? WHERE userID = ?;`,
+      [totalPageUsed[0]["totalPageUsed"], userID[0]["userID"]]
+    );
+    return result;
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
   }
 };
 
@@ -43,9 +67,10 @@ export const handleOrder = async (req, res) => {
     let [current_status, _] = await PrintOrder.getOrderStatus(printorderID);
     current_status = current_status[0]["status"];
     let result;
-    if (current_status === "Chờ in")
+    if (current_status === "Chờ in") {
       result = await PrintOrder.setOrderStatus(printorderID, "Đã huỷ");
-    else if (current_status === "Hoàn tất in")
+      await rollbackPage(printorderID);
+    } else if (current_status === "Hoàn tất in")
       result = await PrintOrder.setOrderStatus(printorderID, "Hoàn thành");
     else return res.status(200).send({ message: "nothing change" });
     if (!result) return res.status(400).send({ message: "Update order fail" });
@@ -61,6 +86,7 @@ export const cancelOrder = async (req, res) => {
     const { printorderID } = req.params;
     const result = await PrintOrder.setOrderStatus(printorderID, "Đã huỷ");
     if (!result) return res.status(400).send({ message: "Update order fail" });
+    await rollbackPage(printorderID);
     return res.status(200).send({ message: "ok" });
   } catch (error) {
     console.log(error.message);
