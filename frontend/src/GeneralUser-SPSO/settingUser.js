@@ -83,7 +83,7 @@ const SettingUser = (props) => {
                 </nav>
             </section>
             {/* Body */}
-            <div className="justify-center flex text-3xl font-bold m-12">Thông tin cá nhân</div>
+            <div className="justify-center flex text-3xl font-bold m-12">Cài đặt tài khoản</div>
             <section className="">
                 <div className="flex justify-center">
                     <form  className="flex justify-center">

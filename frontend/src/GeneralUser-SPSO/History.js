@@ -26,7 +26,7 @@ const History = (props) => {
 
 
     // Start
-    const PageSize = 5;
+    const PageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
     const [currentTableData, setCurrentTableData] = useState([]);
     // const currentTableData = useMemo(() => {
