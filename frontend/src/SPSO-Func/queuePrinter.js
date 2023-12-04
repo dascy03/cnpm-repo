@@ -113,7 +113,7 @@ const QueuePrinter = (props) => {
             <section>
                 <div className="flex justify-between m-10 px-28"> 
                     <div className=" text-center flex w-full justify-center"></div>
-                    <div className=" justify-self-center text-4xl font-bold text-center flex w-full justify-center">Quản lý máy in</div>
+                    <div className=" justify-self-center text-4xl font-bold text-center flex w-full justify-center">Máy in : {sessionStorage.getItem('model')}</div>
                     <div className="flex w-full justify-center" >
                     <form>   
                         <div class="relative">
@@ -137,7 +137,6 @@ const QueuePrinter = (props) => {
                 <table className="relative overflow-x-auto mx-auto text-2xl w-6/12">
                     <tr className="bg-[#AADEF6]">
                         <th className="h-12">ID</th>
-                        <th className="">Máy in</th>
                         <th className="">Thời gian in</th>
                         <th className="">Email</th>
                         <th className="">Trạng thái</th>
@@ -147,7 +146,6 @@ const QueuePrinter = (props) => {
                             return (
                                 <tr className="text-center text-xl bg-[#E8F6FD]" key={key} >
                                     <th className="h-12">{val.printorderID}</th>
-                                    <th className="">{val.model}</th>
                                     <th className="">{val.printTime}</th>
                                     <th className="">{val.email}</th>
                                     <th className="">{StatusColor(val.status)}</th>
@@ -158,7 +156,6 @@ const QueuePrinter = (props) => {
                             return (
                                 <tr className="text-center text-xl" key={key} >
                                     <th className="h-12">{val.printorderID}</th>
-                                    <th className="">{val.model}</th>
                                     <th className="">{val.printTime}</th>
                                     <th className="">{val.email}</th>
                                     <th className="">{StatusColor(val.status)}</th>

@@ -182,8 +182,9 @@ const PrinterMana = (props) => {
         })
     }
 
-    const handleQueueCLick = (printerID) => {
+    const handleQueueCLick = (printerID,model) => {
         sessionStorage.setItem("printerID", printerID)
+        sessionStorage.setItem("model", model)
         navigate('/queuePrinter')
     }
 
@@ -235,7 +236,7 @@ const PrinterMana = (props) => {
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
                                     <th className=""><button onClick={()=>handleStatusClick(val.printerID)}>{showEye(val.status)}</button></th>
-                                    <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
+                                    <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID,val.model)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
                                     <th className="px-2"><button onClick={()=>handleDeleteClick(val)}><img src="/xmark.svg" className="h-8" alt="xmark"/></button></th>
                                 </tr>
                             )
@@ -251,7 +252,7 @@ const PrinterMana = (props) => {
                                     {(val.status === "Đang hoạt động") ? <span className="text-green-500">{val.status}</span> : <span className="text-red-500">{val.status}</span>}
                                     </th>
                                     <th className=""><button onClick={()=>handleStatusClick(val.printerID)}>{showEye(val.status)}</button></th>
-                                    <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
+                                    <th className="px-7 pt-1"><button onClick={()=>handleQueueCLick(val.printerID,val.model)}><img src="/bars-solid.svg" className="h-7" alt="bars-solid" /></button></th>
                                     <th className="px-2"><button onClick={()=>handleDeleteClick(val)}><img src="/xmark.svg" className="h-8" alt="xmark"/></button></th>
                                 </tr>
                             )
