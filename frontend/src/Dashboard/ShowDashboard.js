@@ -197,7 +197,7 @@ function ShowDashboard() {
           <BarChart
             width={500}
             height={300}
-            data={dataChart}
+            data={orders}
             margin={{
               top: 5,
               right: 30,
@@ -206,12 +206,11 @@ function ShowDashboard() {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="printTime" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="amt" fill="#8884d8" name="Số sách trả" />
-            <Bar dataKey="uv" fill="#82ca9d" name="Số sách mượn" />
+            <Bar dataKey="totalPageUsed" fill="#8884d8" name="Số trang in" />
           </BarChart>
         </ResponsiveContainer>
 
