@@ -29,6 +29,8 @@ const PrinterMana = (props) => {
         )();
     }
     , [refresh]);
+
+    const [action,setAction] = useState(false);
     //
     const PageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +39,11 @@ const PrinterMana = (props) => {
     const [searchQuery, setSearchQuery] = useState("")
     const [filterData, setFilterData] = useState(data)
     useEffect(() => {
-        setCurrentPage(1);
+        if (action === true){
+            setAction(false);
+        }
+        else setCurrentPage(1);
+        
         const keys=["printerID", "model", "location", "status", "pageBalance"]
         setFilterData(data.filter((item) =>
             keys.some((key) => item[key] && item[key].toString().toLowerCase().includes(searchQuery.toLowerCase())) === true
@@ -163,6 +169,7 @@ const PrinterMana = (props) => {
         axios.put(`http://localhost:5000/printers/${printerID}/status`)
         .then(res => {
             console.log(res.data);
+            setAction(true);
             setRefresh(!refresh);
         })
         .catch(err => {
@@ -191,6 +198,7 @@ const PrinterMana = (props) => {
             axios.delete(`http://localhost:5000/printers/${printer.printerID}`)
             .then(res => {
                 console.log(res.data);
+                setAction(true);
                 setRefresh(!refresh);
                 navigate("/printerManagement")
             })
