@@ -206,7 +206,7 @@ const History = (props) => {
                             <tr className="text-center text-xl bg-[#E8F6FD] lg:max-xl:text-lg md:max-lg:text-sm" key={key} >
                                 <td className="h-12 lg:max-xl:h-10 md:max-lg:h-10">{val.printTime}</td>
                                 <td className="">{val.pickupTime}</td>
-                                <td className="">{val.fileName}</td>
+                                <td className="max-w-0  overflow-auto">{val.fileName}</td>
                                 <td className="">{val.model}</td>
                                 <td className="">{val.pickupMethod}</td>
                                 <td className="">{val.totalPageUsed}</td>
@@ -220,7 +220,7 @@ const History = (props) => {
                             <tr className="text-center text-xl lg:max-xl:text-lg md:max-lg:text-sm" key={key} >
                                 <td className="h-12 lg:max-xl:h-10 md:max-lg:h-10">{val.printTime}</td>
                                 <td className="">{val.pickupTime}</td>
-                                <td className="">{val.fileName}</td>
+                                <td className="max-w-0  overflow-auto">{val.fileName}</td>
                                 <td className="">{val.model}</td>
                                 <td className="">{val.pickupMethod}</td>
                                 <td className="">{val.totalPageUsed}</td>
