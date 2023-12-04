@@ -191,7 +191,7 @@ const History = (props) => {
         <section>
             <table className="relative overflow-x-auto mx-auto text-2xl w-10/12 lg:max-xl:text-lg sm:max-lg:text-base">
                 <tr className="bg-[#AADEF6]">
-                    <th className="w-2/12 h-12">Ngày in</th>
+                    <th className="w-2/12 h-14">Ngày in</th>
                     <th className="w-2/12">Dự kiến lấy</th>
                     <th className="w-3/12">Tài liệu</th>
                     <th className="w-1/12">Máy in</th>
@@ -204,7 +204,7 @@ const History = (props) => {
                     if (key % 2 === 0) {
                         return (
                             <tr className="text-center text-xl bg-[#E8F6FD] lg:max-xl:text-lg md:max-lg:text-sm" key={key} >
-                                <td className="h-12 lg:max-xl:h-10 md:max-lg:h-10">{val.printTime}</td>
+                                <td className="h-14 lg:max-xl:h-10 md:max-lg:h-10">{val.printTime}</td>
                                 <td className="">{val.pickupTime}</td>
                                 <td className="max-w-0  overflow-auto">{val.fileName}</td>
                                 <td className="">{val.model}</td>
@@ -218,7 +218,7 @@ const History = (props) => {
                     else {
                         return (
                             <tr className="text-center text-xl lg:max-xl:text-lg md:max-lg:text-sm" key={key} >
-                                <td className="h-12 lg:max-xl:h-10 md:max-lg:h-10">{val.printTime}</td>
+                                <td className="h-14 lg:max-xl:h-10 md:max-lg:h-10">{val.printTime}</td>
                                 <td className="">{val.pickupTime}</td>
                                 <td className="max-w-0  overflow-auto">{val.fileName}</td>
                                 <td className="">{val.model}</td>
