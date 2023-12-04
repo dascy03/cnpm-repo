@@ -113,12 +113,12 @@ const HomeUser = () => {
                     <div className="w-full text-3xl lg:max-xl:text-2xl  md:max-lg:text-xl font-semibold mb-5 mx-5"> Tài liệu đã in gần đây </div>
                     <table className="relative overflow-x-auto mx-auto text lg:max-xl:text-sm md:max-lg:text-xs w-full">
                     <tr className="bg-[#AADEF6] ">
-                        <th className="h-10">Dự kiến lấy</th>
-                        <th className="">Phương thức tới lấy</th>
-                        <th className="">Tài liệu</th>
-                        <th className="">Máy in</th>
-                        <th className="">Số trang sử dụng</th>
-                        <th className="">Trạng thái</th>
+                        <th className="h-11 lg:max-xl:h-9 md:max-lg:h-7 w-1/6">Dự kiến lấy</th>
+                        <th className="w-3/12">Phương thức tới lấy</th>
+                        <th className="w-3/12">Tài liệu</th>
+                        <th className="w-1/12">Máy in</th>
+                        <th className="w-1/12">Số trang sử dụng</th>
+                        <th className="w-2/12 px-1">Trạng thái</th>
                     </tr>
                     {data && data.map((val, key) => {
                         if (key >= pageShow) return [];
