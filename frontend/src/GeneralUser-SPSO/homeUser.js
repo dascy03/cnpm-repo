@@ -85,7 +85,7 @@ const HomeUser = () => {
         {/* Body */}
             <section className="flex place-content-evenly"> 
                 <div className="flex-initial w-8/12 ml-16 my-10 justify-center  ">
-                    <div className="font-sans text-6xl lg:max-xl:text-4xl md:max-lg:text-4xl font-bold text-[#2991C2] ">Chào Student-0, <br/> chúc bạn học tốt!</div>
+                    <div className="font-sans text-6xl lg:max-xl:text-4xl md:max-lg:text-4xl font-bold text-[#2991C2] ">Chào {oldData.name}, <br/> chúc bạn học tốt!</div>
                     <div className="bg-[#DBF3FF] text-[#051319] font-sans text-2xl lg:max-xl:text-xl md:max-lg:text-xl font-semibold rounded-3xl pt-6 px-10 my-14 w-full">
                         Số trang còn lại: 
                         <div className="font-sans text-[#014464] text-8xl lg:max-xl:text-7xl md:max-lg:text-6xl font-bold text-center pt-1 pb-7 "> {pageBalance} </div>   
