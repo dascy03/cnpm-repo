@@ -35,7 +35,7 @@ function ShowDashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/print/orders/admin/042023")
+      .get("http://localhost:5000/print/orders/admin/122023")
       .then((res) => {
         console.log(res.data);
         setOrders(res.data);
@@ -56,94 +56,23 @@ function ShowDashboard() {
   }
 
   const totalUser = uniqueUserIDs.size;
-  const dataUser = [
-    {
-      id: 1,
-      name: "Lê Hoàng Anh Vũ",
-      borrows: 24,
-      returns: 20,
-    },
-    {
-      id: 2,
-      name: "Lê Quốc An",
-      borrows: 24,
-      returns: 20,
-    },
-    {
-      id: 3,
-      name: "Đỗ Văn Bâng",
-      borrows: 24,
-      returns: 20,
-    },
-    {
-      id: 4,
-      name: "Trương Đức Dũng",
-      borrows: 24,
-      returns: 20,
-    },
-    {
-      id: 5,
-      name: "Cù Hoàng Nguyễn Sơn",
-      borrows: 24,
-      returns: 20,
-    },
-    {
-      id: 6,
-      name: "Nguyễn Tấn Cường",
-      borrows: 24,
-      returns: 20,
-    },
-    {
-      id: 7,
-      name: "Lê Minh Thiên",
-      borrows: 24,
-      returns: 20,
-    },
-  ];
-  const dataChart = [
-    {
-      name: "Tháng 6",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Tháng 7",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Tháng 8",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Tháng 9",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Tháng 10",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Tháng 11",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Tháng 12",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  const printOrdersCount = [];
+  for (let day = 1; day <= 31; day++) {
+    printOrdersCount.push({ day: day, pageCount: 0, orderCount: 0 });
+  }
+  // Loop through each print order
+  orders.forEach((order) => {
+    // Extract the print time from the order
+    const printTime = new Date(order.printTime);
+
+    // Extract the date from the print time
+    const day = printTime.getDate();
+
+    // Increment the count for the specific day
+    printOrdersCount[day - 1]["pageCount"] += order.totalPageUsed;
+    printOrdersCount[day - 1]["orderCount"]++;
+  });
+  console.log(printOrdersCount);
 
   return (
     <main className="container-fluid">
@@ -185,7 +114,7 @@ function ShowDashboard() {
               style={{ maxWidth: "300px" }}
             />
             <Card.Body>
-              <Card.Title>Tổng số đơn in</Card.Title>
+              <Card.Title>Tổng số người dùng</Card.Title>
               <Card.Text>{totalUser}</Card.Text>
             </Card.Body>
           </Card>
@@ -193,11 +122,11 @@ function ShowDashboard() {
       </Row>
 
       <div className="charts">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="200%" height="100%">
           <BarChart
-            width={500}
+            width={1000}
             height={300}
-            data={orders}
+            data={printOrdersCount}
             margin={{
               top: 5,
               right: 30,
@@ -206,19 +135,20 @@ function ShowDashboard() {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="printTime" />
+            <XAxis dataKey="day" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="totalPageUsed" fill="#8884d8" name="Số trang in" />
+            <Bar dataKey="pageCount" fill="#8884d8" name="Số trang in" />
           </BarChart>
         </ResponsiveContainer>
-
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            width={500}
+      </div>
+      <div className="charts">
+        <ResponsiveContainer width="200%" height="100%">
+          <BarChart
+            width={1000}
             height={300}
-            data={dataChart}
+            data={printOrdersCount}
             margin={{
               top: 5,
               right: 30,
@@ -227,24 +157,12 @@ function ShowDashboard() {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="day" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey="pv"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-              name="Số lượt truy cập"
-            />
-            <Line
-              type="monotone"
-              dataKey="amt"
-              stroke="#82ca9d"
-              name="Số sách mượn"
-            />
-          </LineChart>
+            <Bar dataKey="orderCount" fill="#82ca9d" name="Số đơn in" />
+          </BarChart>
         </ResponsiveContainer>
       </div>
 
