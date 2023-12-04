@@ -127,7 +127,7 @@ const HomeUser = () => {
                                 <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-sm bg-[#E8F6FD]" key={key} >
                                     <td className="h-10 lg:max-xl:h-8 md:max-lg:h-6">{val.pickupTime}</td>
                                     <td className="">{val.pickupMethod}</td>
-                                    <td className="">{val.fileName}</td>
+                                    <td className="max-w-0  overflow-auto">{val.fileName}</td>
                                     <td className="">{val.model}</td>
                                     <td className="">{val.totalPageUsed}</td>
                                     <td className="font-semibold">{StatusColor(val.status)}</td>
@@ -139,7 +139,7 @@ const HomeUser = () => {
                                 <tr className="text-center text lg:max-xl:text-sm md:max-lg:text-sm" key={key} >
                                     <td className="h-10">{val.pickupTime}</td>
                                     <td className="">{val.pickupMethod}</td>
-                                    <td className="">{val.fileName}</td>
+                                    <td className="max-w-0  overflow-auto">{val.fileName}</td>
                                     <td className="">{val.model}</td>
                                     <td className="">{val.totalPageUsed}</td>
                                     <td className="font-semibold"> {StatusColor(val.status)}</td>
